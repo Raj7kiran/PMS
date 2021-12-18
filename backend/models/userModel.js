@@ -3,9 +3,17 @@ import bcrypt from 'bcryptjs'
 
 const userSchema = mongoose.Schema(
 		{
-			name: {
+			// name: {
+			// 	type: String,
+			// 	// required: true
+			// },
+			firstname: {
 				type: String,
-				required: true
+				// required: true
+			},
+			lastname: {
+				type: String,
+				// required: true
 			},
 			email: {
 				type: String,
@@ -16,16 +24,32 @@ const userSchema = mongoose.Schema(
 				type: String,
 				required: true
 			},
-			company: {
-				type: String,
+			// company: {
+			// 	type: String,
 				
-			},
+			// },
 			role: {
 				type: String,
 				
 			},
-			address: {
+			// address: {
+			// 	type: String,
+				
+			// },
+			city: {
 				type: String,
+				
+			},
+			state: {
+				type: String,
+				
+			},
+			phone: {
+				type: Number,
+				
+			},
+			zipcode: {
+				type: Number,
 				
 			},
 			package: {
@@ -46,7 +70,10 @@ const userSchema = mongoose.Schema(
 				type: String,
 				// required: true
 			},
-			activatedOn:{
+			// activatedOn:{
+			// 	type:Date
+			// },
+			dob:{
 				type:Date
 			}
 		},
