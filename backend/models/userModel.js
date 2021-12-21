@@ -7,11 +7,11 @@ const userSchema = mongoose.Schema(
 			// 	type: String,
 			// 	// required: true
 			// },
-			firstname: {
+			firstName: {
 				type: String,
-				// required: true
+				required: true
 			},
-			lastname: {
+			lastName: {
 				type: String,
 				// required: true
 			},
@@ -24,10 +24,10 @@ const userSchema = mongoose.Schema(
 				type: String,
 				required: true
 			},
-			// company: {
-			// 	type: String,
+			company: {
+				type: String,
 				
-			// },
+			},
 			role: {
 				type: String,
 				
@@ -45,14 +45,18 @@ const userSchema = mongoose.Schema(
 				
 			},
 			phone: {
-				type: Number,
+				type: String,
 				
 			},
 			zipcode: {
-				type: Number,
+				type: String,
 				
 			},
 			package: {
+				type: String,
+				
+			},
+			gender: {
 				type: String,
 				
 			},

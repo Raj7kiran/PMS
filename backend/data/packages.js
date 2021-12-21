@@ -1,17 +1,17 @@
 const packages = [
 	{
-		name: "Platinum",
+		packageName: "Platinum",
 		maxDaysAllowed: "365",
 		maxUserAllowed: "10"
 	},
 	{
-		name: "Gold",
+		packageName: "Gold",
 		maxDaysAllowed: "180",
 		maxUserAllowed: "5"
 	},
 	{
-		name: "Silver",
-		maxDaysAllowed: "90",
+		packageName: "Silver",
+		maxDaysAllowed: "2",
 		maxUserAllowed: "3"
 	},
 ]

@@ -8,6 +8,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 import userRoutes from './routes/userRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import dpRoutes from './routes/dpRoutes.js'
 
 
 const app = express()
@@ -24,6 +25,7 @@ connectDB()
 
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes)
+app.use('/drop', dpRoutes)
 
 
 const __dirname = path.resolve()

@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 
 const packageSchema = mongoose.Schema(
 		{
-			name: {
+			packageName: {
 				type: String,
 				required: true
 			},

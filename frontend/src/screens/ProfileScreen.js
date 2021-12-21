@@ -5,14 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { createUser, listPackages } from '../actions/adminActions'
-import { CLIENT_CREATE_RESET } from '../constants/adminConstants'
+import { listPackages } from '../actions/adminActions'
+import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { getStatesName, getCity } from '../actions/dropActions'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 
-
-
-const AddClientScreen = () => {
+const ProfileScreen = () => {
 	const [ firstName, setFirstName ] = useState('')
 	const [ fnErr, setFnErr ] = useState('')
 
@@ -22,20 +21,21 @@ const AddClientScreen = () => {
 	const [ email, setEmail ] = useState('')
 	const [ emailErr, setEmailErr ] = useState('')
 
+	const [ password, setPassword ] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('');
+
+
 	const [ company, setCompany ] = useState('')
 	const [ compErr, setCompErr ] = useState('')
 
 	const [ pack, setPack ] = useState('')
-	const [ packErr, setPackErr ] = useState('')
+	const [ packErr, setPackErr ] = useState('')	
 
+	const [ role, setRole ] = useState('Select Role')
+	const [ roleErr, setRoleErr ] = useState('')	
 
-	const [ gender, setGender ] = useState('')
-	const [ role, setRole ] = useState('')
-	const [ roleErr, setRoleErr ] = useState('')
-	
-
-	const [ city, setCity ] = useState('')
-	const [ stateName, setStateName ] = useState('')
+	const [ city, setCity ] = useState('Select City')
+	const [ stateName, setStateName ] = useState('Select State')
 	
 	const [ phone, setPhone ] = useState('')
 	const [ phoneErr, setPhoneErr ] = useState('')
@@ -43,9 +43,12 @@ const AddClientScreen = () => {
 	const [ zipcode, setZipcode ] = useState('')
 	const [ zipErr, setZipErr ] = useState('')
 
+	const [ gender, setGender ] = useState('Select Gender')
 	const [ dob, setDob ] = useState('')
 	const [ isAdmin, setIsAdmin ] = useState(false)
 	const [ isClientAdmin, setIsClientAdmin] = useState(false)
+	const [ editHand, setEditHand ] = useState(true)
+	const [ message, setMessage ] = useState(null)
 
 	const FN = (data) => {
 		if(data.length<5 || data.length>15){ setFnErr('Required: 5-15 charcters')} 
@@ -56,7 +59,7 @@ const AddClientScreen = () => {
 		if(data.length > 15){setFnErr('Should not exceed 15 charcters')}
 		 else {
 			setFirstName(data)
-			console.log(data)
+			// console.log(data)
 			setFnErr('')
 		}
 	}
@@ -70,7 +73,7 @@ const AddClientScreen = () => {
 		if(data.length > 15){setLnErr('Should not exceed 15 charcters')}
 		 else {
 			setLastName(data)
-			console.log(data)
+			// console.log(data)
 			setLnErr('')
 		}
 	}
@@ -84,7 +87,7 @@ const AddClientScreen = () => {
 		if(data.length > 35){setCompErr('Should not exceed 35 charcters')}
 		 else {
 			setCompany(data)
-			console.log(data)
+			// console.log(data)
 			setCompErr('')
 		}
 	}
@@ -104,7 +107,6 @@ const AddClientScreen = () => {
 			setRoleErr('')
 		}
 	}
-
 
 	const valEmail = (email) => {
 		// if(email.split('@').length == 1)
@@ -132,7 +134,7 @@ const AddClientScreen = () => {
 		if(data.length > 6){setZipErr('Required: 6-digit zipcode')}
 		 else {
 			setZipcode(data)
-			console.log(data)
+			// console.log(data)
 			setPhoneErr('')
 		}
 	}
@@ -150,21 +152,23 @@ const AddClientScreen = () => {
 		if(data.length > 12){setPhoneErr('Required: 2-digit country code and 10-digit phone number')}
 		 else {
 			setPhone(data)
-			console.log(data)
+			// console.log(data)
 			setPhoneErr('')
 		}
 	}
 
-
-
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+
+	const userDetails = useSelector((state) => state.userDetails)
+	const { loading, error, user } = userDetails
 
 	const userLogin = useSelector(state => state.userLogin)
 	const { userInfo } = userLogin
 
-	const clientCreate = useSelector(state => state.clientCreate)
-	const { loading, success, error } = clientCreate
+	//to get the success value
+	const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
+	const { success } = userUpdateProfile
 
 	const packageList = useSelector(state => state.packageList)
 	const { loading : loadingPackage , error: errorPackage , packages } = packageList
@@ -176,24 +180,44 @@ const AddClientScreen = () => {
 	const { success:citySuccess , cities } = cityList
 
 	useEffect(() => {
-		dispatch({ type: CLIENT_CREATE_RESET })
+		// dispatch({ type: CLIENT_CREATE_RESET })
 		dispatch(listPackages())
 		dispatch(getStatesName())
 
-		if(!userInfo.isAdmin){
-			if(success){			
-				navigate('/admin/clientlist')
-			} 
-		}
-
-		if(success){			
-			navigate('/userlist')
+			if(!userInfo) {
+				navigate('/login')
+			} else {
+			if(!user || !user.firstName || success ){
+				dispatch({ type: USER_UPDATE_PROFILE_RESET })
+				dispatch(getUserDetails('profile'))
+				setEditHand(true)
+			} else{
+				// console.log(user)
+				setFirstName(user.firstName)
+				setLastName(user.lastName)
+				setEmail(user.email)
+				setCompany(user.company)
+				setPack(user.pack)
+				setRole(user.role)
+				setCity(user.city)
+				setPhone(user.phone)
+				setZipcode(user.zipcode)
+				setGender(user.gender)
+				setDob(user.dob)
+				setIsAdmin(user.isAdmin)
+				setIsClientAdmin(user.isClientAdmin)				
+			}
 		} 
-			 
-	},[success, navigate, dispatch, userInfo])
+
+		// if(!userInfo.isAdmin){
+		// 	if(success){ navigate('/admin/clientlist') } 
+		// }
+		// if(success){ navigate('/userlist') }
+	
+	},[ navigate, dispatch, user, userInfo, success])
 
 	const callCity = (value) => {		
-		console.log(value)
+		// console.log(value)
 		dispatch(getCity(value))
 	}
 
@@ -201,24 +225,50 @@ const AddClientScreen = () => {
 	const submitHandler = (e) => {
 		e.preventDefault()
 		// console.log(role)
-		dispatch(createUser({
-			firstName, lastName, email, company: company || userInfo.company, 
-			role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
-			zipcode, dob, phone
-		}))
+		// dispatch(createUser({
+		// 	firstName, lastName, email, company: company || userInfo.company, 
+		// 	role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
+		// 	zipcode, dob, phone
+		// }))
+		if(password !== confirmPassword){
+			setMessage('Password does not match')
+		} else{
+			console.log('dob' + dob)
+			console.log('update user profile')
+			dispatch(updateUserProfile({ 
+				id: user._id, firstName, lastName, email, password, role, city, state: stateName,
+				phone, zipcode, gender, dob, isAdmin, isClientAdmin  
+			}))
+			
+		}
 
+	}
+
+	const editHandler = () => {
+		console.log('edit button')
+		if(editHand){
+			setEditHand(false)
+		} else {
+			setEditHand(true)
+		}
 	}
 
 
 	return (
 		<>
+		<div className=''>
 		<Link to='/admin/clientlist' className='btn btn-dark my-3'>Go Back</Link>
-		<FormContainer>
-			<h1>Add User</h1>
+		<Button onClick={editHandler} className='btn btn-dark my-3'>Edit</Button>
+		</div>
+		<div>
+			<h1>Profile</h1>
+				{message && <Message variant='danger'>{message}</Message>}
+				{error && <Message variant='danger'>{error}</Message>}
+				{success && <Message variant='success'>Profile Updated</Message>}
 				{ loading ? <Loader />
 					: error ? <Message variant='danger'>{error}</Message>
 					: (
-						<Form onSubmit={submitHandler} >
+						<Form onSubmit={submitHandler}  >
 						<Row>
 							<Col>
 								<Form.Group className="mb-3" controlId='firstName'>
@@ -227,7 +277,8 @@ const AddClientScreen = () => {
 														className={`${fnErr.length>1 ? 'inCorrect' : null}`}
 														value={firstName}
 														onChange = {(e)=> FN1(e.target.value)}
-														onBlur = {(e) => FN(e.target.value)} 
+														onBlur = {(e) => FN(e.target.value)}
+														disabled={editHand}
 													/>
 									</FloatingLabel>
 									{fnErr.length>1 ? (<div className='errMsg'>{fnErr}</div>): null}
@@ -240,7 +291,8 @@ const AddClientScreen = () => {
 														className={`${lnErr.length>1 ? 'inCorrect' : null}`}
 														value={lastName}
 														onChange = {(e)=> LN1(e.target.value)}
-														onBlur = {(e) => LN(e.target.value)} 
+														onBlur = {(e) => LN(e.target.value)}
+														disabled={editHand} 
 													/>
 									</FloatingLabel>
 									{lnErr.length>1 ? (<div className='errMsg'>{lnErr}</div>): null}
@@ -256,14 +308,42 @@ const AddClientScreen = () => {
 														value={email}
 														onChange = {(e)=> {setEmail(e.target.value)}} 
 														onBlur = {(e) => valEmail(e.target.value)}
+														disabled={editHand}
 													/>
 									</FloatingLabel>
 									{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
 								</Form.Group>
 
-							
+								<Row>
+									<Col>
+										<Form.Group className="mb-3" controlId='password'>
+											<FloatingLabel controlId="floatingInput" label="Enter password" >
+												<Form.Control type= 'password'
+																placeholder='Enter password'
+																value={password}
+																onChange = {(e)=> setPassword(e.target.value)}
+																disabled={editHand}
+												>
+												</Form.Control>
+											</FloatingLabel>
+										</Form.Group>
+									</Col>
+									<Col>
+										<Form.Group className="mb-3" controlId='confirmPassword'>
+											<FloatingLabel controlId="floatingInput" label="Confirm password" >
+												<Form.Control type= 'password'
+																placeholder='Confirm password'
+																value={confirmPassword}
+																onChange = {(e)=> setConfirmPassword(e.target.value)}
+																disabled={editHand}
+												>
+												</Form.Control>
+											</FloatingLabel>
+										</Form.Group>
+									</Col>
+								</Row>
 
-							{ userInfo.isAdmin && (
+								{ userInfo.isAdmin && (
 									<>
 									<Row>
 										<Col>
@@ -273,7 +353,8 @@ const AddClientScreen = () => {
 																	className={`${compErr.length>1 ? 'inCorrect' : null}`}	
 																	value={company}
 																	onChange = {(e)=> {CP1(e.target.value)}} 
-																	onBlur = {(e) => CP(e.target.value)} 
+																	onBlur = {(e) => CP(e.target.value)}
+																	disabled 
 																/>
 												</FloatingLabel>
 												{compErr.length>1 ? (<div className='errMsg'>{compErr}</div>): null}
@@ -286,6 +367,7 @@ const AddClientScreen = () => {
 																  className={`${packErr.length>1 ? 'inCorrect' : null}`} 
 																  onChange={(e) => setPack(e.target.value)}
 																  onBlur = {(e) => PK(e.target.value)}
+																  // disabled={editHand}
 																  >
 														<option value=''>Select Package</option>
 														{packages.map(pack => (
@@ -306,6 +388,7 @@ const AddClientScreen = () => {
 													    						aria-label="Checkbox for following text input"
 													    						checked={isAdmin}
 													    						onChange = { (e) => setIsAdmin(e.target.checked)}
+													    						disabled={editHand}
 													     />
 													 <FormControl aria-label="Text input with checkbox" />
 												</InputGroup>
@@ -318,6 +401,7 @@ const AddClientScreen = () => {
 													    <InputGroup.Checkbox 	aria-label="Checkbox for following text input"
 													    						checked={isClientAdmin}
 													    						onChange = { (e) => setIsClientAdmin(e.target.checked) }
+													    						disabled={editHand}
 													     />
 													 <FormControl aria-label="Text input with checkbox" />
 												</InputGroup>
@@ -332,21 +416,33 @@ const AddClientScreen = () => {
 										<Form.Group className="mb-3" controlId='company'>
 											<FloatingLabel controlId="floatingInput" label="Company Name" >
 												<Form.Control 	type="company"  placeholder="Company Name"
-																value={userInfo.company} disabled															
+																value={userInfo.company} disabled
+																disabled														
 															/>
 											</FloatingLabel>
 										</Form.Group>
 
-										<Form.Group controlId='isClientAdmin' className="mb-3">
+										{/*<Form.Group controlId='isClientAdmin' className="mb-3">
 											<Form.Label>Is the user a Client Admin?</Form.Label>
 											<InputGroup >
 												    <InputGroup.Checkbox 	aria-label="Checkbox for following text input"
 												    						checked={isClientAdmin}
 												    						onChange = { (e) => setIsClientAdmin(e.target.checked) }
+												    						disabled={editHand}
 												     />
 												 <FormControl aria-label="Text input with checkbox" />
 											</InputGroup>
-										</Form.Group>
+										</Form.Group>*/}
+
+										<Form.Group className="mb-3" id="formGridCheckbox" controlId='isClientAdmin' className="mb-3">
+										    	<Form.Check type="checkbox" label="Is the user a Client Admin?"
+										    				aria-label="Checkbox for following text input"
+												    		checked={isClientAdmin}
+												    		onChange = { (e) => setIsClientAdmin(e.target.checked) }
+												    		disabled={editHand}
+										    	 />
+										 </Form.Group>
+
 										<Row>
 											<Col>
 												<Form.Group controlId='role' className="mb-3">
@@ -355,8 +451,9 @@ const AddClientScreen = () => {
 															className={`${roleErr.length>1 ? 'inCorrect' : null}`}
 															onChange={(e) => setRole(e.target.value)}
 															onBlur = {(e) => RL(e.target.value)}
+															disabled={editHand}
 															>
-															<option value=''>Select Role</option>
+															<option value=''>{role}</option>
 															<option value='Role 1'>Role 1</option>
 															<option value='Role 2'>Role 2</option>
 															<option value='Role 3'>Role 3</option>
@@ -367,10 +464,11 @@ const AddClientScreen = () => {
 											</Col>
 											<Col>
 												<Form.Group controlId='gender' className="mb-3">
-														<FloatingLabel controlId="floatingSelect" label="Role">
-															<Form.Control as='select' value={gender} 
+														<FloatingLabel controlId="floatingSelect" label="Gender">
+															<Form.Control as='select' value={gender}
+															disabled={editHand} 
 																onChange={(e) => setGender(e.target.value)}>
-																<option value=''>Select Gender</option>
+																<option value=''>{gender}</option>
 																<option value='Male'>Male</option>
 																<option value='Female'>Female</option>
 																<option value='Others'>Others</option>
@@ -387,9 +485,11 @@ const AddClientScreen = () => {
 														<Form.Control as='select' value={stateName} className="mb-3"
 															onChange={(e) => {
 																setStateName(e.target.value)
-																callCity(e.target.value)
-															}}>
-															<option value='option'>Select State</option>
+																callCity(e.target.value)																
+															}}
+															disabled={editHand}
+															>
+															<option value='option'>{stateName}</option>
 															{states.map(st => (
 																<option value={st.name}>{st.name}</option>
 															))  }
@@ -400,8 +500,9 @@ const AddClientScreen = () => {
 												<Form.Group controlId='city'>
 														<Form.Label>City</Form.Label>
 														<Form.Control as='select' value={city} className="mb-3"
-															onChange={(e) => {setCity(e.target.value)}}>
-															<option value='option'>Select City</option>
+															onChange={(e) => {setCity(e.target.value)}}
+															disabled={editHand}>
+															<option value='option'>{city}</option>
 															{cities.map(city => (
 																<option value={city.name}>{city.name}</option>
 															))  }
@@ -417,7 +518,8 @@ const AddClientScreen = () => {
 																		className={`${phoneErr.length>1 ? 'inCorrect' : null}`}
 																		value={phone}
 																		onChange = {(e)=> PH(e.target.value)}
-																		onBlur = {(e) => valPhone(e.target.value)} 
+																		onBlur = {(e) => valPhone(e.target.value)}
+																		disabled={editHand} 
 																	/>
 													</FloatingLabel>
 													{phoneErr.length>1 ? (<div className='errMsg'>{phoneErr}</div>): null}
@@ -430,7 +532,8 @@ const AddClientScreen = () => {
 																		className={`${zipErr.length>1 ? 'inCorrect' : null}`}
 																		value={zipcode}
 																		onChange = {(e)=> ZP(e.target.value)}
-																		onBlur = {(e) => valZip(e.target.value)} 
+																		onBlur = {(e) => valZip(e.target.value)}
+																		disabled={editHand} 
 																	/>
 													</FloatingLabel>
 													{zipErr.length>1 ? (<div className='errMsg'>{zipErr}</div>): null}
@@ -441,7 +544,8 @@ const AddClientScreen = () => {
 													<FloatingLabel controlId="floatingInput" label="DOB" >
 														<Form.Control 	type="date"  placeholder="dob"
 																		value={dob}
-																		onChange = {(e)=> setDob(e.target.value)} 
+																		onChange = {(e)=> setDob(e.target.value)}
+																		disabled={editHand} 
 																	/>
 													</FloatingLabel>
 												</Form.Group>
@@ -463,18 +567,24 @@ const AddClientScreen = () => {
 								)}
 											
 
-
-							<Button type='submit' variant='primary'>
-								Add
-							</Button>
+						{
+							editHand ? null
+							: (	<>
+									<Button type='submit' onSubmit={submitHandler} variant='primary'
+										className={`${emailErr || fnErr || lnErr || compErr || packErr || roleErr || phoneErr || zipErr ? 'disabled' : ''}  mx-3`}
+									>Update</Button>
+									<Button onClick={editHandler} variant='primary'>Cancel</Button>
+								</>
+								)
+						}							
 					</Form>
-						) }
+				) }
 				
-		</FormContainer>
+		</div>
 		</>
-		)
+	)
 }
 
 
 
-export default AddClientScreen
+export default ProfileScreen

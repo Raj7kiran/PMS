@@ -51,7 +51,7 @@ const ClientListScreen = ({}) => {
 						<Table striped bordered hover responsive className='table-sm'>
 							<thead>
 								<tr>
-									<th>Name</th>
+									<th>First Name</th>
 									<th>Email</th>
 									<th>Company</th>
 									<th>Package</th>
@@ -61,7 +61,7 @@ const ClientListScreen = ({}) => {
 							<tbody>
 								{clients.map(client => (
 									<tr key={client._id}>
-										<td>{client.name}</td>
+										<td><a href='/profile'>{client.firstName}</a></td>
 										<td>{client.email}</td>
 										<td>{client.company}</td>
 										<td>{client.package}</td>
