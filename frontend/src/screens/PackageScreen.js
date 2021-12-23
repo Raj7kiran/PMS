@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-import { Table, Row, Col, Button, Form, FloatingLabel } from 'react-bootstrap'
+import { Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listPackages, createPackage } from '../actions/adminActions'
+import { listPackages, createPackage, deletePackage } from '../actions/adminActions'
 import { PACKAGE_CREATE_RESET } from '../constants/adminConstants'
 
 
@@ -15,15 +16,23 @@ const PackageScreen = ({ match }) => {
 
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
-
+	const [q , setQ] = useState('')
+	const [ order, setOrder ] = useState('ASC')
+	
+	
 	const packageList = useSelector(state => state.packageList)
 	const { loading, error, packages } = packageList
 
 	const packageCreate = useSelector(state => state.packageCreate)
 	const { loading:loadingCreate , error:errorCreate , success: successCreate, package: createdPackage } = packageCreate
 
+	const packageDelete = useSelector(state => state.packageDelete)
+	const { loading:loadingDelete , error:errorDelete , success: successDelete } = packageDelete
+
 	const userLogin = useSelector(state => state.userLogin)
 	const {userInfo} = userLogin
+
+	const [ data, setData ] = useState([])
 
 	useEffect(() => {
 		dispatch({type: PACKAGE_CREATE_RESET})
@@ -36,18 +45,55 @@ const PackageScreen = ({ match }) => {
 		setMaxDays(0)
 		setMaxUsers(0)
 		dispatch(listPackages())
+		setData(packages)
+		
+	}, [dispatch, userInfo, successCreate, successDelete, navigate] )
 
-	}, [dispatch, userInfo, successCreate] )
+	
+
+	const sorting = (col) => {
+		 if(order === 'ASC'){
+				const sorted = [...data].sort((a,b) =>
+					a[col].toString().toLowerCase() > b[col].toString().toLowerCase() ? 1 : -1
+				)
+				setData(sorted)
+				setOrder('DSC')
+		 }
+	 	if(order === 'DSC'){
+		 	const sorted = [...data].sort((a,b) =>
+		 		a[col].toString().toLowerCase() < b[col].toString().toLowerCase() ? 1 : -1
+		 	)
+		 	setData(sorted)
+			setOrder('ASC')
+		 }
+	}
+
+	function search(data) {
+		return data.filter((pack) =>
+						pack.packageName.toLowerCase().indexOf(q.toLowerCase()) > -1 
+						// pack.maxDaysAllowed.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+						// pack.maxUserAllowed.toLowerCase().indexOf(q.toLowerCase()) > -1 																		 										
+					)
+	}
+
+	const filteredPackages = search(data)
+	console.log(filteredPackages)
+
 
 	const submitHandler = (e) =>{
 		e.preventDefault()
 		dispatch(createPackage({
-			name,
-			maxDaysAllowed : maxDays * 30,
-			maxUserAllowed : maxUsers
-		}))
-
+				packageName: name,
+				maxDaysAllowed : maxDays * 30,
+				maxUserAllowed : maxUsers
+			}))
 		}
+
+	const deleteHandler = (id) =>{
+		if(window.confirm('Are you sure you want to delete?')){
+				dispatch(deletePackage(id))
+		}
+	}
 
 
 	return(
@@ -108,35 +154,63 @@ const PackageScreen = ({ match }) => {
 			</Button>
 		</Form>
 
-		<h2 className='mt-4'>Manufacturer List</h2>
+		<h2 className='mt-4'>Package List</h2>
+			<div className='d-flex'>
+				<div className='p-2'>
+					<div className='searchTable'>
+						<InputGroup className="me-2 my-2">
+						    <InputGroup.Text>Search</InputGroup.Text>
+						    <FormControl aria-label="Search"					    			
+						    			 value={q} onChange={(e) =>  setQ(e.target.value)}
+						    />
+						</InputGroup>
+					</div>
+				</div>
+				<div className='ml-auto p-2'>
+					<ReactHTMLTableToExcel
+		                    id="test-table-xls-button"
+		                    className="download-table-xls-button btn btn-success me-2 my-2"
+		                    table="table-to-xls"
+		                    filename="tablexls"
+		                    sheet="tablexls"
+		                    buttonText="Export"
+		              />
+				</div>
+			</div>
+				
+		
+
 		{ loading ? <Loader />
 			: error ? <Message variant='danger'>{error}</Message>
 			: (		
 				<div>
-					
+					{/*<input type="search" placeholder="Search" className="me-2 my-2" aria-label="Search" 
+						   value={q} onChange={(e) =>  setQ(e.target.value)}
+					/>*/}				
+
 					<Table striped bordered hover responsive='md' className='table-sm bg-light' id="table-to-xls">
 						<thead>
 							<tr>
-								<th>Package Name</th>
-								<th>Maximum Users</th>
-								<th>Maximum Days</th>
-								<th>Action</th>								
+								<th onClick={() => sorting('packageName')} ><span className='btn'>Package Name</span></th>
+								<th onClick={() => sorting('maxUserAllowed')} ><span className='btn'>Maximum Users</span></th>
+								<th onClick={() => sorting('maxDaysAllowed')} ><span className='btn'>Maximum Days</span></th>
+								<th><span className='btn'>Action</span></th>								
 							</tr>
 						</thead>
 						<tbody>
-							{ packages.map(pack => (
+							{filteredPackages.map(pack => (
 									<tr key={pack._id} >
-										<td>{pack.name}</td>
+										<td>{pack.packageName}</td>
 										<td>{pack.maxUserAllowed}</td>
 										<td>{pack.maxDaysAllowed}</td>
 										<td>
 											{/*<LinkContainer to={`/admin/product/${product._id}/edit`}>*/}
-												<Button variant='light' className='btn-sm'>
+												<Button variant='info' className='btn-sm mx-1' disabled>
 													<i className='fas fa-edit'></i>
 												</Button>
 											{/*</LinkContainer>*/}
 											<Button variant='danger' className='btn-sm' 
-													// onClick={()=> deleteHandler(manufacturer._id)}
+													onClick={()=> deleteHandler(pack._id)}
 													>
 												<i className='fas fa-trash'></i>
 											</Button>

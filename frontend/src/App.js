@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginScreen from './screens/LoginScreen'
-import AnotherLoginScreen from './screens/AnotherLoginScreen'
+// import AnotherLoginScreen from './screens/AnotherLoginScreen'
 // import NewLoginScreen from './screens/NewLoginScreen'
 import PackageScreen from './screens/PackageScreen'
 import ClientListScreen from './screens/ClientListScreen'

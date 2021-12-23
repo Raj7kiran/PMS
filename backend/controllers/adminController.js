@@ -17,9 +17,9 @@ const getPackage = asyncHandler(async(req,res) => {
 
 //add package
 const addPackage = asyncHandler(async(req, res) => {
-	const { name, maxDaysAllowed, maxUserAllowed } = req.body
+	const { packageName, maxDaysAllowed, maxUserAllowed } = req.body
 
-	const newPackage = await Package.create({ name, maxDaysAllowed, maxUserAllowed })
+	const newPackage = await Package.create({ packageName, maxDaysAllowed, maxUserAllowed })
 
 	if(newPackage){
 		res.send(newPackage)
@@ -29,6 +29,40 @@ const addPackage = asyncHandler(async(req, res) => {
 	}
 
 })
+
+const deletePackage = asyncHandler(async (req,res) => {
+	const foundpackage = await Package.findById(req.params.id);
+	
+	if(foundpackage){
+		await foundpackage.remove()
+		res.json({ message: 'Package Removed' })
+	} else {
+		res.status(404)
+		throw new Error('Package not found')
+	}	
+
+})
+
+
+const updatePackage = asyncHandler(async (req,res) => {
+	const foundPackage = await Package.findById(req.params.id);
+	
+	if(foundPackage){
+		foundPackage.packageName = req.body.packageName || foundPackage.packageName
+		foundPackage.maxDaysAllowed = req.body.maxDaysAllowed || foundPackage.maxDaysAllowed
+		foundPackage.maxUserAllowed =  req.body.maxUserAllowed || foundPackage.maxUserAllowed
+			
+		const updatedPackage = await foundPackage.save()
+
+		res.json({updatedPackage})
+
+	} else{
+		res.status(404)
+		throw new Error ('Package not found')
+	}
+
+})
+
 
 // ------------------------------------------
 
@@ -44,18 +78,18 @@ const getClient = asyncHandler(async(req,res) => {
 const addClient = asyncHandler(async(req,res) => {
 	const { firstName, lastName, email, company, packageName, role, isAdmin, 
 			isClientAdmin, phone, dob, zipcode, city, state, gender } = req.body
-	console.log(req.body)
+	// console.log(req.body)
 	
 	const companyExists = await Company.findOne({name: company})
 	// console.log(companyExists)
 
 	if(companyExists){
-		console.log('company exists')
+		// console.log('company exists')
 		const currentUserCount = await User.find({company: company}).count()
-		console.log('currentUserCount' + currentUserCount)
+		// console.log('currentUserCount' + currentUserCount)
 
 		const checkPack = await Package.find({name:packageName})
-		console.log('maxUserAllowed' + checkPack[0].maxUserAllowed)
+		// console.log('maxUserAllowed' + checkPack[0].maxUserAllowed)
 		
 		if(checkPack){			
 			if(currentUserCount >= checkPack[0].maxUserAllowed)
@@ -65,12 +99,12 @@ const addClient = asyncHandler(async(req,res) => {
 			}				
 		} 
 	} else {
-			console.log('creating a new company')
-			const newCompany = await Company.create({name: company, createdOn: Date.now() })
-			console.log('newCompany' + newCompany)
+			// console.log('creating a new company')
+			const newCompany = await Company.create({name: company, createdOn: Date.now(), package: packageName })
+			// console.log('newCompany' + newCompany)
 		}
 			
-	console.log('checking if user exists')
+	// console.log('checking if user exists')
 	const userExists = await User.findOne({ email })
 
 	if(userExists){
@@ -80,21 +114,21 @@ const addClient = asyncHandler(async(req,res) => {
 	}
 
 	const user = await User.create({
-		firstName, lastName, email, password: '123456', company, role, packageName,
-		isAdmin, isClientAdmin, addedUserId: req.user._id, city, state, dob, zipcode,gender
+		firstName, lastName, email, password: '123456', company, role, package:packageName,
+		isAdmin, isClientAdmin, addedUserId: req.user._id, city, state, dob, zipcode,gender, phone
 	})
-	console.log(user)	
+	// console.log(user)	
 
 	if(user){
-		console.log('updating num users')
+		// console.log('updating num users')
 		const comp = await Company.findOne({name: company})
 		comp.numUsers = comp.numUsers +1 
 		const updatedComp = await comp.save()
-		console.log( 'updatedComp' + updatedComp)	
+		// console.log( 'updatedComp' + updatedComp)	
 
 		res.status(201).json({
 			_id: user._id,
-			name: user.name,
+			// name: user.name,
 			firstname: user.firstname,
 			lastname: user.lastname,
 			email: user.email,
@@ -107,7 +141,9 @@ const addClient = asyncHandler(async(req,res) => {
 			city: user.city,
 			state: user.city,
 			zipcode: user.zipcode,
+			gender: user.gender,
 			addedUserId: user.addedUserId,
+			phone: user.phone
 		})
 	} else {
 		res.status(400)
@@ -194,35 +230,35 @@ const getCountry = asyncHandler( async(req,res) => {
 		res.json(countries)
 	} else {
 		res.status(500)
-		console.log('dint fetch the countries')
+		// console.log('dint fetch the countries')
 	}
 })
 
 
 const getState = asyncHandler(async(req,res) => {
-	console.log(req.params)
+	// console.log(req.params)
 	const states = await State.find({})
 
 	if(states){
 		res.json(states)
 	} else {
 		res.status(500)
-		console.log('dint fetch the states')
+		// console.log('dint fetch the states')
 	}
 })
 
 const getCity = asyncHandler(async(req,res) => {
-	console.log(`re.params:  ${req.params}`)
+	// console.log(`re.params:  ${req.params}`)
 	const cities = await City.find({ state : req.params.state })
 
 	if(cities){
 		res.json(cities)
 	} else {
 		res.status(500)
-		console.log('dint fetch the cities')
+		// console.log('dint fetch the cities')
 	}
 })
 
 
 
-export { getPackage, addPackage, addClient, getClient,getCountry, getState, getCity }
+export { getPackage, addPackage, addClient, getClient,getCountry, getState, getCity, deletePackage, updatePackage }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+// import { Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
@@ -38,7 +38,7 @@ const Header = () => {
                           </NavDropdown.Item>                      
                   </NavDropdown>
                 ) : userInfo && userInfo.isAdmin ? (
-                       <NavDropdown title={userInfo.name} id='username'>
+                       <NavDropdown title={userInfo.firstName} id='username'>
                           <LinkContainer to='/profile'>
                               <NavDropdown.Item>Profile</NavDropdown.Item>
                           </LinkContainer>

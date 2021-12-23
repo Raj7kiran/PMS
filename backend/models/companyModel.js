@@ -15,6 +15,9 @@ const companySchema = mongoose.Schema(
 				type: Number,
 				required: true,
 				default: 0
+			},
+			package:{
+				type: String
 			}
 		},
 		{

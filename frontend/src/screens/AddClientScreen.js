@@ -167,28 +167,29 @@ const AddClientScreen = () => {
 	const { loading, success, error } = clientCreate
 
 	const packageList = useSelector(state => state.packageList)
-	const { loading : loadingPackage , error: errorPackage , packages } = packageList
+	// const { loading : loadingPackage , error: errorPackage , packages } = packageList
+	const {  packages } = packageList
 
 	const stateList = useSelector((state) => state.stateList)
-	const { success:stateSuccess , states } = stateList
+	// const { success:stateSuccess , states } = stateList
+	const {  states } = stateList
 
 	const cityList = useSelector((state) => state.cityList)
-	const { success:citySuccess , cities } = cityList
+	// const { success:citySuccess , cities } = cityList
+	const {  cities } = cityList
 
 	useEffect(() => {
 		dispatch({ type: CLIENT_CREATE_RESET })
 		dispatch(listPackages())
 		dispatch(getStatesName())
 
-		if(!userInfo.isAdmin){
-			if(success){			
+		if(success){
+			if(userInfo.isAdmin){
 				navigate('/admin/clientlist')
-			} 
+			} else {
+				navigate('/userlist')
+			}
 		}
-
-		if(success){			
-			navigate('/userlist')
-		} 
 			 
 	},[success, navigate, dispatch, userInfo])
 
@@ -329,7 +330,7 @@ const AddClientScreen = () => {
 							
 								{ userInfo.isClientAdmin && (
 									<>
-										<Form.Group className="mb-3" controlId='company'>
+										{/*<Form.Group className="mb-3" controlId='company'>
 											<FloatingLabel controlId="floatingInput" label="Company Name" >
 												<Form.Control 	type="company"  placeholder="Company Name"
 																value={userInfo.company} disabled															
@@ -346,7 +347,7 @@ const AddClientScreen = () => {
 												     />
 												 <FormControl aria-label="Text input with checkbox" />
 											</InputGroup>
-										</Form.Group>
+										</Form.Group>*/}
 										<Row>
 											<Col>
 												<Form.Group controlId='role' className="mb-3">
@@ -383,7 +384,7 @@ const AddClientScreen = () => {
 										<Row>
 											<Col>
 												<Form.Group controlId='state'>
-														<Form.Label>State</Form.Label>
+													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={stateName} className="mb-3"
 															onChange={(e) => {
 																setStateName(e.target.value)
@@ -394,11 +395,12 @@ const AddClientScreen = () => {
 																<option value={st.name}>{st.name}</option>
 															))  }
 														</Form.Control>
+													</FloatingLabel>
 											</Form.Group>
 											</Col>
 											<Col>
 												<Form.Group controlId='city'>
-														<Form.Label>City</Form.Label>
+													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={city} className="mb-3"
 															onChange={(e) => {setCity(e.target.value)}}>
 															<option value='option'>Select City</option>
@@ -406,6 +408,7 @@ const AddClientScreen = () => {
 																<option value={city.name}>{city.name}</option>
 															))  }
 														</Form.Control>
+													</FloatingLabel>
 											</Form.Group>
 											</Col>
 										</Row>

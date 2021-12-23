@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
@@ -11,6 +11,7 @@ import { listClients } from '../actions/adminActions'
 const ClientListScreen = ({}) => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
+	const [q , setQ] = useState('')
 
 	const clientList = useSelector(state => state.clientList)
 	const { loading, error, clients } = clientList
@@ -27,13 +28,27 @@ const ClientListScreen = ({}) => {
 		} else {
 			navigate('/')
 		}		
-	}, [dispatch, userInfo] )
+	}, [dispatch, userInfo, navigate] )
+	
 
 	const deleteHandler = (id) =>{
 		// if(window.confirm('Are you sure you want to delete?')){
 		// 		dispatch(deleteUser(id))
 		// }
 	}
+
+	// function search(clients) {
+	// 	return clients.filter((client) => 
+	// 				client.firstName.toLowerCase().indexOf(q.toLowerCase()) > -1 
+	// 				// client.email.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+	// 				// client.company.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+	// 				// client.package.toLowerCase().indexOf(q.toLowerCase()) > -1
+										 										
+	// 			)
+	// }
+
+	// const filteredClients = search(clients)
+
 
 	return(
 			<>
@@ -48,6 +63,10 @@ const ClientListScreen = ({}) => {
 				</Row>
 				{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
 					: (
+						<div>
+						<input type="search" placeholder="Search" className="me-2 my-2" aria-label="Search" 
+							   value={q} onChange={(e) =>  setQ(e.target.value)}
+						/>
 						<Table striped bordered hover responsive className='table-sm'>
 							<thead>
 								<tr>
@@ -84,6 +103,7 @@ const ClientListScreen = ({}) => {
 								))}
 							</tbody>
 						</Table>
+					</div>
 					)}
 			</>
 		)

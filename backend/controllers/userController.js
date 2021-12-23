@@ -55,7 +55,7 @@ const authUser = asyncHandler(async(req,res) => {
 
 		res.send({email,password})
 	} catch(err){
-		console.log(err)
+		// console.log(err)
 		if(err == 'Error: Sorry you package has been expired! Please renew it to proceed.'){
 			throw new Error('Sorry you package has been expired! Please renew it to proceed.')
 		}
@@ -84,7 +84,7 @@ const getUsers = asyncHandler(async(req,res) => {
 const addUser = asyncHandler(async(req,res) => {
 	const { name, email, company, pack, isClientAdmin, Role, Address } = req.body
 
-		console.log('checking user count')
+		// console.log('checking user count')
 	// 	const currentUserCount = await User.find({company: company}).count()
 	// 	console.log('currentUserCount' + currentUserCount)
 
@@ -150,6 +150,8 @@ const getUserProfile = asyncHandler(async (req,res) => {
 				role: user.role,
 				company: user.company,
 				package: user.package,
+				phone: user.phone,
+				gender:user.gender,
 				dob: user.dob,
 				city: user.city,
 				state: user.city,
@@ -197,15 +199,12 @@ const deleteUser = asyncHandler(async (req,res) => {
 //.@access Private/Admin
 const updateUser = asyncHandler(async (req,res) => {
 	const user = await User.findById(req.params.id);
-	console.log('req.body')
-		console.log(req.body)
-	console.log('req.body')
-
+	
 	if(user){
 		user.firstName = req.body.firstName || user.firstName
 		user.lastName = req.body.lastName || user.lastName
 		user.email =  req.body.email || user.email
-		user.company = req.body.company || user.company
+		user.company = user.company
 		user.role = req.body.role || user.role
 		user.city = req.body.city || user.city
 		user.state = req.body.state || user.state
@@ -218,6 +217,7 @@ const updateUser = asyncHandler(async (req,res) => {
 		// user.isAdmin = req.body.isAdmin === undefined ? user.isAdmin : req.body.isAdmin
 		user.isAdmin = req.body.isAdmin ?? user.isAdmin
 		user.isClientAdmin = req.body.isClientAdmin ?? user.isClientAdmin
+		user.updatedUserId = req.user.id
 		
 		const updatedUser = await user.save()
 
@@ -235,7 +235,10 @@ const updateUser = asyncHandler(async (req,res) => {
 				city: updatedUser.city,
 				state: updatedUser.state,
 				zipcode: updatedUser.zipcode,
+				phone: updatedUser.phone,
+				gender: updatedUser.gender,
 				addedUserId: updatedUser.addedUserId,
+				updatedUserId: updatedUser.updatedUserId,
 		})
 
 	} else{
@@ -250,19 +253,26 @@ const updateUser = asyncHandler(async (req,res) => {
 //.@access Private
 const updateUserProfile = asyncHandler(async (req,res) => {
 	const user = await User.findById(req.user._id);
-	console.log(req.body)
+	
 
 	if(user){
 		user.firstName = req.body.firstName || user.firstName
 		user.lastName = req.body.lastName || user.lastName
 		user.email =  req.body.email || user.email
+		user.company = user.company
+		user.role = req.body.role || user.role
 		user.city = req.body.city || user.city
 		user.state = req.body.state || user.state
 		user.phone = req.body.phone || user.phone
+		user.package = req.body.package || user.package
 		user.gender = req.body.gender || user.gender
 		user.dob = req.body.dob || user.dob
+		user.zipcode = req.body.zipcode || user.zipcode
 		// user.isAdmin =  req.body.isAdmin
 		// user.isAdmin = req.body.isAdmin === undefined ? user.isAdmin : req.body.isAdmin
+		user.isAdmin = req.body.isAdmin ?? user.isAdmin
+		user.isClientAdmin = req.body.isClientAdmin ?? user.isClientAdmin
+		user.updatedUserId = req.user.id
 		
 		if(req.body.password){
 			user.password = req.body.password
@@ -271,21 +281,24 @@ const updateUserProfile = asyncHandler(async (req,res) => {
 		const updatedUser = await user.save()
 
 		res.json({
-			_id: updatedUser._id,
-			firstName: updatedUser.firstName,
-			lastName: updatedUser.lastName,				
-			email: updatedUser.email,
-			isAdmin: updatedUser.isAdmin,
-			isClientAdmin: updatedUser.isClientAdmin,
-			role: updatedUser.role,
-			company: updatedUser.company,
-			package: updatedUser.package,
-			dob: updatedUser.dob,
-			city: updatedUser.city,
-			state: updatedUser.city,
-			zipcode: updatedUser.zipcode,
-			addedUserId: updatedUser.addedUserId,
-			token: generateToken(updatedUser._id)
+				_id: updatedUser._id,
+				firstName: updatedUser.firstName,
+				lastName: updatedUser.lastName,				
+				email: updatedUser.email,
+				isAdmin: updatedUser.isAdmin,
+				isClientAdmin: updatedUser.isClientAdmin,
+				role: updatedUser.role,
+				company: updatedUser.company,
+				package: updatedUser.package,
+				dob: updatedUser.dob,
+				city: updatedUser.city,
+				state: updatedUser.state,
+				zipcode: updatedUser.zipcode,
+				phone: updatedUser.phone,
+				gender: updatedUser.gender,
+				addedUserId: updatedUser.addedUserId,
+				updatedUserId: updatedUser.updatedUserId,
+				token: generateToken(updatedUser._id)
 		})
 
 	} else{

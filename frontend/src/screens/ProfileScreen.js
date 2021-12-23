@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Form, Button, InputGroup, FormControl, FloatingLabel, Row,Col } from 'react-bootstrap'
+import { Form, Button, FloatingLabel, Row,Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import FormContainer from '../components/FormContainer'
+// import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listPackages } from '../actions/adminActions'
@@ -31,11 +31,11 @@ const ProfileScreen = () => {
 	const [ pack, setPack ] = useState('')
 	const [ packErr, setPackErr ] = useState('')	
 
-	const [ role, setRole ] = useState('Select Role')
+	const [ role, setRole ] = useState('')
 	const [ roleErr, setRoleErr ] = useState('')	
 
-	const [ city, setCity ] = useState('Select City')
-	const [ stateName, setStateName ] = useState('Select State')
+	const [ city, setCity ] = useState('')
+	const [ stateName, setStateName ] = useState('')
 	
 	const [ phone, setPhone ] = useState('')
 	const [ phoneErr, setPhoneErr ] = useState('')
@@ -43,7 +43,7 @@ const ProfileScreen = () => {
 	const [ zipcode, setZipcode ] = useState('')
 	const [ zipErr, setZipErr ] = useState('')
 
-	const [ gender, setGender ] = useState('Select Gender')
+	const [ gender, setGender ] = useState('')
 	const [ dob, setDob ] = useState('')
 	const [ isAdmin, setIsAdmin ] = useState(false)
 	const [ isClientAdmin, setIsClientAdmin] = useState(false)
@@ -171,13 +171,16 @@ const ProfileScreen = () => {
 	const { success } = userUpdateProfile
 
 	const packageList = useSelector(state => state.packageList)
-	const { loading : loadingPackage , error: errorPackage , packages } = packageList
+	// const { loading : loadingPackage , error: errorPackage , packages } = packageList
+	const { packages } = packageList
 
 	const stateList = useSelector((state) => state.stateList)
-	const { success:stateSuccess , states } = stateList
+	// const { success:stateSuccess , states } = stateList
+	const {  states } = stateList
 
 	const cityList = useSelector((state) => state.cityList)
-	const { success:citySuccess , cities } = cityList
+	// const { success:citySuccess , cities } = cityList
+	const {  cities } = cityList
 
 	useEffect(() => {
 		// dispatch({ type: CLIENT_CREATE_RESET })
@@ -224,7 +227,7 @@ const ProfileScreen = () => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		// console.log(role)
+		console.log(role)
 		// dispatch(createUser({
 		// 	firstName, lastName, email, company: company || userInfo.company, 
 		// 	role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
@@ -241,7 +244,8 @@ const ProfileScreen = () => {
 			}))
 			
 		}
-
+		// console.log('dob')
+		// console.log(dob)
 	}
 
 	const editHandler = () => {
@@ -367,7 +371,7 @@ const ProfileScreen = () => {
 																  className={`${packErr.length>1 ? 'inCorrect' : null}`} 
 																  onChange={(e) => setPack(e.target.value)}
 																  onBlur = {(e) => PK(e.target.value)}
-																  // disabled={editHand}
+																  disabled={editHand}
 																  >
 														<option value=''>Select Package</option>
 														{packages.map(pack => (
@@ -381,7 +385,7 @@ const ProfileScreen = () => {
 									</Row>
 									<Row>
 										<Col>
-											<Form.Group controlId='isAdmin' className="mb-3">
+											{/*<Form.Group controlId='isAdmin' className="mb-3">
 												<Form.Label>Is the user a Admin?</Form.Label>
 												<InputGroup >
 													    <InputGroup.Checkbox 	aria-label="Checkbox for following text input"
@@ -392,10 +396,18 @@ const ProfileScreen = () => {
 													     />
 													 <FormControl aria-label="Text input with checkbox" />
 												</InputGroup>
-											</Form.Group>
+											</Form.Group>*/}
+												<Form.Group className="mb-3" controlId='isAdmin' >
+											    	<Form.Check type="checkbox" label="Is the user a Admin?"
+											    				aria-label="Checkbox for following text input"
+													    		checked={isAdmin}
+														    	onChange = { (e) => setIsAdmin(e.target.checked)}
+														    	disabled={editHand}
+											    	 />
+											 </Form.Group>
 										</Col>
 										<Col>
-											<Form.Group controlId='isClientAdmin' className="mb-3">
+											{/*<Form.Group controlId='isClientAdmin' className="mb-3">
 												<Form.Label>Is the user a Client Admin?</Form.Label>
 												<InputGroup >
 													    <InputGroup.Checkbox 	aria-label="Checkbox for following text input"
@@ -405,7 +417,15 @@ const ProfileScreen = () => {
 													     />
 													 <FormControl aria-label="Text input with checkbox" />
 												</InputGroup>
-											</Form.Group>
+											</Form.Group>*/}
+											<Form.Group className="mb-3" id="formGridCheckbox" controlId='isClientAdmin' className="mb-3">
+											    	<Form.Check type="checkbox" label="Is the user a Client Admin?"
+											    				aria-label="Checkbox for following text input"
+													    		checked={isClientAdmin}
+													    		onChange = { (e) => setIsClientAdmin(e.target.checked) }
+													    		disabled={editHand}
+											    	 />
+											 </Form.Group>
 										</Col>
 									</Row>
 									</>
@@ -413,7 +433,7 @@ const ProfileScreen = () => {
 							
 								{ userInfo.isClientAdmin && (
 									<>
-										<Form.Group className="mb-3" controlId='company'>
+										{/*<Form.Group className="mb-3" controlId='company'>
 											<FloatingLabel controlId="floatingInput" label="Company Name" >
 												<Form.Control 	type="company"  placeholder="Company Name"
 																value={userInfo.company} disabled
@@ -421,7 +441,7 @@ const ProfileScreen = () => {
 															/>
 											</FloatingLabel>
 										</Form.Group>
-
+*/}
 										{/*<Form.Group controlId='isClientAdmin' className="mb-3">
 											<Form.Label>Is the user a Client Admin?</Form.Label>
 											<InputGroup >
@@ -434,14 +454,14 @@ const ProfileScreen = () => {
 											</InputGroup>
 										</Form.Group>*/}
 
-										<Form.Group className="mb-3" id="formGridCheckbox" controlId='isClientAdmin' className="mb-3">
+										{/*<Form.Group className="mb-3" id="formGridCheckbox" controlId='isClientAdmin' className="mb-3">
 										    	<Form.Check type="checkbox" label="Is the user a Client Admin?"
 										    				aria-label="Checkbox for following text input"
 												    		checked={isClientAdmin}
 												    		onChange = { (e) => setIsClientAdmin(e.target.checked) }
 												    		disabled={editHand}
 										    	 />
-										 </Form.Group>
+										 </Form.Group>*/}
 
 										<Row>
 											<Col>
@@ -453,7 +473,7 @@ const ProfileScreen = () => {
 															onBlur = {(e) => RL(e.target.value)}
 															disabled={editHand}
 															>
-															<option value=''>{role}</option>
+															<option value=''>Select Role</option>
 															<option value='Role 1'>Role 1</option>
 															<option value='Role 2'>Role 2</option>
 															<option value='Role 3'>Role 3</option>
@@ -468,7 +488,7 @@ const ProfileScreen = () => {
 															<Form.Control as='select' value={gender}
 															disabled={editHand} 
 																onChange={(e) => setGender(e.target.value)}>
-																<option value=''>{gender}</option>
+																<option value=''>Select Gender</option>
 																<option value='Male'>Male</option>
 																<option value='Female'>Female</option>
 																<option value='Others'>Others</option>
@@ -481,7 +501,7 @@ const ProfileScreen = () => {
 										<Row>
 											<Col>
 												<Form.Group controlId='state'>
-														<Form.Label>State</Form.Label>
+													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={stateName} className="mb-3"
 															onChange={(e) => {
 																setStateName(e.target.value)
@@ -489,24 +509,26 @@ const ProfileScreen = () => {
 															}}
 															disabled={editHand}
 															>
-															<option value='option'>{stateName}</option>
+															<option value='option'>Select State</option>
 															{states.map(st => (
 																<option value={st.name}>{st.name}</option>
 															))  }
 														</Form.Control>
+													</FloatingLabel>
 											</Form.Group>
 											</Col>
 											<Col>
 												<Form.Group controlId='city'>
-														<Form.Label>City</Form.Label>
+													<FloatingLabel controlId="floatingSelect" label="City">
 														<Form.Control as='select' value={city} className="mb-3"
 															onChange={(e) => {setCity(e.target.value)}}
 															disabled={editHand}>
-															<option value='option'>{city}</option>
+															<option value='option'>Select City</option>
 															{cities.map(city => (
 																<option value={city.name}>{city.name}</option>
 															))  }
 														</Form.Control>
+													</FloatingLabel>
 											</Form.Group>
 											</Col>
 										</Row>
@@ -514,7 +536,7 @@ const ProfileScreen = () => {
 											<Col>
 												<Form.Group className="mb-3" controlId='phone'>
 													<FloatingLabel controlId="floatingInput" label="Phone" >
-														<Form.Control 	type="phone"  placeholder="9911223344"
+														<Form.Control 	type="phone"  placeholder="Phone"
 																		className={`${phoneErr.length>1 ? 'inCorrect' : null}`}
 																		value={phone}
 																		onChange = {(e)=> PH(e.target.value)}

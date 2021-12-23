@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+// import { LinkContainer } from 'react-router-bootstrap'
+import { Table, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listUsers } from '../actions/userActions'
 
 
-const UserListScreen = ({}) => {
+const UserListScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 
@@ -27,7 +27,7 @@ const UserListScreen = ({}) => {
 		} else {
 			navigate('/')
 		}		
-	}, [dispatch, userInfo] )
+	}, [dispatch, userInfo, navigate] )
 
 	const deleteHandler = (id) =>{
 		// if(window.confirm('Are you sure you want to delete?')){
@@ -61,7 +61,7 @@ const UserListScreen = ({}) => {
 							<tbody>
 								{users.map(user => (
 									<tr key={user._id}>
-										<td>{user.name}</td>
+										<td>{user.firstName}</td>
 										<td>{user.email}</td>
 										<td>{user.role}</td>
 										<td>{user.address}</td>

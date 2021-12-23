@@ -1,17 +1,27 @@
 import axios from 'axios'
 import { PACKAGE_LIST_REQUEST,PACKAGE_LIST_SUCCESS, PACKAGE_LIST_FAIL,
-		 PACKAGE_CREATE_REQUEST,PACKAGE_CREATE_SUCCESS, PACKAGE_CREATE_FAIL, PACKAGE_CREATE_RESET,
-     CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_LIST_RESET,
-      CLIENT_CREATE_REQUEST, CLIENT_CREATE_SUCCESS, CLIENT_CREATE_FAIL, CLIENT_CREATE_RESET,
+		     PACKAGE_CREATE_REQUEST,PACKAGE_CREATE_SUCCESS, PACKAGE_CREATE_FAIL,
+         PACKAGE_DELETE_REQUEST,PACKAGE_DELETE_SUCCESS, PACKAGE_DELETE_FAIL, 
+         CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, 
+         CLIENT_CREATE_REQUEST, CLIENT_CREATE_SUCCESS, CLIENT_CREATE_FAIL, 
 		} from '../constants/adminConstants'
 import { logout } from './userActions'
 
 
-export const listPackages = () => async (dispatch) => {
+// -------------------Packages---------------
+export const listPackages = () => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PACKAGE_LIST_REQUEST })
+
+    const { userLogin: { userInfo }, } = getState()
+                  
+    const config = {
+      headers: {                 
+         Authorization: `Bearer ${userInfo.token}`,
+      },
+    } 
 		
-		const { data } = await axios.get(`/admin/packages`)
+		const { data } = await axios.get(`/admin/packages`, config)
 
 		dispatch({
 			type: PACKAGE_LIST_SUCCESS,
@@ -23,17 +33,15 @@ export const listPackages = () => async (dispatch) => {
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message
-        // if (message === 'Not Authorized, please login again!') {
-        //     dispatch(logout())
-        //   }
+        if (message === 'Not Authorized, please login again!') {
+            dispatch(logout())
+          }
         dispatch({
           type: PACKAGE_LIST_FAIL,
           payload: message,
         })
       }
 }
-
-
 
 export const createPackage = (pack) => async (dispatch, getState) => {
   try {
@@ -71,6 +79,48 @@ export const createPackage = (pack) => async (dispatch, getState) => {
     })
   }
 }
+
+
+export const deletePackage = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PACKAGE_DELETE_REQUEST
+    })
+
+    const { userLogin: {userInfo}, } = getState()
+
+    const config = {
+      headers : { Authorization: `Bearer ${userInfo.token}` }, 
+    }
+
+    await axios.delete(`/admin/packages/${id}`, config)
+
+    dispatch({
+      type: PACKAGE_DELETE_SUCCESS,
+    })
+
+    document.location.href = '/admin/package'
+
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, please login again!') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: PACKAGE_DELETE_FAIL,
+      payload: message,
+    })
+  }
+}
+
+
+
+
+
+// --------------------Users-----------------
 
 
 export const listClients = () => async (dispatch, getState) => {

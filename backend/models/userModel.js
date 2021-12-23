@@ -74,6 +74,10 @@ const userSchema = mongoose.Schema(
 				type: String,
 				// required: true
 			},
+			updatedUserId: {
+				type: String,
+				// required: true
+			},
 			// activatedOn:{
 			// 	type:Date
 			// },

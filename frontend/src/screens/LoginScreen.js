@@ -75,12 +75,13 @@ const LoginScreen = ({ location, history }) => {
 							<Form.Group className="mb-3" controlId='email'>
 								<FloatingLabel controlId="floatingInput" label="Email address" >
 									<Form.Control 	type="email"  placeholder="name@example.com"
-													className={`${emailErr.length>1 ? 'inCorrect' : null}`}													
+													// className={`${emailErr.length>1 ? 'inCorrect' : null}`}													
 													value={email}
 													onChange = {(e)=> {
 														setEmail(e.target.value)
 													}} 
 													onBlur = {(e) => valEmail(e.target.value)}
+													isInvalid={!!emailErr}
 												/>
 								</FloatingLabel>
 								{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
@@ -88,13 +89,14 @@ const LoginScreen = ({ location, history }) => {
 							<Form.Group className="mb-3" controlId='password'>
 							  	<FloatingLabel controlId="floatingPassword" label="Password">
 							    	<Form.Control 	type="password" placeholder="Password"
-													className={`${blank.length>1 ? 'inCorrect' : null}`}
+													// className={`${blank.length>1 ? 'inCorrect' : null}`}
 							    					value={password}
 													onChange = {(e)=> {setPassword(e.target.value)}}
 													onBlur = {(e) => isRequired(e.target.value)}
+													isInvalid={!!blank}
 							    	 />
 							  	</FloatingLabel>
-								{blank.length>1 ? (<div className='errMsg'>{blank}</div>): null}							  	
+								{blank.length>1 ? (<div className='errMsg'>{blank}</div>): null}
 							</Form.Group>
 							
 							<Button type='submit' variant='secondary' className={`${emailErr || blank ? 'disabled' : ''}`} >

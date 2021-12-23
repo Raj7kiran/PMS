@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { userLoginReducer } from './reducers/userReducers'
-import { packageListReducer, packageCreateReducer, clientListReducer, clientCreateReducer } from './reducers/adminReducers'
+import { packageListReducer, packageCreateReducer, packageDeleteReducer, clientListReducer, clientCreateReducer } from './reducers/adminReducers'
 import { userListReducer, userDetailsReducer,userUpdateProfileReducer } from './reducers/userReducers'
 import { countryListReducer, stateListReducer, cityListReducer } from './reducers/dropReducers'
 
@@ -13,6 +13,7 @@ import { countryListReducer, stateListReducer, cityListReducer } from './reducer
 const reducer = combineReducers({
 	packageList: packageListReducer,
 	packageCreate: packageCreateReducer,
+	packageDelete:packageDeleteReducer,
 	userLogin: userLoginReducer,
 	clientList : clientListReducer,
 	clientCreate: clientCreateReducer,

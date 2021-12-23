@@ -1,7 +1,8 @@
 import { PACKAGE_LIST_REQUEST,PACKAGE_LIST_SUCCESS, PACKAGE_LIST_FAIL,
-		 PACKAGE_CREATE_REQUEST,PACKAGE_CREATE_SUCCESS, PACKAGE_CREATE_FAIL, PACKAGE_CREATE_RESET,
-		 CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_LIST_RESET,
-		 CLIENT_CREATE_REQUEST, CLIENT_CREATE_SUCCESS, CLIENT_CREATE_FAIL, CLIENT_CREATE_RESET,
+		 		 PACKAGE_CREATE_REQUEST,PACKAGE_CREATE_SUCCESS, PACKAGE_CREATE_FAIL, PACKAGE_CREATE_RESET,
+		 		 PACKAGE_DELETE_REQUEST,PACKAGE_DELETE_SUCCESS, PACKAGE_DELETE_FAIL,
+		 		 CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_LIST_RESET,
+		 		 CLIENT_CREATE_REQUEST, CLIENT_CREATE_SUCCESS, CLIENT_CREATE_FAIL, CLIENT_CREATE_RESET,
 		} from '../constants/adminConstants'
 
 
@@ -32,6 +33,20 @@ export const packageCreateReducer = (state = {}, action) => {
 			return state
 	}
 }
+
+export const packageDeleteReducer = (state = {}, action) => {
+	switch(action.type) {
+		case PACKAGE_DELETE_REQUEST:
+			return { loading:true }
+		case PACKAGE_DELETE_SUCCESS:
+			return { loading:false, success: true }
+		case PACKAGE_DELETE_FAIL:
+			return { loading:false, error: action.payload }
+		default:
+			return state
+	}
+}
+
 
 
 export const clientListReducer = (state = { clients:[] }, action) => {
