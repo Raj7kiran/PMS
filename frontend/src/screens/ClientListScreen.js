@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col, InputGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listClients } from '../actions/adminActions'
+import { listClients, deleteClient } from '../actions/adminActions'
 
 
 const ClientListScreen = ({}) => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 	const [q , setQ] = useState('')
+	const [ order, setOrder ] = useState('ASC')
 
 	const clientList = useSelector(state => state.clientList)
 	const { loading, error, clients } = clientList
@@ -19,86 +21,130 @@ const ClientListScreen = ({}) => {
 	const userLogin = useSelector(state => state.userLogin)
 	const {userInfo} = userLogin
 
-	// const userDelete = useSelector(state => state.userDelete)
-	// const {success: successDelete } = userDelete
+	const clientDelete = useSelector(state => state.clientDelete)
+	const {loading:loadingDelete , error:errorDelete ,success: successDelete } = clientDelete
+
+	// const clients = useSelector(state => state.clientList.clients)
+	const [ data, setData ] = useState(clients) 
+
+	useEffect(()=>{
+		   setData(clients)
+		   // console.log(data)
+		},[clients])
+
+	// console.log(data)
 
 	useEffect(() => {
-		if(userInfo && userInfo.isAdmin){
-			dispatch(listClients())
-		} else {
+		if(!userInfo || !userInfo.isAdmin){
 			navigate('/')
-		}		
-	}, [dispatch, userInfo, navigate] )
+		}
+			dispatch(listClients())
+
+	}, [dispatch, userInfo, navigate, successDelete] )
+
+	
+
+
+	const sorting = (col) => {
+		 if(order === 'ASC'){
+				const sorted = [...data].sort((a,b) =>
+					a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+				)
+				setData(sorted)
+				setOrder('DSC')
+		 }
+	 	if(order === 'DSC'){
+		 	const sorted = [...data].sort((a,b) =>
+		 		a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+		 	)
+		 	setData(sorted)
+			setOrder('ASC')
+		 }
+	}	
+
+	function search(data2) {
+		return data2.filter((client) =>
+						client.firstName.toLowerCase().indexOf(q.toLowerCase()) > -1 
+						// pack.email.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+						// pack.company.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+						// pack.package.toLowerCase().indexOf(q.toLowerCase()) > -1 																		 										
+					)
+		}
+
+	const filteredClients = search(data)
 	
 
 	const deleteHandler = (id) =>{
-		// if(window.confirm('Are you sure you want to delete?')){
-		// 		dispatch(deleteUser(id))
-		// }
+		if(window.confirm('Are you sure you want to delete?')){
+				dispatch(deleteClient(id))
+		}
 	}
 
-	// function search(clients) {
-	// 	return clients.filter((client) => 
-	// 				client.firstName.toLowerCase().indexOf(q.toLowerCase()) > -1 
-	// 				// client.email.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
-	// 				// client.company.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
-	// 				// client.package.toLowerCase().indexOf(q.toLowerCase()) > -1
-										 										
-	// 			)
-	// }
-
-	// const filteredClients = search(clients)
-
-
+	
 	return(
-			<>
-				<Link to='/' className='btn btn-dark mt-4'>Go Back</Link>
-				<Row className='align-items-center'>			
-					<Col>
-						<h1>Clients List</h1>
-					</Col>
-					<Col className='text-right my-3'>
-						<Link className='btn btn-dark' to='/addUsers'>Add Client</Link>
-					</Col>
-				</Row>
+			<>	
+				<div>
+					<Link to='/' className='btn btn-dark mt-4'>Go Back</Link>
+					<Link className='btn btn-dark mt-4  mx-4' to='/addUsers'>Add Client</Link>
+				</div>
+				
+				<h1>Clients List</h1>
+				
+				{loadingDelete && <Loader />}
+				{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+				<div className='d-flex'>
+					<div className='p-2'>
+						<div className='searchTable'>
+							<InputGroup className="me-2 my-2">
+							    <InputGroup.Text>Search</InputGroup.Text>
+							    <FormControl aria-label="Search"					    			
+							    			 value={q} onChange={(e) =>  setQ(e.target.value)}
+							    />
+							</InputGroup>
+						</div>
+					</div>
+					<div className='ml-auto p-2'>
+						<ReactHTMLTableToExcel
+			                    id="test-table-xls-button"
+			                    className="download-table-xls-button btn btn-success me-2 my-2"
+			                    table="table-to-xls"
+			                    filename="tablexls"
+			                    sheet="tablexls"
+			                    buttonText="Export"
+			              />
+					</div>
+				</div>
 				{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
 					: (
 						<div>
-						<input type="search" placeholder="Search" className="me-2 my-2" aria-label="Search" 
-							   value={q} onChange={(e) =>  setQ(e.target.value)}
-						/>
-						<Table striped bordered hover responsive className='table-sm'>
+						<Table striped bordered hover responsive className='table-sm' className='table-sm bg-light' id="table-to-xls">
 							<thead>
 								<tr>
-									<th>First Name</th>
-									<th>Email</th>
-									<th>Company</th>
-									<th>Package</th>
-									<th>Action</th>
+									<th onClick={() => sorting('firstName')} ><span className='btn'>First Name</span></th>
+									<th onClick={() => sorting('email')} ><span className='btn'>Email</span></th>
+									<th onClick={() => sorting('company')} ><span className='btn'>Company</span></th>
+									<th onClick={() => sorting('package')} ><span className='btn'>Package</span></th>
+									<th><span className='btn'>Action</span></th>
 								</tr>
 							</thead>
 							<tbody>
-								{clients.map(client => (
+								{filteredClients.map(client => (
 									<tr key={client._id}>
 										<td><a href='/profile'>{client.firstName}</a></td>
 										<td>{client.email}</td>
 										<td>{client.company}</td>
 										<td>{client.package}</td>
-										{/*<td><a href={`mailto:${clients.email}`}>{clients.email}</a></td>
-										<td>{user.isAdmin? (<i className='fas fa-check' style={{color:'green'}}></i>)
-														 : (<i className='fas fa-times' style={{color:'red'}}></i>) }
-										</td>
 										<td>
-											<LinkContainer to={`/admin/user/${user._id}/edit`}>
+											<LinkContainer to={`/admin/user/${client._id}/edit`}>
 												<Button variant='light' className='btn-sm'>
 													<i className='fas fa-edit'></i>
 												</Button>
 											</LinkContainer>
 											<Button variant='danger' className='btn-sm' 
-													onClick={()=> deleteHandler(user._id)}>
+													onClick={()=> deleteHandler(client._id)}>
 												<i className='fas fa-trash'></i>
 											</Button>
-										</td>*/}
+										</td>
 									</tr>
 								))}
 							</tbody>

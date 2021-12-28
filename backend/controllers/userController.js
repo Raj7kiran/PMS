@@ -45,6 +45,7 @@ const authUser = asyncHandler(async(req,res) => {
 				city: user.city,
 				state: user.city,
 				zipcode: user.zipcode,
+				address: user.address,
 				addedUserId: user.addedUserId,
 				token: generateToken(user._id)
 			})
@@ -71,7 +72,7 @@ const getUsers = asyncHandler(async(req,res) => {
 	// console.log(`req: ${req}`)
 	// console.log(`req.user: ${req.user}`)
 	if(users){
-		res.send(users)
+		res.json(users)
 	} else {
 		res.status(500)
 		throw new Error('Something went wrong, please try again')
@@ -157,6 +158,7 @@ const getUserProfile = asyncHandler(async (req,res) => {
 				state: user.city,
 				zipcode: user.zipcode,
 				addedUserId: user.addedUserId,
+				address: user.address
 			})
 	} else{
 		res.status(404)
@@ -213,6 +215,7 @@ const updateUser = asyncHandler(async (req,res) => {
 		user.gender = req.body.gender || user.gender
 		user.dob = req.body.dob || user.dob
 		user.zipcode = req.body.zipcode || user.zipcode
+		user.address = req.body.address || user.address
 		// user.isAdmin =  req.body.isAdmin
 		// user.isAdmin = req.body.isAdmin === undefined ? user.isAdmin : req.body.isAdmin
 		user.isAdmin = req.body.isAdmin ?? user.isAdmin
@@ -239,6 +242,7 @@ const updateUser = asyncHandler(async (req,res) => {
 				gender: updatedUser.gender,
 				addedUserId: updatedUser.addedUserId,
 				updatedUserId: updatedUser.updatedUserId,
+				address: updatedUser.address
 		})
 
 	} else{
@@ -268,6 +272,7 @@ const updateUserProfile = asyncHandler(async (req,res) => {
 		user.gender = req.body.gender || user.gender
 		user.dob = req.body.dob || user.dob
 		user.zipcode = req.body.zipcode || user.zipcode
+		user.address = req.body.address || user.address
 		// user.isAdmin =  req.body.isAdmin
 		// user.isAdmin = req.body.isAdmin === undefined ? user.isAdmin : req.body.isAdmin
 		user.isAdmin = req.body.isAdmin ?? user.isAdmin
@@ -298,6 +303,7 @@ const updateUserProfile = asyncHandler(async (req,res) => {
 				gender: updatedUser.gender,
 				addedUserId: updatedUser.addedUserId,
 				updatedUserId: updatedUser.updatedUserId,
+				address: updatedUser.address,
 				token: generateToken(updatedUser._id)
 		})
 

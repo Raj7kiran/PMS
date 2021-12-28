@@ -5,6 +5,7 @@ import LoginScreen from './screens/LoginScreen'
 // import NewLoginScreen from './screens/NewLoginScreen'
 import PackageScreen from './screens/PackageScreen'
 import ClientListScreen from './screens/ClientListScreen'
+import ClientEditScreen from './screens/ClientEditScreen'
 import AddClientScreen from './screens/AddClientScreen'
 // import NewAddClientScreen from './screens/NewAddClientScreen'
 // import NewAddClientScreen2 from './screens/NewAddClientScreen2'
@@ -27,6 +28,8 @@ const App = () => {
             {/*<Route path='/' element={<NewLoginScreen />} exact />*/}
             <Route path='/admin/package' element={<PackageScreen />} exact />
             <Route path='/admin/clientlist' element={<ClientListScreen />} exact />
+            <Route path='/admin/user/:id/edit' element={<ClientEditScreen />} exact />
+            <Route path='/user/:id/edit' element={<ClientEditScreen />} exact />
             <Route path='/userlist' element={<UserListScreen />} exact />
             <Route path='/profile' element={<ProfileScreen />} exact />
             <Route path='/addUsers' element={<AddClientScreen />} exact />

@@ -21,7 +21,7 @@ const PackageScreen = ({ match }) => {
 	
 	
 	const packageList = useSelector(state => state.packageList)
-	const { loading, error, packages } = packageList
+	const { loading, error, success: successList, packages } = packageList
 
 	const packageCreate = useSelector(state => state.packageCreate)
 	const { loading:loadingCreate , error:errorCreate , success: successCreate, package: createdPackage } = packageCreate
@@ -32,7 +32,13 @@ const PackageScreen = ({ match }) => {
 	const userLogin = useSelector(state => state.userLogin)
 	const {userInfo} = userLogin
 
-	const [ data, setData ] = useState([])
+
+	// const packages = useSelector(state => state.packageList.packages)
+	const [ data, setData ] = useState(packages)	
+
+	useEffect(()=>{
+		   setData(packages)
+		},[packages])
 
 	useEffect(() => {
 		dispatch({type: PACKAGE_CREATE_RESET})
@@ -44,12 +50,15 @@ const PackageScreen = ({ match }) => {
 		setName('')
 		setMaxDays(0)
 		setMaxUsers(0)
+		
 		dispatch(listPackages())
-		setData(packages)
+
+		// setData(packages)	
+
 		
 	}, [dispatch, userInfo, successCreate, successDelete, navigate] )
 
-	
+
 
 	const sorting = (col) => {
 		 if(order === 'ASC'){
@@ -77,7 +86,7 @@ const PackageScreen = ({ match }) => {
 	}
 
 	const filteredPackages = search(data)
-	console.log(filteredPackages)
+	// console.log(filteredPackages)
 
 
 	const submitHandler = (e) =>{

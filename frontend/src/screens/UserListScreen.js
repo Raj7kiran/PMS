@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 // import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Row, Col } from 'react-bootstrap'
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Table, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listUsers } from '../actions/userActions'
+import { listUsers, deleteUser } from '../actions/userActions'
 
 
 const UserListScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
+	const [q , setQ] = useState('')
+	const [ order, setOrder ] = useState('ASC')
 
 	const userList = useSelector(state => state.userList)
 	const { loading, error, users } = userList
@@ -18,8 +22,16 @@ const UserListScreen = () => {
 	const userLogin = useSelector(state => state.userLogin)
 	const {userInfo} = userLogin
 
-	// const userDelete = useSelector(state => state.userDelete)
-	// const {success: successDelete } = userDelete
+	const userDelete = useSelector(state => state.userDelete)
+	const {success: successDelete } = userDelete
+
+
+	const [ data, setData ] = useState(users)
+
+	useEffect(()=>{
+		   setData(users)
+		   // console.log(data)
+		},[users]) 
 
 	useEffect(() => {
 		if(userInfo){
@@ -29,26 +41,75 @@ const UserListScreen = () => {
 		}		
 	}, [dispatch, userInfo, navigate] )
 
+
+	// const sorting = (col) => {
+	// 	 if(order === 'ASC'){
+	// 			const sorted = [...data].sort((a,b) =>
+	// 				a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+	// 			)
+	// 			setData(sorted)
+	// 			setOrder('DSC')
+	// 	 }
+	//  	if(order === 'DSC'){
+	// 	 	const sorted = [...data].sort((a,b) =>
+	// 	 		a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+	// 	 	)
+	// 	 	setData(sorted)
+	// 		setOrder('ASC')
+	// 	 }
+	// }	
+
+	function search(data2) {
+		return data2.filter((user) =>
+						user.firstName.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+						user.email.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+						user.role.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
+					user.address && user.address.toLowerCase().indexOf(q.toLowerCase()) > -1 																		 										
+					)
+		}
+
+	const filteredUsers= search(data)
+
 	const deleteHandler = (id) =>{
-		// if(window.confirm('Are you sure you want to delete?')){
-		// 		dispatch(deleteUser(id))
-		// }
+		if(window.confirm('Are you sure you want to delete?')){
+				dispatch(deleteUser(id))
+		}
 	}
 
 	return(
-			<>
-				<Link to='/' className='btn btn-dark mt-4'>Go Back</Link>
-				<Row className='align-items-center'>			
-					<Col>
-						<h1>Users List</h1>
-					</Col>
-					<Col className='text-right my-3'>
-						<Link className='btn btn-dark' to='/addUsers'>Add Users</Link>
-					</Col>
-				</Row>
+			<>	
+				<div>
+					<Link to='/' className='btn btn-dark mt-4'>Go Back</Link>
+					<Link className='btn btn-dark mt-4  mx-4' to='/addUsers'>Add User</Link>
+				</div>
+				
+				<h1>Users List</h1>
+				<div className='d-flex'>
+					<div className='p-2'>
+						<div className='searchTable'>
+							<InputGroup className="me-2 my-2">
+							    <InputGroup.Text>Search</InputGroup.Text>
+							    <FormControl aria-label="Search"					    			
+							    			 value={q} onChange={(e) =>  setQ(e.target.value)}
+							    />
+							</InputGroup>
+						</div>
+					</div>
+					<div className='ml-auto p-2'>
+						<ReactHTMLTableToExcel
+			                    id="test-table-xls-button"
+			                    className="download-table-xls-button btn btn-success me-2 my-2"
+			                    table="table-to-xls"
+			                    filename="tablexls"
+			                    sheet="tablexls"
+			                    buttonText="Export"
+			              />
+					</div>
+				</div>
+					
 				{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
 					: (
-						<Table striped bordered hover responsive className='table-sm'>
+						<Table striped bordered hover responsive className='table-sm' id='table-to-xls'>
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -59,18 +120,14 @@ const UserListScreen = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{users.map(user => (
+								{filteredUsers.map(user => (
 									<tr key={user._id}>
 										<td>{user.firstName}</td>
 										<td>{user.email}</td>
 										<td>{user.role}</td>
 										<td>{user.address}</td>
-										{/*<td><a href={`mailto:${clients.email}`}>{clients.email}</a></td>
-										<td>{user.isAdmin? (<i className='fas fa-check' style={{color:'green'}}></i>)
-														 : (<i className='fas fa-times' style={{color:'red'}}></i>) }
-										</td>
 										<td>
-											<LinkContainer to={`/admin/user/${user._id}/edit`}>
+											<LinkContainer to={`/user/${user._id}/edit`}>
 												<Button variant='light' className='btn-sm'>
 													<i className='fas fa-edit'></i>
 												</Button>
@@ -79,7 +136,7 @@ const UserListScreen = () => {
 													onClick={()=> deleteHandler(user._id)}>
 												<i className='fas fa-trash'></i>
 											</Button>
-										</td>*/}
+										</td>
 									</tr>
 								))}
 							</tbody>

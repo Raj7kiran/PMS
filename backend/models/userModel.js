@@ -32,10 +32,10 @@ const userSchema = mongoose.Schema(
 				type: String,
 				
 			},
-			// address: {
-			// 	type: String,
+			address: {
+				type: String,
 				
-			// },
+			},
 			city: {
 				type: String,
 				

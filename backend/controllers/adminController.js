@@ -12,7 +12,7 @@ const getPackage = asyncHandler(async(req,res) => {
 
 	const packages = await Package.find({})
 	console.log(req.user)
-	res.send(packages)
+	res.json(packages)
 })
 
 //add package
@@ -22,7 +22,7 @@ const addPackage = asyncHandler(async(req, res) => {
 	const newPackage = await Package.create({ packageName, maxDaysAllowed, maxUserAllowed })
 
 	if(newPackage){
-		res.send(newPackage)
+		res.json(newPackage)
 	} else {
 		res.status(400)
 		throw new Error('Invalid data')
@@ -69,7 +69,7 @@ const updatePackage = asyncHandler(async (req,res) => {
 const getClient = asyncHandler(async(req,res) => {
 	const users = await User.find({})
 
-	res.send(users)
+	res.json(users)
 })
 
 
@@ -77,7 +77,7 @@ const getClient = asyncHandler(async(req,res) => {
 //add Client Admin
 const addClient = asyncHandler(async(req,res) => {
 	const { firstName, lastName, email, company, packageName, role, isAdmin, 
-			isClientAdmin, phone, dob, zipcode, city, state, gender } = req.body
+			isClientAdmin, phone, dob, zipcode, city, state, gender, address } = req.body
 	// console.log(req.body)
 	
 	const companyExists = await Company.findOne({name: company})
@@ -115,7 +115,7 @@ const addClient = asyncHandler(async(req,res) => {
 
 	const user = await User.create({
 		firstName, lastName, email, password: '123456', company, role, package:packageName,
-		isAdmin, isClientAdmin, addedUserId: req.user._id, city, state, dob, zipcode,gender, phone
+		isAdmin, isClientAdmin, addedUserId: req.user._id, city, state, dob, zipcode,gender, phone, address
 	})
 	// console.log(user)	
 
@@ -143,7 +143,8 @@ const addClient = asyncHandler(async(req,res) => {
 			zipcode: user.zipcode,
 			gender: user.gender,
 			addedUserId: user.addedUserId,
-			phone: user.phone
+			phone: user.phone,
+			address: user.address
 		})
 	} else {
 		res.status(400)
@@ -234,6 +235,22 @@ const getCountry = asyncHandler( async(req,res) => {
 	}
 })
 
+const deleteClient = asyncHandler(async (req,res) => {
+	const client = await User.findById(req.params.id);
+	
+	if(client){
+		await client.remove()
+		res.json({ message: 'User Removed' })
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}	
+
+})
+
+
+// ---------------------Below is for regions----------------
+
 
 const getState = asyncHandler(async(req,res) => {
 	// console.log(req.params)
@@ -261,4 +278,4 @@ const getCity = asyncHandler(async(req,res) => {
 
 
 
-export { getPackage, addPackage, addClient, getClient,getCountry, getState, getCity, deletePackage, updatePackage }
+export { getPackage, addPackage, addClient, getClient,getCountry, getState, getCity, deletePackage, updatePackage, deleteClient }

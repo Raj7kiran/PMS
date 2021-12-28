@@ -3,7 +3,8 @@ import { PACKAGE_LIST_REQUEST,PACKAGE_LIST_SUCCESS, PACKAGE_LIST_FAIL,
 		     PACKAGE_CREATE_REQUEST,PACKAGE_CREATE_SUCCESS, PACKAGE_CREATE_FAIL,
          PACKAGE_DELETE_REQUEST,PACKAGE_DELETE_SUCCESS, PACKAGE_DELETE_FAIL, 
          CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, 
-         CLIENT_CREATE_REQUEST, CLIENT_CREATE_SUCCESS, CLIENT_CREATE_FAIL, 
+         CLIENT_CREATE_REQUEST, CLIENT_CREATE_SUCCESS, CLIENT_CREATE_FAIL,
+         CLIENT_DELETE_REQUEST,CLIENT_DELETE_SUCCESS, CLIENT_DELETE_FAIL, 
 		} from '../constants/adminConstants'
 import { logout } from './userActions'
 
@@ -99,7 +100,6 @@ export const deletePackage = (id) => async (dispatch, getState) => {
       type: PACKAGE_DELETE_SUCCESS,
     })
 
-    document.location.href = '/admin/package'
 
   } catch (error) {
     const message =
@@ -115,10 +115,6 @@ export const deletePackage = (id) => async (dispatch, getState) => {
     })
   }
 }
-
-
-
-
 
 // --------------------Users-----------------
 
@@ -191,5 +187,40 @@ export const createUser = (user) => async(dispatch, getState) => {
             type: CLIENT_CREATE_FAIL,
             payload: message,
           })
+  }
+}
+
+
+export const deleteClient = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CLIENT_DELETE_REQUEST
+    })
+
+    const { userLogin: {userInfo}, } = getState()
+
+    const config = {
+      headers : { Authorization: `Bearer ${userInfo.token}` }, 
+    }
+
+    await axios.delete(`/admin/client/${id}`, config)
+
+    dispatch({
+      type: CLIENT_DELETE_SUCCESS,
+    })
+
+
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, please login again!') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: CLIENT_DELETE_FAIL,
+      payload: message,
+    })
   }
 }

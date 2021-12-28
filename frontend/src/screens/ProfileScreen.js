@@ -261,7 +261,7 @@ const ProfileScreen = () => {
 	return (
 		<>
 		<div className=''>
-		<Link to='/admin/clientlist' className='btn btn-dark my-3'>Go Back</Link>
+		<Link to='/' className='btn btn-dark my-3'>Go Back</Link>
 		<Button onClick={editHandler} className='btn btn-dark my-3'>Edit</Button>
 		</div>
 		<div>
