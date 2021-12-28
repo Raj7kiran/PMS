@@ -12,17 +12,17 @@ const authUser = asyncHandler(async(req,res) => {
 
 	try{
 		const user = await User.findOne({email})
-		// console.log(user)
+		console.log(user)
 		if(!user.isAdmin){
 			const comp = await Company.findOne({name : user.company})
-			// console.log(comp)	
-			// console.log(comp.createdOn)
-			// console.log(Date.now())
+			console.log(comp)	
+			console.log(comp.createdOn)
+			console.log(Date.now())
 			const diffInMs = await Math.abs(comp.createdAt - Date.now());
 		  	const diff = await  Math.floor(diffInMs / (1000 * 60 * 60 * 24))
 
-		  	const pack = await Package.findOne({name: user.package})
-		 //  	console.log(pack)
+		  	const pack = await Package.findOne({packageName: user.package})
+		  	console.log(pack)
 
 		  	if(diff > pack.maxDaysAllowed){
 			  		res.status(400)
@@ -60,7 +60,7 @@ const authUser = asyncHandler(async(req,res) => {
 		if(err == 'Error: Sorry you package has been expired! Please renew it to proceed.'){
 			throw new Error('Sorry you package has been expired! Please renew it to proceed.')
 		}
-		throw new Error('Something went wrong. Please try again with right credentials')
+		// throw new Error('Something went wrong. Please try again with right credentials')
 	}
 	
 

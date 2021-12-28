@@ -78,33 +78,35 @@ const getClient = asyncHandler(async(req,res) => {
 const addClient = asyncHandler(async(req,res) => {
 	const { firstName, lastName, email, company, packageName, role, isAdmin, 
 			isClientAdmin, phone, dob, zipcode, city, state, gender, address } = req.body
-	// console.log(req.body)
-	
+	console.log(req.body)
+
 	const companyExists = await Company.findOne({name: company})
-	// console.log(companyExists)
+	console.log(companyExists)
 
 	if(companyExists){
-		// console.log('company exists')
+		console.log('company exists')
 		const currentUserCount = await User.find({company: company}).count()
-		// console.log('currentUserCount' + currentUserCount)
+		console.log('currentUserCount' + currentUserCount)
 
-		const checkPack = await Package.find({name:packageName})
-		// console.log('maxUserAllowed' + checkPack[0].maxUserAllowed)
+		const checkPack = await Package.find({packageName:packageName})
+		console.log('maxUserAllowed' + checkPack[0].maxUserAllowed)
+		console.log(checkPack)
 		
 		if(checkPack){			
 			if(currentUserCount >= checkPack[0].maxUserAllowed)
-			{
-				res.status(200)
-				throw new Error('You have reached the maximum user limit')
-			}				
-		} 
+				{
+					res.status(200)
+					throw new Error('You have reached the maximum user limit')
+				}				
+			} 
+
 	} else {
-			// console.log('creating a new company')
+			console.log('creating a new company')
 			const newCompany = await Company.create({name: company, createdOn: Date.now(), package: packageName })
-			// console.log('newCompany' + newCompany)
+			console.log('newCompany' + newCompany)
 		}
 			
-	// console.log('checking if user exists')
+	console.log('checking if user exists')
 	const userExists = await User.findOne({ email })
 
 	if(userExists){

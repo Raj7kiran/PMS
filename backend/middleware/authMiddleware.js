@@ -14,11 +14,11 @@ const protect = asyncHandler(async (req, res, next) => {
 			token = req.headers.authorization.split(' ')[1] 
 			// console.log(`token : ${token}`)
 			const decoded = jwt.verify(token, process.env.JWT_SECRET)
-			console.log(decoded)
+			// console.log(decoded)
 
 			//we assign the ID from decoded token to req.user 
 			req.user = await User.findById(decoded.id).select('-password')
-			console.log(`req.user: ${req.user}`)
+			// console.log(`req.user: ${req.user}`)
 
 			next()
 
@@ -39,7 +39,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
 const admin = (req, res, next) => {
 	if(req.user && req.user.isAdmin){
-		console.log(req.user.isAdmin)
+		// console.log(req.user.isAdmin)
 		next()
 	} else {
 		res.status(401)
