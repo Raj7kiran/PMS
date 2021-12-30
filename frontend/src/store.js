@@ -4,6 +4,10 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { userLoginReducer } from './reducers/userReducers'
 import { packageListReducer, packageCreateReducer, packageDeleteReducer, 
 		 clientListReducer, clientCreateReducer, clientDeleteReducer } from './reducers/adminReducers'
+import { manufacturerListReducer, manufacturerCreateReducer, manufacturerDeleteReducer,
+		 manufacturerDetailsReducer,manufacturerUpdateReducer,
+		 supplierListReducer, supplierCreateReducer, supplierDeleteReducer,supplierDetailsReducer
+	 } from './reducers/otherReducers'
 import { userListReducer, userDetailsReducer,userUpdateProfileReducer, userUpdateReducer, userDeleteReducer } from './reducers/userReducers'
 import { countryListReducer, stateListReducer, cityListReducer } from './reducers/dropReducers'
 
@@ -27,6 +31,15 @@ const reducer = combineReducers({
 	userUpdateProfile: userUpdateProfileReducer,
 	userUpdate: userUpdateReducer,
 	userDelete:userDeleteReducer,
+	manufacturerList: manufacturerListReducer,
+	manufacturerCreate: manufacturerCreateReducer,
+	manufacturerDelete: manufacturerDeleteReducer,
+	manufacturerDetails:manufacturerDetailsReducer,
+	manufacturerUpdate:manufacturerUpdateReducer,
+	supplierList: supplierListReducer,
+	supplierCreate: supplierCreateReducer,
+	supplierDelete: supplierDeleteReducer,
+	supplierDetails:supplierDetailsReducer
 })
 
 

@@ -52,7 +52,7 @@ const ClientEditScreen = ({match}) => {
 	const [ dob, setDob ] = useState('')
 	const [ isAdmin, setIsAdmin ] = useState(false)
 	const [ isClientAdmin, setIsClientAdmin] = useState(false)
-	const [ message, setMessage ] = useState(null)
+	// const [ message, setMessage ] = useState(null)
 
 	const FN = (data) => {
 		if(data.length<5 || data.length>50){ setFnErr('Required: 5-50 charcters')} 
@@ -215,13 +215,9 @@ const ClientEditScreen = ({match}) => {
 				setGender(user.gender)
 				setDob(user.dob)
 				setIsAdmin(user.isAdmin)
-				setIsClientAdmin(user.isClientAdmin)				
+				setIsClientAdmin(user.isClientAdmin)		
 			}
-		
-
-		
-	
-	},[navigate, dispatch,user, userId, successUpdate])
+	},[navigate, dispatch,user, userId, userInfo, successUpdate])
 
 	const callCity = (value) => {		
 		// console.log(value)

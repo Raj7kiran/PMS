@@ -1,8 +1,9 @@
 // import express from 'express'
 // const router = express.Router()
 // import { protect } from '../middleware/authMiddleware.js'
-// import { getManufacturer, addManufacturer, deleteManufacturer, updateManufacturer,getSupplier, addSupplier, deleteSupplier, updateSupplier
-// 		} from '../controller/otherControllers.js'
+// import { getManufacturer, addManufacturer, deleteManufacturer, updateManufacturer,
+// 		 getSupplier, addSupplier, deleteSupplier, updateSupplier
+// 		} from '../controller/adminController.js'
 
 
 // router.route('/manufacturer').get(protect, getManufacturer).post(protect, addManufacturer)

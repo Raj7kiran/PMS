@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Form, Button, InputGroup, FormControl, FloatingLabel, Row,Col } from 'react-bootstrap'
+import { Form, Button, FloatingLabel, Row,Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
@@ -193,7 +193,7 @@ const AddClientScreen = () => {
 			}
 		}
 			 
-	},[success, navigate, dispatch, userInfo, success])
+	},[success, navigate, dispatch, userInfo])
 
 	const callCity = (value) => {		
 		console.log(value)
@@ -401,17 +401,17 @@ const AddClientScreen = () => {
 												<Form.Group controlId='state'>
 													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={stateName} className="mb-3"
-															onChange={(e) => {
-																setStateName(e.target.value)
-																callCity(e.target.value)
-															}}>
-															<option value='option'>Select State</option>
-															{states.map(st => (
-																<option value={st.name}>{st.name}</option>
-															))  }
-														</Form.Control>
-													</FloatingLabel>
-											</Form.Group>
+																onChange={(e) => {
+																	setStateName(e.target.value)
+																	callCity(e.target.value)
+																}}>
+																<option value='option'>Select State</option>
+																{states.map(st => (
+																	<option value={st.name}>{st.name}</option>
+																))  }
+															</Form.Control>
+														</FloatingLabel>
+												</Form.Group>
 											</Col>
 											<Col>
 												<Form.Group controlId='city'>

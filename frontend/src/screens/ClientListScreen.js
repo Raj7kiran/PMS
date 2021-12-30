@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col, InputGroup, FormControl } from 'react-bootstrap'
+import { Table, Button, InputGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import Message from '../components/Message'
@@ -9,7 +9,7 @@ import Loader from '../components/Loader'
 import { listClients, deleteClient } from '../actions/adminActions'
 
 
-const ClientListScreen = ({}) => {
+const ClientListScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 	const [q , setQ] = useState('')

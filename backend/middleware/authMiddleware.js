@@ -18,7 +18,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
 			//we assign the ID from decoded token to req.user 
 			req.user = await User.findById(decoded.id).select('-password')
-			// console.log(`req.user: ${req.user}`)
+			console.log(`req.user: ${req.user}`)
 
 			next()
 

@@ -14,9 +14,7 @@ const LoginScreen = ({ location, history }) => {
 
 	const [password, setPassword] = useState('')	
 	const [blank, setBlank] = useState('')
-	const [correct, setCorrect] = useState(false)
-	const [inCorrect, setInCorrect] = useState(false)
-
+	
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
 
