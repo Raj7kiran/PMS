@@ -38,7 +38,7 @@ export const getStatesName = (country) => async(dispatch,getState) => {
 	try{
 		dispatch({type: STATE_LIST_REQUEST})
 		
-		const { data } = await axios.get(`/drop/state`)
+		const { data } = await axios.get(`/drop/state/${country}`)
 
 		console.log(data)
 

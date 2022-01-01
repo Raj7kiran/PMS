@@ -181,15 +181,30 @@ const getCountry = asyncHandler( async(req,res) => {
 })
 
 const getState = asyncHandler(async(req,res) => {
-	// console.log(req.params)
-	const states = await State.find({})
+	if(req.params.country === 'all'){
+		const states = await State.find({})
 
-	if(states){
-		res.json(states)
+		if(states){
+			res.json(states)
+		} else {
+			res.status(500)
+			// console.log('dint fetch the states')
+		}
+
 	} else {
-		res.status(500)
-		// console.log('dint fetch the states')
+		const states = await State.find({ country : req.params.country })
+		
+		if(states){
+			res.json(states)
+		} else {
+			res.status(500)
+			// console.log('dint fetch the states')
+		}
 	}
+	// console.log(req.params)
+	
+
+	
 })
 
 const getCity = asyncHandler(async(req,res) => {

@@ -11,11 +11,14 @@ const supplierSchema = mongoose.Schema({
 	credit: { type: String, required: true },
 	category: { type: String, required: true },
 	address: { type: String, required: true },
+	houseno: { type: String },
+	street: { type: String },
+	area: { type: String },
 	createdUser: { type: String, required: true },
 	createdUserId : {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
-			required: true
+			//required: true
 		},
 	updatedUser: { type: String },
 	updatedUserId : {

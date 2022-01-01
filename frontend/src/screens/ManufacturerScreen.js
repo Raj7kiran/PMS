@@ -13,7 +13,7 @@ import {listManufacturers, createManufacturer, deleteManfacturer} from '../actio
 import { MANUFACTURER_CREATE_RESET } from '../constants/otherConstants'
 
 
-// const pageSize = 1;
+// const pageSize = 3;
 const ManufacturerScreen = ({ history }) => {
 	let count=1;
 	const dispatch = useDispatch()
@@ -134,6 +134,11 @@ const ManufacturerScreen = ({ history }) => {
 
 	const filteredManufacturers = search(data)
 
+	// useEffect(()=>{
+	// 	setPageData(_(filteredManufacturers).slice(0).take(pageSize).value())
+	// 	console.log(pageData)
+	// },[])
+
 
 	// const pageCount = filteredManufacturers? Math.ceil(filteredManufacturers.length/pageSize) : 0;
 	// if(pageCount ===1) return null;
@@ -147,9 +152,8 @@ const ManufacturerScreen = ({ history }) => {
 	// 	return pageData
 	// }
 
-	// setPageData(_(filteredManufacturers).slice(0).take(pageSize).value())
-
 	// const pageData2 = PD(filteredManufacturers)
+
 	
 
 	// const pagination = (pageNo) => {
@@ -272,7 +276,7 @@ const ManufacturerScreen = ({ history }) => {
 					<Table striped bordered hover responsive='md' className='table-sm' id="table-to-xls">
 						<thead>
 							<tr>
-								<th>Sl</th>
+								<th ><span className='btn'>Sl</span></th>
 								<th onClick={() => sorting('name')}><span className='btn'>Manufacturer Name</span></th>
 								<th onClick={() => sorting('shortName')}><span className='btn'>Short Name</span></th>
 								<th onClick={() => sorting('country')}><span className='btn'>Country</span></th>

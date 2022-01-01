@@ -186,7 +186,7 @@ const ClientEditScreen = ({match}) => {
 
 	useEffect(() => {	
 			dispatch(listPackages())
-			dispatch(getStatesName())
+			dispatch(getStatesName('all'))
 
 			if(successUpdate){
 				dispatch({ type:USER_UPDATE_RESET })

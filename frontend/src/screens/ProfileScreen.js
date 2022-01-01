@@ -185,7 +185,7 @@ const ProfileScreen = () => {
 	useEffect(() => {
 		// dispatch({ type: CLIENT_CREATE_RESET })
 		dispatch(listPackages())
-		dispatch(getStatesName())
+		dispatch(getStatesName('all'))
 
 			if(!userInfo) {
 				navigate('/login')

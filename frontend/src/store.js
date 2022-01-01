@@ -6,7 +6,8 @@ import { packageListReducer, packageCreateReducer, packageDeleteReducer,
 		 clientListReducer, clientCreateReducer, clientDeleteReducer } from './reducers/adminReducers'
 import { manufacturerListReducer, manufacturerCreateReducer, manufacturerDeleteReducer,
 		 manufacturerDetailsReducer,manufacturerUpdateReducer,
-		 supplierListReducer, supplierCreateReducer, supplierDeleteReducer,supplierDetailsReducer
+		 supplierListReducer, supplierCreateReducer, supplierDeleteReducer,supplierDetailsReducer,
+		 supplierUpdateReducer
 	 } from './reducers/otherReducers'
 import { userListReducer, userDetailsReducer,userUpdateProfileReducer, userUpdateReducer, userDeleteReducer } from './reducers/userReducers'
 import { countryListReducer, stateListReducer, cityListReducer } from './reducers/dropReducers'
@@ -39,7 +40,8 @@ const reducer = combineReducers({
 	supplierList: supplierListReducer,
 	supplierCreate: supplierCreateReducer,
 	supplierDelete: supplierDeleteReducer,
-	supplierDetails:supplierDetailsReducer
+	supplierDetails:supplierDetailsReducer,
+	supplierUpdate:supplierUpdateReducer
 })
 
 

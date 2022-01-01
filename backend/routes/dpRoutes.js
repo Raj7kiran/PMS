@@ -5,7 +5,7 @@ import { getCountry, getState, getCity } from '../controllers/adminController.js
 
 
 router.get('/country', getCountry)
-router.get('/state', getState)
+router.get('/state/:country', getState)
 router.get('/city/:state', getCity)
 
 export default router
