@@ -13,6 +13,8 @@ import { getStatesName, getCity } from '../actions/dropActions'
 
 
 const AddClientScreen = () => {
+	const [validated, setValidated] = useState(false);
+
 	const [ firstName, setFirstName ] = useState('')
 	const [ fnErr, setFnErr ] = useState('')
 
@@ -184,7 +186,7 @@ const AddClientScreen = () => {
 		dispatch({ type: CLIENT_CREATE_RESET })
 		dispatch(listPackages())
 		dispatch(getStatesName())
-
+		setValidated(null)
 		if(success){
 			if(userInfo.isAdmin){
 				navigate('/admin/clientlist')
@@ -202,14 +204,20 @@ const AddClientScreen = () => {
 
 
 	const submitHandler = (e) => {
-		e.preventDefault()
-		// console.log(role)
-		dispatch(createUser({
-			firstName, lastName, email, company: company || userInfo.company, 
-			role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
-			address, zipcode, dob, phone
-		}))
-
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+		    e.preventDefault();
+		    e.stopPropagation();
+	    } else {
+	    	e.preventDefault()
+			// console.log(role)
+			dispatch(createUser({
+				firstName, lastName, email, company: company || userInfo.company, 
+				role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
+				address, zipcode, dob, phone
+			}))
+	    }
+		setValidated(true);  
 	}
 
 
@@ -220,7 +228,7 @@ const AddClientScreen = () => {
 			<h1>Add User</h1>
 				{loading && <Loader />}
 				{error && <Message variant='danger'>{error}</Message>}
-					<Form onSubmit={submitHandler} >
+					<Form onSubmit={submitHandler} validated={validated} noValidate>
 						<Row>
 							<Col>
 								<Form.Group className="mb-3" controlId='firstName'>
@@ -229,7 +237,8 @@ const AddClientScreen = () => {
 														className={`${fnErr.length>1 ? 'inCorrect' : null}`}
 														value={firstName}
 														onChange = {(e)=> FN1(e.target.value)}
-														onBlur = {(e) => FN(e.target.value)} 
+														onBlur = {(e) => FN(e.target.value)}
+														required 
 													/>
 									</FloatingLabel>
 									{fnErr.length>1 ? (<div className='errMsg'>{fnErr}</div>): null}
@@ -242,7 +251,8 @@ const AddClientScreen = () => {
 														className={`${lnErr.length>1 ? 'inCorrect' : null}`}
 														value={lastName}
 														onChange = {(e)=> LN1(e.target.value)}
-														onBlur = {(e) => LN(e.target.value)} 
+														onBlur = {(e) => LN(e.target.value)}
+														required 
 													/>
 									</FloatingLabel>
 									{lnErr.length>1 ? (<div className='errMsg'>{lnErr}</div>): null}
@@ -258,6 +268,7 @@ const AddClientScreen = () => {
 														value={email}
 														onChange = {(e)=> {setEmail(e.target.value)}} 
 														onBlur = {(e) => valEmail(e.target.value)}
+														required
 													/>
 									</FloatingLabel>
 									{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
@@ -275,7 +286,8 @@ const AddClientScreen = () => {
 																	className={`${compErr.length>1 ? 'inCorrect' : null}`}	
 																	value={company}
 																	onChange = {(e)=> {CP1(e.target.value)}} 
-																	onBlur = {(e) => CP(e.target.value)} 
+																	onBlur = {(e) => CP(e.target.value)}
+																	required 
 																/>
 												</FloatingLabel>
 												{compErr.length>1 ? (<div className='errMsg'>{compErr}</div>): null}
@@ -288,6 +300,7 @@ const AddClientScreen = () => {
 																  className={`${packErr.length>1 ? 'inCorrect' : null}`} 
 																  onChange={(e) => setPack(e.target.value)}
 																  onBlur = {(e) => PK(e.target.value)}
+																  required
 																  >
 														<option value=''>Select Package</option>
 														{packages.map(pack => (
@@ -317,6 +330,7 @@ const AddClientScreen = () => {
 											    				aria-label="Checkbox for following text input"
 													    		checked={isAdmin}
 														    	onChange = { (e) => setIsAdmin(e.target.checked)}
+														    	
 													/>
 											 </Form.Group>
 										</Col>
@@ -336,6 +350,7 @@ const AddClientScreen = () => {
 											    				aria-label="Checkbox for following text input"
 													    		checked={isClientAdmin}
 													    		onChange = { (e) => setIsClientAdmin(e.target.checked) }
+													    		
 													   />
 											 </Form.Group>
 										</Col>
@@ -371,6 +386,7 @@ const AddClientScreen = () => {
 															className={`${roleErr.length>1 ? 'inCorrect' : null}`}
 															onChange={(e) => setRole(e.target.value)}
 															onBlur = {(e) => RL(e.target.value)}
+															required
 															>
 															<option value=''>Select Role</option>
 															<option value='Role 1'>Role 1</option>
@@ -385,7 +401,8 @@ const AddClientScreen = () => {
 												<Form.Group controlId='gender' className="mb-3">
 														<FloatingLabel controlId="floatingSelect" label="Role">
 															<Form.Control as='select' value={gender} 
-																onChange={(e) => setGender(e.target.value)}>
+																onChange={(e) => setGender(e.target.value)}
+																required>
 																<option value=''>Select Gender</option>
 																<option value='Male'>Male</option>
 																<option value='Female'>Female</option>
@@ -404,7 +421,8 @@ const AddClientScreen = () => {
 																onChange={(e) => {
 																	setStateName(e.target.value)
 																	callCity(e.target.value)
-																}}>
+																}}
+																required>
 																<option value='option'>Select State</option>
 																{states.map(st => (
 																	<option value={st.name}>{st.name}</option>
@@ -417,7 +435,8 @@ const AddClientScreen = () => {
 												<Form.Group controlId='city'>
 													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={city} className="mb-3"
-															onChange={(e) => {setCity(e.target.value)}}>
+															onChange={(e) => {setCity(e.target.value)}}
+															required>
 															<option value='option'>Select City</option>
 															{cities.map(city => (
 																<option value={city.name}>{city.name}</option>
@@ -435,7 +454,8 @@ const AddClientScreen = () => {
 																		className={`${phoneErr.length>1 ? 'inCorrect' : null}`}
 																		value={phone}
 																		onChange = {(e)=> PH(e.target.value)}
-																		onBlur = {(e) => valPhone(e.target.value)} 
+																		onBlur = {(e) => valPhone(e.target.value)}
+																		required 
 																	/>
 													</FloatingLabel>
 													{phoneErr.length>1 ? (<div className='errMsg'>{phoneErr}</div>): null}
@@ -448,7 +468,8 @@ const AddClientScreen = () => {
 																		className={`${zipErr.length>1 ? 'inCorrect' : null}`}
 																		value={zipcode}
 																		onChange = {(e)=> ZP(e.target.value)}
-																		onBlur = {(e) => valZip(e.target.value)} 
+																		onBlur = {(e) => valZip(e.target.value)}
+																		required 
 																	/>
 													</FloatingLabel>
 													{zipErr.length>1 ? (<div className='errMsg'>{zipErr}</div>): null}
@@ -459,7 +480,8 @@ const AddClientScreen = () => {
 													<FloatingLabel controlId="floatingInput" label="DOB" >
 														<Form.Control 	type="date"  placeholder="dob"
 																		value={dob}
-																		onChange = {(e)=> setDob(e.target.value)} 
+																		onChange = {(e)=> setDob(e.target.value)}
+																		required 
 																	/>
 													</FloatingLabel>
 												</Form.Group>
@@ -474,6 +496,7 @@ const AddClientScreen = () => {
 											      style={{ height: '100px' }}
 											      value={address} 
 												  onChange={(e) => setAddress(e.target.value)}
+												  required
 											    />
 											</FloatingLabel>
 										</Form.Group>

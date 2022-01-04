@@ -11,6 +11,8 @@ import { SUPPLIER_CREATE_RESET } from '../constants/otherConstants'
 
 
 const SupplierScreen = ({history}) => {
+	const [validated, setValidated] = useState(false);
+
 	const dispatch = useDispatch()
 	const [q, setQ] = useState('')
 	const [ order, setOrder ] = useState('ASC')
@@ -216,7 +218,8 @@ const SupplierScreen = ({history}) => {
 		if(!userInfo){
 			history.push('/login')
 		}
-
+		setValidated(null)
+		
 		// if(createSuccess){
 		// 	dispatch({type: SUPPLIER_CREATE_RESET })
 		// }
@@ -262,21 +265,30 @@ const SupplierScreen = ({history}) => {
 		// setAddress(`${houseno}, ${street}, ${area}`)
 		// console.log(`adress: ${address}`)
 
-		e.preventDefault()
-		dispatch(createSupplier({
-			supplierName,
-			supplierContact,
-			position,
-			email,
-			contactNumber,
-			altContactNumber,
-			credit,
-			category,
-			houseno,
-			street,
-			area,
-		}))
-	} 
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+
+	    	e.preventDefault()
+
+			dispatch(createSupplier({
+				supplierName,
+				supplierContact,
+				position,
+				email,
+				contactNumber,
+				altContactNumber,
+				credit,
+				category,
+				houseno,
+				street,
+				area,
+			}))
+	    }
+	    setValidated(true);
+	  } 
 
 	const deleteHandler = (id) => {
 		if(window.confirm('Are you sure you want to delete?')){
@@ -295,7 +307,7 @@ const SupplierScreen = ({history}) => {
 		{loadingDelete && <Loader />}
 		{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 		{createSuccess && <Message variant='success'>Supplier added successfully!</Message>}
-		<Form onSubmit={submitHandler}>
+		<Form onSubmit={submitHandler} validated={validated} noValidate>
 			<Row >			
 				<Col sm={12} md={4}>
 					<Form.Group className="mb-3" controlId='firstName'>
@@ -306,6 +318,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> SN1(e.target.value)}
 											onBlur = {(e) => SN(e.target.value)}
 											isInvalid={!!snErr}
+											required
 										/>
 						</FloatingLabel>
 						{snErr.length>1 ? (<div className='errMsg'>{snErr}</div>): null}
@@ -320,6 +333,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> SC1(e.target.value)}
 											onBlur = {(e) => SC(e.target.value)}
 											isInvalid={!!scErr}
+											required
 										/>
 						</FloatingLabel>
 						{scErr.length>1 ? (<div className='errMsg'>{scErr}</div>): null}
@@ -332,7 +346,8 @@ const SupplierScreen = ({history}) => {
 									// className={`${positionErr.length>1 ? 'inCorrect' : null}`}
 									onChange={(e) => setPosition(e.target.value)}
 									onBlur = {(e) => PO(e.target.value)}
-									isInvalid={!!positionErr}									
+									isInvalid={!!positionErr}	
+									required								
 									>
 									<option value=''>Select Position</option>
 									<option value='Position 1'>Position 1</option>
@@ -354,6 +369,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> {setEmail(e.target.value)}} 
 											onBlur = {(e) => valEmail(e.target.value)}
 											isInvalid={!!emailErr}
+											required
 										/>
 						</FloatingLabel>
 						{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
@@ -368,6 +384,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> contactCheck(e.target.value)}
 											onBlur = {(e) => valContact(e.target.value)}
 											isInvalid={!!contactNumberErr} 
+											required
 										/>
 						</FloatingLabel>
 						{contactNumberErr.length>1 ? (<div className='errMsg'>{contactNumberErr}</div>): null}
@@ -382,6 +399,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> contactCheck1(e.target.value)}
 											onBlur = {(e) => valContact1(e.target.value)}
 											isInvalid={!!altContactNumberErr} 
+											required
 										/>
 						</FloatingLabel>
 						{altContactNumberErr.length>1 ? (<div className='errMsg'>{altContactNumberErr}</div>): null}
@@ -396,7 +414,8 @@ const SupplierScreen = ({history}) => {
 									// className={`${creditErr.length>1 ? 'inCorrect' : null}`}
 									onChange={(e) => setCredit(e.target.value)}
 									onBlur = {(e) => creditVal(e.target.value)}
-									isInvalid={!!creditErr}									
+									isInvalid={!!creditErr}			
+									required						
 									>
 									<option value=''>Credit</option>
 									<option value='30 days'>30 days</option>
@@ -413,7 +432,8 @@ const SupplierScreen = ({history}) => {
 									// className={`${categoryErr.length>1 ? 'inCorrect' : null}`}
 									onChange={(e) => setCategory(e.target.value)}
 									onBlur = {(e) => categoryVal(e.target.value)}
-									isInvalid={!!categoryErr}									
+									isInvalid={!!categoryErr}	
+									required								
 									>
 									<option value=''>Category</option>
 									<option value='Category 1'>Category 1</option>
@@ -451,6 +471,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> houseVal1(e.target.value)}
 											onBlur = {(e) => houseVal(e.target.value)}
 											isInvalid={!!housenoErr}
+											required
 										/>
 						</FloatingLabel>
 						{housenoErr.length>1 ? (<div className='errMsg'>{housenoErr}</div>): null}
@@ -465,6 +486,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> streetVal1(e.target.value)}
 											onBlur = {(e) => streetVal(e.target.value)}
 											isInvalid={!!streetErr}
+											required
 										/>
 						</FloatingLabel>
 						{streetErr.length>1 ? (<div className='errMsg'>{streetErr}</div>): null}
@@ -479,6 +501,7 @@ const SupplierScreen = ({history}) => {
 											onChange = {(e)=> areaVal1(e.target.value)}
 											onBlur = {(e) => areaVal(e.target.value)}
 											isInvalid={!!areaErr}
+											required
 										/>
 						</FloatingLabel>
 						{areaErr.length>1 ? (<div className='errMsg'>{areaErr}</div>): null}

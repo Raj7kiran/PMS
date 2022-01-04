@@ -11,6 +11,8 @@ import { SUPPLIER_UPDATE_RESET } from '../constants/otherConstants'
 
 
 const SupplierEditScreen = () => {
+	const [validated, setValidated] = useState(false);
+
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const { id } = useParams()
@@ -214,6 +216,7 @@ const SupplierEditScreen = () => {
 		if(!userInfo){
 			navigate('/login')
 		} 
+		setValidated(null)
 			
 		if(successUpdate){
 			dispatch({ type:SUPPLIER_UPDATE_RESET })
@@ -241,24 +244,32 @@ const SupplierEditScreen = () => {
 	const submitHandler = (e) => {		
 		// setAddress(`${houseno}, ${street}, ${area}`)
 		// console.log(`adress: ${address}`)
-		e.preventDefault()
-		console.log(houseno)
-		dispatch(updateSupplier({
-			id: supplier._id,
-			supplierName,
-			supplierContact,
-			position,
-			email,
-			contactNumber,
-			altContactNumber,
-			credit,
-			category,
-			houseno,
-			street,
-			area
-		}))
-		
-	} 
+
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	    	setValidated(true);
+			e.preventDefault()
+			console.log(houseno)
+			dispatch(updateSupplier({
+				id: supplier._id,
+				supplierName,
+				supplierContact,
+				position,
+				email,
+				contactNumber,
+				altContactNumber,
+				credit,
+				category,
+				houseno,
+				street,
+				area
+			}))
+	    }
+
+	 } 
 
 	return(
 		<>

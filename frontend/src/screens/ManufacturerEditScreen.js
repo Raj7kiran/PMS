@@ -11,6 +11,8 @@ import { MANUFACTURER_UPDATE_RESET } from '../constants/otherConstants'
 
 
 const ManufacturerEditScreen = () => {
+	const [validated, setValidated] = useState(false);
+
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const { id } = useParams()
@@ -81,7 +83,7 @@ const ManufacturerEditScreen = () => {
 			if(!userInfo){
 				navigate('/login')
 			} 
-			
+			setValidated(null)
 			if(successUpdate){
 				dispatch({ type:MANUFACTURER_UPDATE_RESET })
 				navigate('/manufacturers')						
@@ -100,9 +102,18 @@ const ManufacturerEditScreen = () => {
 	},[dispatch, userInfo, manufacturer, manufacturerId, navigate, successUpdate])
 
 	const submitHandler = (e) =>{
-		e.preventDefault()
-		console.log(name + shortName + country)
-		dispatch(updateManufacturer({ id:manufacturer._id, name, shortName, country }))
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	      	e.preventDefault();
+	      	e.stopPropagation();
+	    } else {
+	    	setValidated(true);
+			e.preventDefault()
+			console.log(name + shortName + country)
+			dispatch(updateManufacturer({ id:manufacturer._id, name, shortName, country }))
+	    }
+
+	    
 
 		}
 
@@ -117,7 +128,7 @@ const ManufacturerEditScreen = () => {
 			loading ? <Loader />
 					: error ? <Message variant='danger'>{error}</Message>
 					: (
-				<Form onSubmit={submitHandler}>
+				<Form onSubmit={submitHandler} validated={validated} noValidate>
 					<Row className='my-3' >
 						<Col md={6}>
 							<Form.Group className="mb-3" controlId='name'>
@@ -127,6 +138,7 @@ const ManufacturerEditScreen = () => {
 													value={name}
 													onChange = {(e)=> nameCheck1(e.target.value)}
 													onBlur = {(e) => nameCheck(e.target.value)} 
+													required
 												/>
 								</FloatingLabel>
 								{nameErr.length>1 ? (<div className='errMsg'>{nameErr}</div>): null}
@@ -140,6 +152,7 @@ const ManufacturerEditScreen = () => {
 													value={shortName}
 													onChange = {(e)=> SN1(e.target.value)}
 													onBlur = {(e) => SN(e.target.value)} 
+													required
 												/>
 								</FloatingLabel>
 								{shortNameErr.length>1 ? (<div className='errMsg'>{shortNameErr}</div>): null}
@@ -152,6 +165,7 @@ const ManufacturerEditScreen = () => {
 											onChange={(e) => setCountry(e.target.value)}
 											className={`${countryErr.length>1 ? 'inCorrect' : null}`}
 											onBlur = {(e) => CN(e.target.value)}
+											required
 											>
 											<option value='option'>Select Country</option>
 											{countries.map(ct => (

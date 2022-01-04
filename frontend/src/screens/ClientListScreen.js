@@ -39,7 +39,7 @@ const ClientListScreen = () => {
 			navigate('/')
 		}
 			dispatch(listClients())
-
+		
 	}, [dispatch, userInfo, navigate, successDelete] )
 
 	
@@ -130,7 +130,7 @@ const ClientListScreen = () => {
 							<tbody>
 								{filteredClients.map(client => (
 									<tr key={client._id}>
-										<td><a href='/profile'>{client.firstName}</a></td>
+										<td>{client.firstName}</td>
 										<td>{client.email}</td>
 										<td>{client.company}</td>
 										<td>{client.package}</td>

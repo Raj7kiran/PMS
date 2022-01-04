@@ -12,6 +12,8 @@ import { USER_UPDATE_RESET } from '../constants/userConstants'
 
 
 const ClientEditScreen = ({match}) => {
+	const [validated, setValidated] = useState(false);
+
 	const { id } = useParams()
 
 	const userId = id
@@ -187,7 +189,7 @@ const ClientEditScreen = ({match}) => {
 	useEffect(() => {	
 			dispatch(listPackages())
 			dispatch(getStatesName('all'))
-
+			setValidated(null)
 			if(successUpdate){
 				dispatch({ type:USER_UPDATE_RESET })
 				if(userInfo.isAdmin){
@@ -226,16 +228,26 @@ const ClientEditScreen = ({match}) => {
 
 
 	const submitHandler = (e) => {
-		e.preventDefault()
-		console.log(role)
-		
-		console.log('dob' + dob)
-		console.log('update user by id')
-		console.log(user._id)
-		dispatch(updateUser({ 
-				id: user._id, firstName, lastName, email, password, role, city, state: stateName,
-				phone, zipcode, gender, dob, isAdmin, isClientAdmin  
-			}))			
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	    	e.preventDefault()
+			console.log(role)
+			
+			console.log('dob' + dob)
+			console.log('update user by id')
+			console.log(user._id)
+			dispatch(updateUser({ 
+					id: user._id, firstName, lastName, email, password, role, city, state: stateName,
+					phone, zipcode, gender, dob, isAdmin, isClientAdmin  
+				}))		
+	    }
+
+	    setValidated(true);
+
+			
 		
 		// console.log('dob')
 		// console.log(dob)
@@ -253,7 +265,7 @@ const ClientEditScreen = ({match}) => {
 				{ loading ? <Loader />
 					: error ? <Message variant='danger'>{error}</Message>
 					: (
-						<Form onSubmit={submitHandler}>
+						<Form onSubmit={submitHandler} validated={validated} noValidate>
 						<Row>
 							<Col>
 								<Form.Group className="mb-3" controlId='firstName'>
@@ -263,7 +275,7 @@ const ClientEditScreen = ({match}) => {
 														value={firstName}
 														onChange = {(e)=> FN1(e.target.value)}
 														onBlur = {(e) => FN(e.target.value)}
-														
+														required
 													/>
 									</FloatingLabel>
 									{fnErr.length>1 ? (<div className='errMsg'>{fnErr}</div>): null}
@@ -277,7 +289,7 @@ const ClientEditScreen = ({match}) => {
 														value={lastName}
 														onChange = {(e)=> LN1(e.target.value)}
 														onBlur = {(e) => LN(e.target.value)}
-														
+														required
 													/>
 									</FloatingLabel>
 									{lnErr.length>1 ? (<div className='errMsg'>{lnErr}</div>): null}
@@ -293,7 +305,7 @@ const ClientEditScreen = ({match}) => {
 														value={email}
 														onChange = {(e)=> {setEmail(e.target.value)}} 
 														onBlur = {(e) => valEmail(e.target.value)}
-														
+														required
 													/>
 									</FloatingLabel>
 									{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
@@ -352,7 +364,7 @@ const ClientEditScreen = ({match}) => {
 																  className={`${packErr.length>1 ? 'inCorrect' : null}`} 
 																  onChange={(e) => setPack(e.target.value)}
 																  onBlur = {(e) => PK(e.target.value)}
-																  
+																  required
 																  >
 														<option value=''>Select Package</option>
 														{packages.map(pack => (
@@ -452,7 +464,7 @@ const ClientEditScreen = ({match}) => {
 															className={`${roleErr.length>1 ? 'inCorrect' : null}`}
 															onChange={(e) => setRole(e.target.value)}
 															onBlur = {(e) => RL(e.target.value)}
-															
+															required
 															>
 															<option value=''>Select Role</option>
 															<option value='Role 1'>Role 1</option>
@@ -467,7 +479,7 @@ const ClientEditScreen = ({match}) => {
 												<Form.Group controlId='gender' className="mb-3">
 														<FloatingLabel controlId="floatingSelect" label="Gender">
 															<Form.Control as='select' value={gender}
-															
+															required
 																onChange={(e) => setGender(e.target.value)}>
 																<option value=''>Select Gender</option>
 																<option value='Male'>Male</option>
@@ -488,7 +500,7 @@ const ClientEditScreen = ({match}) => {
 																setStateName(e.target.value)
 																callCity(e.target.value)																
 															}}
-															
+															required
 															>
 															<option value='option'>Select State</option>
 															{states.map(st => (
@@ -503,7 +515,7 @@ const ClientEditScreen = ({match}) => {
 													<FloatingLabel controlId="floatingSelect" label="City">
 														<Form.Control as='select' value={city} className="mb-3"
 															onChange={(e) => {setCity(e.target.value)}}
-															>
+															required>
 															<option value='option'>Select City</option>
 															{cities.map(city => (
 																<option value={city.name}>{city.name}</option>
@@ -522,7 +534,7 @@ const ClientEditScreen = ({match}) => {
 																		value={phone}
 																		onChange = {(e)=> PH(e.target.value)}
 																		onBlur = {(e) => valPhone(e.target.value)}
-																		
+																		required
 																	/>
 													</FloatingLabel>
 													{phoneErr.length>1 ? (<div className='errMsg'>{phoneErr}</div>): null}
@@ -536,7 +548,7 @@ const ClientEditScreen = ({match}) => {
 																		value={zipcode}
 																		onChange = {(e)=> ZP(e.target.value)}
 																		onBlur = {(e) => valZip(e.target.value)}
-																		
+																		required
 																	/>
 													</FloatingLabel>
 													{zipErr.length>1 ? (<div className='errMsg'>{zipErr}</div>): null}
@@ -548,7 +560,7 @@ const ClientEditScreen = ({match}) => {
 														<Form.Control 	type="date"  placeholder="dob"
 																		value={dob}
 																		onChange = {(e)=> setDob(e.target.value)}
-																		
+																		required
 																	/>
 													</FloatingLabel>
 												</Form.Group>
@@ -563,7 +575,7 @@ const ClientEditScreen = ({match}) => {
 											      style={{ height: '100px' }}
 											      value={address} 
 												  onChange={(e) => setAddress(e.target.value)}
-											    />
+											    required/>
 											</FloatingLabel>
 										</Form.Group>
 									</>

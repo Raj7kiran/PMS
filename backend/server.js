@@ -39,11 +39,17 @@ if(process.env.NODE_ENV === 'production'){
 
 	app.get('*', (req,res) => 
 		res.sendFile(path.resolve(__dirname, 'frontend','build', 'index.html')))
-} else {
-	app.get('/', (req,res) => {
-		res.send('API running....');
-	})
+	} else {
+		app.get('/', (req,res) => {
+			res.send('API running....');
+		})
 }
+	
+// app.all('*', (req, res, next) => {
+// 	res.status(404)
+//     next(new Error('Page Not Found'))
+// })
+
 
 app.use(notFound)
 app.use(errorHandler)

@@ -10,6 +10,8 @@ import { PACKAGE_CREATE_RESET } from '../constants/adminConstants'
 
 
 const PackageScreen = ({ match }) => {
+	const [validated, setValidated] = useState(false);
+
 	const [name, setName] = useState('')
 	const [maxUsers, setMaxUsers] = useState(0)
 	const [maxDays, setMaxDays] = useState(0)
@@ -52,7 +54,7 @@ const PackageScreen = ({ match }) => {
 		setMaxUsers(0)
 		
 		dispatch(listPackages())
-
+		setValidated(null)
 		// setData(packages)	
 
 		
@@ -90,12 +92,22 @@ const PackageScreen = ({ match }) => {
 
 
 	const submitHandler = (e) =>{
-		e.preventDefault()
-		dispatch(createPackage({
-				packageName: name,
-				maxDaysAllowed : maxDays * 30,
-				maxUserAllowed : maxUsers
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	    	console.log('wrong')
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	    	e.preventDefault()
+			dispatch(createPackage({
+					packageName: name,
+					maxDaysAllowed : maxDays * 30,
+					maxUserAllowed : maxUsers
 			}))
+	    }
+
+	    setValidated(true);
+		
 		}
 
 	const deleteHandler = (id) =>{
@@ -113,7 +125,7 @@ const PackageScreen = ({ match }) => {
 		{loadingCreate && <Loader />}
 		{errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 		
-		<Form onSubmit={submitHandler}>
+		<Form onSubmit={submitHandler} validated={validated} noValidate>
 		<Row className='my-3' >			
 			<Col>
 				<Form.Group className="mb-3" controlId='name'>
@@ -121,6 +133,7 @@ const PackageScreen = ({ match }) => {
 						<Form.Control 	type="text"  placeholder="Package name"
 										value={name}
 										onChange = {(e)=> setName(e.target.value)} 
+										required
 									/>
 					</FloatingLabel>
 				</Form.Group>
@@ -129,9 +142,10 @@ const PackageScreen = ({ match }) => {
 				<Form.Group controlId='maxUsers'>
 					<FloatingLabel controlId="floatingSelect" label="Max. allowed users">
 						<Form.Control as='select' value={maxUsers} 
-									  onChange={(e) => setMaxUsers(e.target.value)}>
+									  onChange={(e) => setMaxUsers(e.target.value)}
+									  required>
 						  	{/*<Form.Select aria-label="Floating label select example">*/}
-						    	<option>Select number of users</option>
+						    	<option value="">Select number of users</option>
 						    	<option value="3">3</option>
 						    	<option value="5">5</option>
 						    	<option value="10">10</option>
@@ -144,9 +158,10 @@ const PackageScreen = ({ match }) => {
 				<Form.Group controlId='maxDays'>
 					<FloatingLabel controlId="floatingSelect" label="Package Limit">
 						<Form.Control as='select' value={maxDays} 
-									  onChange={(e) => setMaxDays(e.target.value)}>
+									  onChange={(e) => setMaxDays(e.target.value)}
+									  required>
 						  	{/*<Form.Select aria-label="Floating label select example">*/}
-						    	<option>Select Period</option>
+						    	<option value="">Select Period</option>
 						    	<option value="1">1 Month</option>
 						    	<option value="3">3 Months</option>
 						    	<option value="6">6 Months</option>

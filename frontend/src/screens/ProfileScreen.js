@@ -12,6 +12,8 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 
 const ProfileScreen = () => {
+	const [validated, setValidated] = useState(false);
+
 	const [ firstName, setFirstName ] = useState('')
 	const [ fnErr, setFnErr ] = useState('')
 
@@ -186,7 +188,8 @@ const ProfileScreen = () => {
 		// dispatch({ type: CLIENT_CREATE_RESET })
 		dispatch(listPackages())
 		dispatch(getStatesName('all'))
-
+		setValidated(null)
+		
 			if(!userInfo) {
 				navigate('/login')
 			} else {
@@ -226,24 +229,34 @@ const ProfileScreen = () => {
 
 
 	const submitHandler = (e) => {
-		e.preventDefault()
-		console.log(role)
-		// dispatch(createUser({
-		// 	firstName, lastName, email, company: company || userInfo.company, 
-		// 	role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
-		// 	zipcode, dob, phone
-		// }))
-		if(password !== confirmPassword){
-			setMessage('Password does not match')
-		} else{
-			console.log('dob' + dob)
-			console.log('update user profile')
-			dispatch(updateUserProfile({ 
-				id: user._id, firstName, lastName, email, password, role, city, state: stateName,
-				phone, zipcode, gender, dob, isAdmin, isClientAdmin  
-			}))
-			
-		}
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	    	console.log('wrong')
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	    	e.preventDefault()
+			console.log(role)
+			// dispatch(createUser({
+			// 	firstName, lastName, email, company: company || userInfo.company, 
+			// 	role, packageName: pack || userInfo.package , isAdmin, isClientAdmin,
+			// 	zipcode, dob, phone
+			// }))
+			if(password !== confirmPassword){
+				setMessage('Password does not match')
+			} else{
+				console.log('dob' + dob)
+				console.log('update user profile')
+				dispatch(updateUserProfile({ 
+					id: user._id, firstName, lastName, email, password, role, city, state: stateName,
+					phone, zipcode, gender, dob, isAdmin, isClientAdmin  
+				}))
+				
+			}
+	    }
+
+	    setValidated(true);
+		
 		// console.log('dob')
 		// console.log(dob)
 	}
@@ -252,8 +265,10 @@ const ProfileScreen = () => {
 		console.log('edit button')
 		if(editHand){
 			setEditHand(false)
+			setValidated(null)
 		} else {
 			setEditHand(true)
+			setValidated(null)
 		}
 	}
 
@@ -272,7 +287,7 @@ const ProfileScreen = () => {
 				{ loading ? <Loader />
 					: error ? <Message variant='danger'>{error}</Message>
 					: (
-						<Form onSubmit={submitHandler}  >
+						<Form onSubmit={submitHandler} validated={validated} noValidate >
 						<Row>
 							<Col>
 								<Form.Group className="mb-3" controlId='firstName'>
@@ -283,6 +298,7 @@ const ProfileScreen = () => {
 														onChange = {(e)=> FN1(e.target.value)}
 														onBlur = {(e) => FN(e.target.value)}
 														disabled={editHand}
+														required
 													/>
 									</FloatingLabel>
 									{fnErr.length>1 ? (<div className='errMsg'>{fnErr}</div>): null}
@@ -297,6 +313,7 @@ const ProfileScreen = () => {
 														onChange = {(e)=> LN1(e.target.value)}
 														onBlur = {(e) => LN(e.target.value)}
 														disabled={editHand} 
+														required
 													/>
 									</FloatingLabel>
 									{lnErr.length>1 ? (<div className='errMsg'>{lnErr}</div>): null}
@@ -313,6 +330,7 @@ const ProfileScreen = () => {
 														onChange = {(e)=> {setEmail(e.target.value)}} 
 														onBlur = {(e) => valEmail(e.target.value)}
 														disabled={editHand}
+														required
 													/>
 									</FloatingLabel>
 									{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
@@ -372,6 +390,7 @@ const ProfileScreen = () => {
 																  onChange={(e) => setPack(e.target.value)}
 																  onBlur = {(e) => PK(e.target.value)}
 																  disabled={editHand}
+																  required
 																  >
 														<option value=''>Select Package</option>
 														{packages.map(pack => (
@@ -418,14 +437,14 @@ const ProfileScreen = () => {
 													 <FormControl aria-label="Text input with checkbox" />
 												</InputGroup>
 											</Form.Group>*/}
-											<Form.Group className="mb-3" id="formGridCheckbox" controlId='isClientAdmin' className="mb-3">
+											{/*<Form.Group className="mb-3" id="formGridCheckbox" controlId='isClientAdmin' className="mb-3">
 											    	<Form.Check type="checkbox" label="Is the user a Client Admin?"
 											    				aria-label="Checkbox for following text input"
 													    		checked={isClientAdmin}
 													    		onChange = { (e) => setIsClientAdmin(e.target.checked) }
 													    		disabled={editHand}
 											    	 />
-											 </Form.Group>
+											 </Form.Group>*/}
 										</Col>
 									</Row>
 									</>
@@ -472,6 +491,7 @@ const ProfileScreen = () => {
 															onChange={(e) => setRole(e.target.value)}
 															onBlur = {(e) => RL(e.target.value)}
 															disabled={editHand}
+															required
 															>
 															<option value=''>Select Role</option>
 															<option value='Role 1'>Role 1</option>
@@ -487,6 +507,7 @@ const ProfileScreen = () => {
 														<FloatingLabel controlId="floatingSelect" label="Gender">
 															<Form.Control as='select' value={gender}
 															disabled={editHand} 
+															required
 																onChange={(e) => setGender(e.target.value)}>
 																<option value=''>Select Gender</option>
 																<option value='Male'>Male</option>
@@ -508,6 +529,7 @@ const ProfileScreen = () => {
 																callCity(e.target.value)																
 															}}
 															disabled={editHand}
+															required
 															>
 															<option value='option'>Select State</option>
 															{states.map(st => (
@@ -522,7 +544,8 @@ const ProfileScreen = () => {
 													<FloatingLabel controlId="floatingSelect" label="City">
 														<Form.Control as='select' value={city} className="mb-3"
 															onChange={(e) => {setCity(e.target.value)}}
-															disabled={editHand}>
+															disabled={editHand}
+															required>
 															<option value='option'>Select City</option>
 															{cities.map(city => (
 																<option value={city.name}>{city.name}</option>
@@ -542,6 +565,7 @@ const ProfileScreen = () => {
 																		onChange = {(e)=> PH(e.target.value)}
 																		onBlur = {(e) => valPhone(e.target.value)}
 																		disabled={editHand} 
+																		required
 																	/>
 													</FloatingLabel>
 													{phoneErr.length>1 ? (<div className='errMsg'>{phoneErr}</div>): null}
@@ -556,6 +580,7 @@ const ProfileScreen = () => {
 																		onChange = {(e)=> ZP(e.target.value)}
 																		onBlur = {(e) => valZip(e.target.value)}
 																		disabled={editHand} 
+																		required
 																	/>
 													</FloatingLabel>
 													{zipErr.length>1 ? (<div className='errMsg'>{zipErr}</div>): null}
@@ -568,6 +593,7 @@ const ProfileScreen = () => {
 																		value={dob}
 																		onChange = {(e)=> setDob(e.target.value)}
 																		disabled={editHand} 
+																		required
 																	/>
 													</FloatingLabel>
 												</Form.Group>

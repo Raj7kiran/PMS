@@ -9,6 +9,8 @@ import { login } from '../actions/userActions'
 
 
 const LoginScreen = ({ location, history }) => {
+	const [validated, setValidated] = useState(false);
+
 	const [email, setEmail] = useState('')
 	const [emailErr, setEmailErr] = useState('')
 
@@ -55,11 +57,31 @@ const LoginScreen = ({ location, history }) => {
 		
 	}
 
-	const submitHandler = (e) => {
-		e.preventDefault()
-		//dispatch Login
-		dispatch(login(email, password))
+	
+	// const handleSubmit = (event) => {
+	//     const form = event.currentTarget;
+	//     if (form.checkValidity() === false) {
+	//       event.preventDefault();
+	//       event.stopPropagation();
+	//     }
+
+	//     setValidated(true);
+	//   };
+
+	  const submitHandler = (e) => {
+	  	const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	    	e.preventDefault()
+			// //dispatch Login
+			dispatch(login(email, password))
+	    }
+
+	    setValidated(true);
 	}
+	
 
 	return(
 		<>
@@ -69,7 +91,7 @@ const LoginScreen = ({ location, history }) => {
 				: (
 					<FormContainer>
 						<h1>Login</h1>
-						<Form onSubmit ={submitHandler} className="mb-3">
+						<Form onSubmit ={submitHandler} validated={validated} noValidate className="mb-3 validated-form" >
 							<Form.Group className="mb-3" controlId='email'>
 								<FloatingLabel controlId="floatingInput" label="Email address" >
 									<Form.Control 	type="email"  placeholder="name@example.com"
@@ -79,6 +101,7 @@ const LoginScreen = ({ location, history }) => {
 														setEmail(e.target.value)
 													}} 
 													onBlur = {(e) => valEmail(e.target.value)}
+													required
 													isInvalid={!!emailErr}
 												/>
 								</FloatingLabel>
@@ -91,6 +114,7 @@ const LoginScreen = ({ location, history }) => {
 							    					value={password}
 													onChange = {(e)=> {setPassword(e.target.value)}}
 													onBlur = {(e) => isRequired(e.target.value)}
+													required
 													isInvalid={!!blank}
 							    	 />
 							  	</FloatingLabel>

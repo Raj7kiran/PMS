@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import Manufacturer from '../models/manufacturerModel.js'
 import Supplier from '../models/supplierModel.js'
+import Joi from 'joi'
 
 
 
@@ -16,7 +17,30 @@ export const getManufacturer = asyncHandler(async(req,res) => {
 
 //add Manufacturer
 export const addManufacturer = asyncHandler(async(req,res) => {
+	// const packageValSchema = Joi.object({
+	// 	name: Joi.string().required(),
+	// 	shortName: Joi.string().required(),
+	// 	country: Joi.string().required()
+	// })
+
+	// const { error } = packageValSchema.validate(req.body)
+
+	// if(error){
+	// 	console.log(error)
+	// 	const msg = error.details.map(el=> el.message).join(',')
+	// 	res.status(400)
+	// 	throw new Error(msg)
+	// }
+
+
 	const { name, shortName, country, city, state } = req.body
+
+	const manufacturerExist = await Manufacturer.findOne({name})
+
+	if(manufacturerExist){
+		res.status(400)
+		throw new Error('Manufacturer already exists');
+	}
 
 	const manufacturer = new Manufacturer({
 		name,
@@ -114,6 +138,13 @@ export const addSupplier = asyncHandler(async(req,res) => {
 	const { supplierName, supplierContact, position, email, contactNumber, altContactNumber, credit, category, 
 			houseno, street, area
 	 } = req.body
+
+	 const supplierExists = await Supplier.find({ $or: [{name}, {email}] })
+
+	 if(supplierExists){
+	 	res.status(400)
+		throw new Error('Supplier name/email already exists');
+	 }
 
 	const address = `${houseno}, ${street}, ${area}`
 	console.log(address)

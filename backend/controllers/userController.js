@@ -12,10 +12,13 @@ import Supplier from '../models/supplierModel.js'
 const authUser = asyncHandler(async(req,res) => {
 	const { email, password } = req.body
 
-	try{
+	// try{
 		const user = await User.findOne({email})
 		console.log(user)
-		if(!user.isAdmin){
+		
+		
+		if(user && (await user.matchPassword(password))){
+			if(user && !user.isAdmin){
 			const comp = await Company.findOne({name : user.company})
 			console.log(comp)	
 			console.log(comp.createdOn)
@@ -27,12 +30,11 @@ const authUser = asyncHandler(async(req,res) => {
 		  	console.log(pack)
 
 		  	if(diff > pack.maxDaysAllowed){
-			  		res.status(400)
-			  		throw new Error('Sorry you package has been expired! Please renew it to proceed.')
-			  	}	
+				  		res.status(400)
+				  		throw new Error('Sorry you package has been expired! Please renew it to proceed.')
+				  	}	
 			}
-		
-		if(user && (await user.matchPassword(password))){
+			
 			res.json({
 				_id: user._id,
 				firstName: user.firstName,
@@ -57,13 +59,13 @@ const authUser = asyncHandler(async(req,res) => {
 		}
 
 		res.send({email,password})
-	} catch(err){
-		// console.log(err)
-		if(err == 'Error: Sorry you package has been expired! Please renew it to proceed.'){
-			throw new Error('Sorry you package has been expired! Please renew it to proceed.')
-		}
-		// throw new Error('Something went wrong. Please try again with right credentials')
-	}
+	// } catch(err){
+	// 	// console.log(err)
+	// 	if(err == 'Error: Sorry you package has been expired! Please renew it to proceed.'){
+	// 		throw new Error('Sorry you package has been expired! Please renew it to proceed.')
+	// 	}
+	// 	// throw new Error('Something went wrong. Please try again with right credentials')
+	// }
 	
 
 })

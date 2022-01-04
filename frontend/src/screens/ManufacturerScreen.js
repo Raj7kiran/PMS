@@ -16,6 +16,8 @@ import { MANUFACTURER_CREATE_RESET } from '../constants/otherConstants'
 // const pageSize = 3;
 const ManufacturerScreen = ({ history }) => {
 	let count=1;
+	const [validated, setValidated] = useState(false);
+
 	const dispatch = useDispatch()
 	const [q , setQ] = useState('')
 	const [ order, setOrder ] = useState('ASC')
@@ -91,12 +93,17 @@ const ManufacturerScreen = ({ history }) => {
 
 	useEffect(() => {
 		
-		dispatch({type: MANUFACTURER_CREATE_RESET})
-
+		if(createSuccess){
+			dispatch({type: MANUFACTURER_CREATE_RESET})
+			setName('')
+			setShortName('')
+			setCountry('')
+		}
+		setValidated(null)
 		if(!userInfo){
 			history.push('/login')
 		}
-
+		setValidated(null)
 		dispatch(listManufacturers())
 		dispatch(getCountry())
 
@@ -164,13 +171,22 @@ const ManufacturerScreen = ({ history }) => {
 	// }
 
 	const submitHandler = (e) =>{
-		e.preventDefault()
-		dispatch(createManufacturer({
-			name,
-			shortName,
-			country
-		}))
+		const form = e.currentTarget;
+	    if (form.checkValidity() === false) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	    	e.preventDefault()
+			dispatch(createManufacturer({
+					name,
+					shortName,
+					country
+				}))
 
+	    }
+
+	    setValidated(true);
+		
 		}
 
 	const deleteHandler = (id) => {
@@ -190,7 +206,7 @@ const ManufacturerScreen = ({ history }) => {
 		{loadingDelete && <Loader />}
 		{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 
-		<Form onSubmit={submitHandler} className='disabled' >
+		<Form onSubmit={submitHandler}  validated={validated} noValidate>
 		<Row className='my-3' >
 			
 			<Col md={6}>
@@ -201,6 +217,7 @@ const ManufacturerScreen = ({ history }) => {
 										value={name}
 										onChange = {(e)=> nameCheck1(e.target.value)}
 										onBlur = {(e) => nameCheck(e.target.value)} 
+										required
 									/>
 					</FloatingLabel>
 					{nameErr.length>1 ? (<div className='errMsg'>{nameErr}</div>): null}
@@ -214,6 +231,7 @@ const ManufacturerScreen = ({ history }) => {
 										value={shortName}
 										onChange = {(e)=> SN1(e.target.value)}
 										onBlur = {(e) => SN(e.target.value)} 
+										required
 									/>
 					</FloatingLabel>
 					{shortNameErr.length>1 ? (<div className='errMsg'>{shortNameErr}</div>): null}
@@ -226,8 +244,9 @@ const ManufacturerScreen = ({ history }) => {
 								onChange={(e) => setCountry(e.target.value)}
 								className={`${countryErr.length>1 ? 'inCorrect' : null}`}
 								onBlur = {(e) => CN(e.target.value)}
+								required
 								>
-								<option value='option'>Select Country</option>
+								<option value=''>Select Country</option>
 								{countries.map(ct => (
 									<option value={ct.name}>{ct.name}</option>
 								))  }

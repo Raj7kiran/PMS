@@ -34,7 +34,7 @@ export const manufacturerCreateReducer = (state={}, action) => {
 		case MANUFACTURER_CREATE_FAIL:
 			return { loading: false, error: action.payload }
 		case MANUFACTURER_CREATE_RESET:
-			return {}
+			return { }
 		default:
 			return state
 	}
