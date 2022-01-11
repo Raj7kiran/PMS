@@ -13,8 +13,11 @@ import UserListScreen from './screens/UserListScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ManufacturerScreen from './screens/ManufacturerScreen'
 import ManufacturerEditScreen from './screens/ManufacturerEditScreen'
-import SupplierEditScreen from './screens/SupplierEditScreen'
 import SupplierScreen from './screens/SupplierScreen'
+import SupplierEditScreen from './screens/SupplierEditScreen'
+import ProductScreen from './screens/ProductScreen'
+import ProductListScreen from './screens/ProductListScreen'
+import ProductEditScreen from './screens/ProductEditScreen'
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Container } from 'react-bootstrap'
@@ -40,6 +43,9 @@ const App = () => {
             <Route path='/manufacturers' element={<ManufacturerScreen />} exact />
             <Route path='/manufacturers/:id/edit' element={<ManufacturerEditScreen />} exact />
             <Route path='/supplier' element={<SupplierScreen />} exact />
+            <Route path='/products' element={<ProductScreen />} exact />
+            <Route path='/productlist' element={<ProductListScreen />} exact />
+            <Route path='/products/:id/edit' element={<ProductEditScreen />} exact />
             <Route path='/supplier/:id/edit' element={<SupplierEditScreen />} exact />
             {/*<Route path='/addUsers' element={<NewAddClientScreen2 />} exact />*/}
           </Routes>

@@ -213,7 +213,21 @@ const SupplierScreen = ({history}) => {
 		},[suppliers])	
 
 	useEffect(() => {
-		dispatch({type: SUPPLIER_CREATE_RESET})
+
+		if(createSuccess){
+			dispatch({type: SUPPLIER_CREATE_RESET})
+			setSupplierName('')
+			setSupplierContact('')
+			setPosition('')
+			setEmail('')
+			setContactNumber('')
+			setAltContactNumber('')
+			setCredit('')
+			setHouseno('')
+			setStreet('')
+			setArea('')
+		}
+		
 
 		if(!userInfo){
 			history.push('/login')

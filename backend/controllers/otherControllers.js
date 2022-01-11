@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import Manufacturer from '../models/manufacturerModel.js'
 import Supplier from '../models/supplierModel.js'
+import Product from '../models/productModel.js'
 import Joi from 'joi'
 
 
@@ -49,7 +50,7 @@ export const addManufacturer = asyncHandler(async(req,res) => {
 		city,
 		state,
 		createdUser: req.user.firstName,
-		user:req.user._id
+		createdUserId:req.user._id
 	})
 	    console.log(manufacturer.createdUser)
 		console.log(typeof(manufacturer.createdUser))
@@ -139,7 +140,7 @@ export const addSupplier = asyncHandler(async(req,res) => {
 			houseno, street, area
 	 } = req.body
 
-	 const supplierExists = await Supplier.find({ $or: [{name}, {email}] })
+	 const supplierExists = await Supplier.findOne({ $or: [{supplierName}, {email}] })
 
 	 if(supplierExists){
 	 	res.status(400)
@@ -162,7 +163,7 @@ export const addSupplier = asyncHandler(async(req,res) => {
 		street,
 		area,
 		createdUser: req.user.firstName,
-		user:req.user._id
+		createdUserId:req.user._id
 	})
 	    // console.log(supplier.createdUser)
 		console.log(typeof(supplier.createdUser))
@@ -244,6 +245,121 @@ export const updateSupplier = asyncHandler(async(req,res) => {
 	} else {
 		res.status(404)
 		throw new Error('Supplier not found!')	
+	}
+
+})
+
+// -------------------Product-----------------------------
+
+//get manufacturer
+export const getProduct = asyncHandler(async(req,res) => {
+	const product = await Product.find({})
+	res.json(product)
+})
+
+//add supplier
+export const addProduct = asyncHandler(async(req,res) => {
+	const { medicineName, genericName, category, type, manufacturer, marketedBy, scheduledCategory,
+			hsnCode, pack, mrp, purchasePrice, dose, route, timing, preference, indication, className,
+			group, subGroup, storageTemp, binLocation
+	 } = req.body
+
+	const product = new Product({
+		medicineName, genericName, category, type, manufacturer, marketedBy, scheduledCategory,
+		hsnCode, pack, mrp, purchasePrice, dose, route, timing, preference, indication, className,
+		group, subGroup, storageTemp, binLocation,
+		createdUser: req.user.firstName,
+		createdUserId:req.user._id,
+	})
+	    
+		const createdProduct = await product.save()
+		res.status(200).json(createdProduct)
+})
+
+
+//delete Product
+export const deleteProduct = asyncHandler(async(req,res) => {
+	const product = await Product.findById(req.params.id)
+
+	if(product){
+		await product.remove()
+		res.json({ message: 'Product Deleted' })
+	} else {
+		res.status(404)
+		throw new Error('Manufacturer not found')
+	}
+})
+
+
+//get product by id
+export const getProductById = asyncHandler(async (req,res) => {
+	const product = await Product.findById(req.params.id)
+	
+	if(product){
+		res.json(product);
+	} else {
+		res.status(404)
+		throw new Error('Product not found')
+	}	
+
+})
+
+
+
+//update Product
+export const updateProduct = asyncHandler(async(req,res) => {
+	const product = await Product.findById(req.params.id)
+
+	if(product){
+		product.medicineName = req.body.medicineName || product.medicineName
+		product.genericName = req.body.genericName || product.genericName
+		product.category = req.body.category || product.category
+		product.type = req.body.type || product.type
+		product.manufacturer = req.body.manufacturer || product.manufacturer
+		product.marketedBy = req.body.marketedBy || product.marketedBy
+		product.scheduledCategory = req.body.scheduledCategory || product.scheduledCategory
+		product.hsnCode = req.body.hsnCode || product.hsnCode
+		product.pack = req.body.pack || product.pack
+		product.mrp = req.body.mrp || product.mrp
+		product.purchasePrice = req.body.purchasePrice || product.purchasePrice
+		product.timing = req.body.timing || product.timing
+		product.preference = req.body.preference || product.preference
+		product.indication = req.body.indication || product.indication
+		product.class = req.body.class || product.class
+		product.group = req.body.group || product.group
+		product.subGroup = req.body.subGroup || product.subGroup
+		product.storageTemp = req.body.storageTemp || product.storageTemp
+		product.binLocation = req.body.binLocation || product.binLocation
+
+		const updatedProduct = await product.save()
+
+		res.json({
+			medicineName: updatedProduct.medicineName,
+			genericName: updatedProduct.genericName,
+			category: updatedProduct.category,
+			type: updatedProduct.type,
+			manufacturer: updatedProduct.manufacturer,
+			marketedBy: updatedProduct.marketedBy,
+			scheduledCategory: updatedProduct.scheduledCategory,
+			hsnCode: updatedProduct.hsnCode,
+			pack: updatedProduct.pack,
+			mrp: updatedProduct.mrp,
+			purchasePrice: updatedProduct.purchasePrice,
+			dose: updatedProduct.dose,
+			route: updatedProduct.route,
+			timing: updatedProduct.timing,
+			preference: updatedProduct.preference,
+			indication: updatedProduct.indication,
+			class: updatedProduct.class,
+			subGroup: updatedProduct.subGroup,
+			group: updatedProduct.group,
+			storageTemp: updatedProduct.storageTemp,
+			binLocation: updatedProduct.binLocation
+		})
+
+	} else {
+		res.status(404)
+		throw new Error('Product not found!')
 	}
 
 })

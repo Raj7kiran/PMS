@@ -3,7 +3,8 @@ const router = express.Router()
 import Joi from 'joi'
 import { protect } from '../middleware/authMiddleware.js'
 import { getManufacturer, addManufacturer, deleteManufacturer, updateManufacturer, getManufacturerById,
-		 getSupplier, addSupplier, deleteSupplier, updateSupplier, getSupplierById
+		 getSupplier, addSupplier, deleteSupplier, updateSupplier, getSupplierById,
+		 getProduct, addProduct, getProductById, deleteProduct, updateProduct
 		} from '../controllers/otherControllers.js'
 
 
@@ -33,5 +34,8 @@ router.route('/manufacturer').get(protect, getManufacturer).post(protect, valida
 router.route('/supplier').get(protect, getSupplier).post(protect, addSupplier)
 router.route('/manufacturer/:id').get(protect, getManufacturerById).delete(protect, deleteManufacturer).put(protect, updateManufacturer)
 router.route('/supplier/:id').get(protect, getSupplierById).delete(protect, deleteSupplier).put(protect, updateSupplier)
+
+router.route('/product').get(protect, getProduct).post(protect, addProduct)
+router.route('/product/:id').get(protect, getProductById).delete(protect, deleteProduct).put(protect, updateProduct)
 
 export default router

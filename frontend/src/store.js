@@ -7,13 +7,12 @@ import { packageListReducer, packageCreateReducer, packageDeleteReducer,
 import { manufacturerListReducer, manufacturerCreateReducer, manufacturerDeleteReducer,
 		 manufacturerDetailsReducer,manufacturerUpdateReducer,
 		 supplierListReducer, supplierCreateReducer, supplierDeleteReducer,supplierDetailsReducer,
-		 supplierUpdateReducer
+		 supplierUpdateReducer,
+		 productListReducer, productCreateReducer, productDeleteReducer, productDetailsReducer,
+		 productUpdateReducer,
 	 } from './reducers/otherReducers'
 import { userListReducer, userDetailsReducer,userUpdateProfileReducer, userUpdateReducer, userDeleteReducer } from './reducers/userReducers'
 import { countryListReducer, stateListReducer, cityListReducer } from './reducers/dropReducers'
-
-
-
 
 
 const reducer = combineReducers({
@@ -41,7 +40,12 @@ const reducer = combineReducers({
 	supplierCreate: supplierCreateReducer,
 	supplierDelete: supplierDeleteReducer,
 	supplierDetails:supplierDetailsReducer,
-	supplierUpdate:supplierUpdateReducer
+	supplierUpdate:supplierUpdateReducer,
+	productList: productListReducer,
+	productCreate: productCreateReducer,
+	productDelete: productDeleteReducer,
+	productDetails:productDetailsReducer,
+	productUpdate:productUpdateReducer,
 })
 
 
