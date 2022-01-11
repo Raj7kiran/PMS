@@ -178,18 +178,18 @@ const ProductScreen = ({history}) => {
 	}
 
 	const mrpCheck = (data) => {
-		if(!new RegExp( /^\d/).test(data)){ setMrpErr('Required: Numbers')} 
+		if(!new RegExp(/^\d/).test(data)){ setMrpErr('Required: Numbers')} 
 			else {setMrpErr('')}
 	}
 
-	const mrpCheck1 = (data) => {
-		if(!new RegExp( /^\d/).test(data)){setMrpErr('Required: Numbers')}
-		 else {
-			setMrp(data)
-			console.log(data)
-			setMrpErr('')
-		}
-	}
+	// const mrpCheck1 = (data) => {
+	// 	// if(!new RegExp(/^\d/).test(data)){setMrpErr('Required: Numbers')}
+	// 	//  else {
+	// 		setMrp(data)
+	// 	// 	console.log(data)
+	// 	// 	setMrpErr('')
+	// 	// }
+	// }
 
 	const purchasePriceCheck = (data) => {
 		if(!new RegExp( /^\d/).test(data)){ setPurchasePriceErr('Required: Numbers')} 
@@ -197,14 +197,14 @@ const ProductScreen = ({history}) => {
 
 	}
 
-	const purchasePriceCheck1 = (data) => {
-		if(!new RegExp( /^\d/).test(data)){setPurchasePriceErr('Required: Numbers')}
-		 else {
-			setPurchasePrice(data)
-			console.log(data)
-			setPurchasePriceErr('')
-		}
-	}
+	// const purchasePriceCheck1 = (data) => {
+	// 	if(!new RegExp( /^\d/).test(data)){setPurchasePriceErr('Required: Numbers')}
+	// 	 else {
+	// 		setPurchasePrice(data)
+	// 		console.log(data)
+	// 		setPurchasePriceErr('')
+	// 	}
+	// }
 
 	const doseVal = (data) => {
 		if(!data){
@@ -512,7 +512,7 @@ const ProductScreen = ({history}) => {
 							<Form.Control 	type="name"  placeholder="MRP"
 											// className={`${medNameErr.length>1 ? 'inCorrect' : null}`}
 											value={mrp}
-											onChange = {(e)=> mrpCheck1(e.target.value)}
+											onChange = {(e)=> setMrp(e.target.value)}
 											onBlur = {(e) => mrpCheck(e.target.value)} 
 											required
 											isInvalid={!!mrpErr}
@@ -527,7 +527,7 @@ const ProductScreen = ({history}) => {
 							<Form.Control 	type="name"  placeholder="Purchase Price"
 											// className={`${medNameErr.length>1 ? 'inCorrect' : null}`}
 											value={purchasePrice}
-											onChange = {(e)=> purchasePriceCheck1(e.target.value)}
+											onChange = {(e)=> setPurchasePrice(e.target.value)}
 											onBlur = {(e) => purchasePriceCheck(e.target.value)} 
 											required
 											isInvalid={!!purchasePriceErr}
@@ -703,7 +703,7 @@ const ProductScreen = ({history}) => {
 							<Form.Control 	type="name"  placeholder="Storage Temprature"
 											// className={`${medNameErr.length>1 ? 'inCorrect' : null}`}
 											value={storageTemp}
-											onChange = {(e)=> tempCheck1(e.target.value)}
+											onChange = {(e)=> setStorageTemp(e.target.value)}
 											onBlur = {(e) => tempCheck(e.target.value)} 
 											required
 											isInvalid={!!storageTempErr}
