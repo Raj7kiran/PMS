@@ -13,6 +13,7 @@ import { manufacturerListReducer, manufacturerCreateReducer, manufacturerDeleteR
 	 } from './reducers/otherReducers'
 import { userListReducer, userDetailsReducer,userUpdateProfileReducer, userUpdateReducer, userDeleteReducer } from './reducers/userReducers'
 import { countryListReducer, stateListReducer, cityListReducer } from './reducers/dropReducers'
+import { orderCreateReducer, orderDetailsReducer, orderListMyReducer, orderDeleteReducer } from './reducers/orderReducers'
 
 
 const reducer = combineReducers({
@@ -46,6 +47,10 @@ const reducer = combineReducers({
 	productDelete: productDeleteReducer,
 	productDetails:productDetailsReducer,
 	productUpdate:productUpdateReducer,
+	orderCreate: orderCreateReducer,
+	orderDetails: orderDetailsReducer,
+	orderListMy: orderListMyReducer,
+	orderDelete:orderDeleteReducer
 })
 
 

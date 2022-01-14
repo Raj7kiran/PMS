@@ -10,6 +10,7 @@ import userRoutes from './routes/userRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import dpRoutes from './routes/dpRoutes.js'
 import otherRoutes from './routes/otherRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 
 
 const app = express()
@@ -26,6 +27,7 @@ connectDB()
 
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes)
+app.use('/order', orderRoutes)
 app.use('/drop', dpRoutes)
 app.use('/', otherRoutes)
 

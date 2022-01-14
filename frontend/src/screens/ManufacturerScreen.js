@@ -103,7 +103,7 @@ const ManufacturerScreen = ({ history }) => {
 		if(!userInfo){
 			history.push('/login')
 		}
-		setValidated(null)
+		
 		dispatch(listManufacturers())
 		dispatch(getCountry())
 

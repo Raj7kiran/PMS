@@ -10,10 +10,11 @@ const productSchema = mongoose.Schema({
 	scheduledCategory : { type: String },
 	hsnCode : { type: String },
 	pack : { type: Number },
-	mrp : { type: String },
-	purchasePrice : { type: String },
+	mrp : { type: Number, default:0.0 },
+	purchasePrice : { type: Number, default:0.0 },
 	freeQty : { type: Number, default: 2 },
 	discountPrice : { type: Number, min:0, max: 99 },
+	currentStock : { type: Number, default:0, min:0 },
 	lowStockValue : { type: Number, default:0, min:0 },
 	reOrderValue : { type: Number, default:0, min:0 },
 	indication : { type: String },
@@ -37,9 +38,10 @@ const productSchema = mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 			// required: true
-		}	
-
-}) 
+		}
+	},{
+		timestamps: true
+	}) 
 
 
 const Product = new mongoose.model('Product', productSchema)
