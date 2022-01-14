@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { addOrderItems, getOrderById, getMyOrders, deleteOrderById } from '../controllers/OrderController.js'
+import { addOrderItems, getOrderById, getMyOrders, deleteOrderById } from '../controllers/orderController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
 router.route('/').post(protect, addOrderItems)
