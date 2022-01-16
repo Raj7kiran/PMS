@@ -54,6 +54,7 @@ const PurchaseOrderScreen = ({history}) => {
 			dispatch({type: ORDER_CREATE_RESET})
 			setTableData([])
 			setOrderItems([])
+			history.push('/orderlist')
 		}
 		
 		dispatch(listProducts())
@@ -212,14 +213,22 @@ const PurchaseOrderScreen = ({history}) => {
 
 	return(
 		<>
-		<h2>PurchaseOrderScreen</h2>
 		<Nav className='my-3' variant="tabs" >
-		  	<LinkContainer to='/order' >
-				<Nav.Link>Purchase Order</Nav.Link>
-			</LinkContainer>
-			<LinkContainer to='/orderstatus'>
-				<Nav.Link>Purchase Order Status</Nav.Link>
-			</LinkContainer>
+			  	<LinkContainer to='/order' >
+					<Nav.Link>Purchase Order</Nav.Link>
+				</LinkContainer>
+				<LinkContainer to='/orderlist' >
+						<Nav.Link>Purchase Order List</Nav.Link>
+				</LinkContainer>
+				<LinkContainer to='/order/approved'>
+					<Nav.Link>Approved Order List</Nav.Link>
+				</LinkContainer>
+				<LinkContainer to='/order/approved/finance'>
+					<Nav.Link>Finance Approval Order list</Nav.Link>
+				</LinkContainer>
+				<LinkContainer to='/orderstatus'>
+					<Nav.Link>Purchase Order Status</Nav.Link>
+				</LinkContainer>
 		</Nav>
 			{createLoading && <Loader />}
 			{createError && <Message variant='danger'>{createError}</Message>}
@@ -310,10 +319,11 @@ const PurchaseOrderScreen = ({history}) => {
 						</tbody>						
 				</Table>
 				<p className='mt-3'>Total Quantity: {orderItems.reduce((acc, item) => acc + item.qty, 0)}</p>
+			<div className='mt-3' style={{ display: 'flex', justifyContent: 'flex-end' }}>
 			<Button className='mt-3' type='submit' variant='dark'>Clear</Button>
 			{/*<Button className='mt-3' type='submit' variant='info'>Save</Button>*/}
 			<Button className='mt-3 mx-3' type='submit' onClick={() => submitHandler()} variant='dark'>Submit</Button>
-
+			</div>
 		</>
 		)
 }

@@ -22,6 +22,13 @@ import PurchaseOrderScreen from './screens/PurchaseOrderScreen'
 import OrderDetailsScreen from './screens/OrderDetailsScreen'
 import PurchaseOrderEditScreen from './screens/PurchaseOrderEditScreen'
 import PurchaseOrderStatusScreen from './screens/PurchaseOrderStatusScreen'
+import PurchaseOrderApprovalScreen from './screens/PurchaseOrderApprovalScreen'
+import PurchaseOrderListScreen from './screens/PurchaseOrderListScreen'
+import ApprovedPurchaseOrderList from './screens/ApprovedPurchaseOrderList'
+import VerifyApprovedOrderScreen from './screens/VerifyApprovedOrderScreen'
+import VerifyFinanceApprovedOrderScreen from './screens/VerifyFinanceApprovedOrderScreen'
+import FinanceApprovalOrderListScreen from './screens/FinanceApprovalOrderListScreen'
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Container } from 'react-bootstrap'
@@ -54,8 +61,13 @@ const App = () => {
             <Route path='/order' element={<PurchaseOrderScreen />} exact />
             <Route path='/order/:id' element={<OrderDetailsScreen />} exact />
             <Route path='/order/:id/edit' element={<PurchaseOrderEditScreen />} exact />
+            <Route path='/order/:id/approve' element={<PurchaseOrderApprovalScreen />} exact />
+            <Route path='/order/approved' element={<ApprovedPurchaseOrderList />} exact />
+            <Route path='/order/approved/:id' element={<VerifyApprovedOrderScreen />} exact />
+            <Route path='/order/approved/finance' element={<FinanceApprovalOrderListScreen />} exact />
+            <Route path='/order/approved/finance/:id' element={<VerifyFinanceApprovedOrderScreen />} exact />
             <Route path='/orderstatus' element={<PurchaseOrderStatusScreen />} exact />
-
+            <Route path='/orderlist' element={<PurchaseOrderListScreen />} exact />
             {/*<Route path='/addUsers' element={<NewAddClientScreen2 />} exact />*/}
           </Routes>
         </Container>

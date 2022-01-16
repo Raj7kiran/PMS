@@ -57,6 +57,15 @@ const PurchaseOrderStatusScreen = ({history}) => {
 			  	<LinkContainer to='/order' >
 					<Nav.Link>Purchase Order</Nav.Link>
 				</LinkContainer>
+				<LinkContainer to='/orderlist' >
+						<Nav.Link>Purchase Order List</Nav.Link>
+				</LinkContainer>
+				<LinkContainer to='/order/approved'>
+					<Nav.Link>Approved Order List</Nav.Link>
+				</LinkContainer>
+				<LinkContainer to='/order/approved/finance'>
+					<Nav.Link>Finance Approval Order list</Nav.Link>
+				</LinkContainer>
 				<LinkContainer to='/orderstatus'>
 					<Nav.Link>Purchase Order Status</Nav.Link>
 				</LinkContainer>
@@ -67,13 +76,13 @@ const PurchaseOrderStatusScreen = ({history}) => {
 				<Table striped bordered hover responsive='md' className='table-sm mt-3' id="table-to-xls">
 						<thead>
 							<tr>
-								<th><span className='btn'>S.No</span></th>
-								<th ><span className='btn'>PR.No</span></th>
-								<th ><span className='btn'>Requested By</span></th>
-								<th ><span className='btn'>Contact No</span></th>
-								<th ><span className='btn'>Total Price</span></th>
-								<th ><span className='btn'>Status</span></th>
-								<th ><span className='btn'>Action</span></th>
+								<th>S.No</th>
+								<th >PR.No</th>
+								<th >Requested By</th>
+								<th >Contact No</th>
+								<th >Total Price</th>
+								<th >Status</th>
+								<th >Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -84,7 +93,14 @@ const PurchaseOrderStatusScreen = ({history}) => {
 										<td>{order.user.firstName}</td>
 										<td>{order.user.phone}</td>
 										<td>{order.orderTotalPrice}</td>
-										<td>{order.isApproved}</td>
+										<td>
+											{
+												order.isApproved === true ? <Button variant='sucess' className='btn-sm' disabled>Approved</Button>
+												: order.isApproved === false ? <Button variant='danger' className='btn-sm' disabled>Rejected</Button>
+												: <Button variant='info' className='btn-sm' disabled>Pending</Button>
+
+											}
+										</td>
 										<td>
 											<LinkContainer to={`/order/${order._id}`}>
 												<Button variant='info' className='btn-sm mx-1'

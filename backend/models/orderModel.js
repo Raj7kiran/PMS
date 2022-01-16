@@ -16,6 +16,7 @@ const orderSchema = mongoose.Schema(
 					qty		: { type: Number, required: true },
 					price	: { type: Number },
 					totalPrice	: { type: Number },
+					taxPrice	: { type: Number },
 					product	: { 
 						type : mongoose.Schema.Types.ObjectId,
 						required: true,
@@ -29,7 +30,10 @@ const orderSchema = mongoose.Schema(
 			isApproved: {
 				type: Boolean,
 				// required: true,
-				default: false
+			},
+			isFinanceApproved: {
+				type: Boolean,
+				// required: true,
 			},
 			taxPrice: {
 				type: Number,

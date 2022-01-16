@@ -10,6 +10,7 @@ const productSchema = mongoose.Schema({
 	scheduledCategory : { type: String },
 	hsnCode : { type: String },
 	pack : { type: Number },
+	tax: {type: Number},
 	mrp : { type: Number, default:0.0 },
 	purchasePrice : { type: Number, default:0.0 },
 	freeQty : { type: Number, default: 2 },

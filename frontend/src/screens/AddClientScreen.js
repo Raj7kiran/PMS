@@ -392,6 +392,12 @@ const AddClientScreen = () => {
 															<option value='Role 1'>Role 1</option>
 															<option value='Role 2'>Role 2</option>
 															<option value='Role 3'>Role 3</option>
+															<option value='1'>Initiater</option>
+															<option value='2'>Approver</option>
+															<option value='3'>Initiater & Approver</option>
+															<option value='4'>Financer</option>
+															<option value='5'>Final Approver</option>
+															<option value='6'>Financer & Final</option>
 														</Form.Control>
 													</FloatingLabel>
 													{roleErr.length>1 ? (<div className='errMsg'>{roleErr}</div>): null}
