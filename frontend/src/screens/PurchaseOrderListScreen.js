@@ -1,34 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Modal } from 'react-bootstrap'
+import { Table, Row, Col, Button } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
-// import { useDispatch, useSelector } from 'react-redux'
-// import Loader from '../components/Loader'
-// import Message from '../components/Message'
-import orders from '../data/orders'
+import OrderSteps from '../components/OrderSteps'
+import {useNavigate} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
+import { listOrders } from '../actions/orderActions'
 
 
 const PurchaseOrderListScreen = () => {
 	let count=1
+	const dispatch = useDispatch()
+	let navigate = useNavigate()
+
+	const orderList = useSelector(state => state.orderList)
+	const { loading, error, orders } = orderList
+
+	const userLogin = useSelector(state => state.userLogin)
+	const {userInfo} = userLogin
+
+	useEffect(() => {
+		if(!userInfo || !(userInfo.role === '2' || userInfo.role === '3')){
+			navigate('/')
+		} else {
+			dispatch(listOrders())
+		}
+				
+	}, [dispatch, navigate, userInfo] )
+
+
+	console.log(orders)
 
 	return(
 		<>
-			<Nav className='my-3' variant="tabs" >
-			  	<LinkContainer to='/order' >
-					<Nav.Link>Purchase Order</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderlist' >
-						<Nav.Link>Purchase Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved'>
-					<Nav.Link>Approved Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved/finance'>
-					<Nav.Link>Finance Approval Order list</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderstatus'>
-					<Nav.Link>Purchase Order Status</Nav.Link>
-				</LinkContainer>
-			</Nav>
+			<OrderSteps />
+			{ loading ? <Loader />
+			: error ? <Message variant='danger'>{error}</Message>
+			: (
 			<Table striped bordered hover responsive='md' className='table-sm mt-3' id="table-to-xls">
 						<thead>
 							<tr>
@@ -81,6 +90,8 @@ const PurchaseOrderListScreen = () => {
 								)) }
 						</tbody>
 				</Table>
+				)
+			}
 		</>
 		)
 }

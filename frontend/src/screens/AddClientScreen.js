@@ -10,8 +10,6 @@ import { CLIENT_CREATE_RESET } from '../constants/adminConstants'
 import { getStatesName, getCity } from '../actions/dropActions'
 
 
-
-
 const AddClientScreen = () => {
 	const [validated, setValidated] = useState(false);
 
@@ -185,7 +183,7 @@ const AddClientScreen = () => {
 	useEffect(() => {
 		dispatch({ type: CLIENT_CREATE_RESET })
 		dispatch(listPackages())
-		dispatch(getStatesName())
+		dispatch(getStatesName('all'))
 		setValidated(null)
 		if(success){
 			if(userInfo.isAdmin){
@@ -234,11 +232,12 @@ const AddClientScreen = () => {
 								<Form.Group className="mb-3" controlId='firstName'>
 									<FloatingLabel controlId="floatingInput" label="First Name" >
 										<Form.Control 	type="name"  placeholder="firstName"
-														className={`${fnErr.length>1 ? 'inCorrect' : null}`}
+														// className={`${fnErr.length>1 ? 'inCorrect' : null}`}
 														value={firstName}
 														onChange = {(e)=> FN1(e.target.value)}
 														onBlur = {(e) => FN(e.target.value)}
-														required 
+														required
+														isInvalid={!!fnErr} 
 													/>
 									</FloatingLabel>
 									{fnErr.length>1 ? (<div className='errMsg'>{fnErr}</div>): null}
@@ -428,7 +427,8 @@ const AddClientScreen = () => {
 																	setStateName(e.target.value)
 																	callCity(e.target.value)
 																}}
-																required>
+																// required
+																>
 																<option value='option'>Select State</option>
 																{states.map(st => (
 																	<option value={st.name}>{st.name}</option>
@@ -442,7 +442,8 @@ const AddClientScreen = () => {
 													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={city} className="mb-3"
 															onChange={(e) => {setCity(e.target.value)}}
-															required>
+															// required
+															>
 															<option value='option'>Select City</option>
 															{cities.map(city => (
 																<option value={city.name}>{city.name}</option>

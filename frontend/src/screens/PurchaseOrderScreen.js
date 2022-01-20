@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import OrderSteps from '../components/OrderSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import {listProducts} from '../actions/otherActions'
@@ -12,6 +14,7 @@ import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 const PurchaseOrderScreen = ({history}) => {
 	let count=0;
 	const dispatch = useDispatch()
+	let navigate = useNavigate()
 	// const [validated, setValidated] = useState(null);
 	// const [totalQuantity, setTotalQuantity] =  useState(0)
 	// const [confirmButton, setConfirmButton] = useState(false)
@@ -46,21 +49,25 @@ const PurchaseOrderScreen = ({history}) => {
 
 	useEffect(() => {
 
-		if(!userInfo){
-			history.push('/login')
+		if(!userInfo || !(userInfo.role === '1' || userInfo.role === '3')){
+			navigate('/')
 		}
+
+		
+			dispatch(listProducts())
+		
 
 		if(createSuccess){
 			dispatch({type: ORDER_CREATE_RESET})
 			setTableData([])
 			setOrderItems([])
-			history.push('/orderlist')
+			navigate('/order/list')
 		}
 		
-		dispatch(listProducts())
+		
 		// setValidated(null);
 
-	},[dispatch, history, userInfo, createSuccess])
+	},[dispatch, navigate, userInfo, createSuccess])
 
 	// const submitHandler = (e) => {
 	// 	e.preventDefault()
@@ -213,23 +220,7 @@ const PurchaseOrderScreen = ({history}) => {
 
 	return(
 		<>
-		<Nav className='my-3' variant="tabs" >
-			  	<LinkContainer to='/order' >
-					<Nav.Link>Purchase Order</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderlist' >
-						<Nav.Link>Purchase Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved'>
-					<Nav.Link>Approved Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved/finance'>
-					<Nav.Link>Finance Approval Order list</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderstatus'>
-					<Nav.Link>Purchase Order Status</Nav.Link>
-				</LinkContainer>
-		</Nav>
+			<OrderSteps />
 			{createLoading && <Loader />}
 			{createError && <Message variant='danger'>{createError}</Message>}
 			{/*{createSuccess && <Message variant='info'>Purchase Initiated</Message>}*/}

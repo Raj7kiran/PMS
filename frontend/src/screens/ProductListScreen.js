@@ -66,8 +66,8 @@ const ProductListScreen = ({history}) => {
 
 			product.medicineName.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
 			product.genericName.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
-			product.manufacturer.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
-			product.mrp.toLowerCase().indexOf(q.toLowerCase()) > -1
+			product.manufacturer.toLowerCase().indexOf(q.toLowerCase()) > -1 
+			// product.mrp.toLowerCase().indexOf(q.toLowerCase()) > -1
 										 										
 		)
 	}
@@ -122,8 +122,12 @@ const ProductListScreen = ({history}) => {
 								<th onClick={() => sorting('indication')}><span className='btn'>Indicators</span></th>
 								<th onClick={() => sorting('manufacturer')}><span className='btn'>Manufacturer</span></th>
 								<th onClick={() => sorting('mrp')}><span className='btn'>MRP</span></th>
-								<th><span className='btn'>Action</span></th>
-							</tr>
+								{
+									userInfo.isClientAdmin && (
+										<th><span className='btn'>Action</span></th>
+											)
+									}
+								</tr>
 						</thead>
 						<tbody>
 							{filteredProducts.map(product => (
@@ -134,18 +138,23 @@ const ProductListScreen = ({history}) => {
 										<td>{product.indication}</td>
 										<td>{product.manufacturer}</td>
 										<td>{product.mrp}</td>
-										<td>
-											<LinkContainer to={`/products/${product._id}/edit`}>
-												<Button variant='light' className='btn-sm'>
-													<i className='fas fa-edit'></i>
-												</Button>
-											</LinkContainer>
-											<Button variant='danger' className='btn-sm' 
-													onClick={()=> deleteHandler(product._id)}
-													>
-												<i className='fas fa-trash'></i>
-											</Button>
-										</td>
+										{
+											userInfo.isClientAdmin && (
+													<td>
+														<LinkContainer to={`/products/${product._id}/edit`}>
+															<Button variant='light' className='btn-sm'>
+																<i className='fas fa-edit'></i>
+															</Button>
+														</LinkContainer>
+														<Button variant='danger' className='btn-sm' 
+																onClick={()=> deleteHandler(product._id)}
+																>
+															<i className='fas fa-trash'></i>
+														</Button>
+													</td>
+												)
+										}
+										
 									</tr>
 								)) }
 						</tbody>

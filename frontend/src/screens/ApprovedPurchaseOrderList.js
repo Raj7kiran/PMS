@@ -1,46 +1,57 @@
-import React, { useState, useEffect } from 'react'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Card } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Table, Button } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
-import {Link, useParams, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
+import OrderSteps from '../components/OrderSteps'
 import { useDispatch, useSelector } from 'react-redux'
-// import Loader from '../components/Loader'
-// import Message from '../components/Message'
-import orders from '../data/orders'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
+import { listOrders } from '../actions/orderActions'
 
 
 
 const ApprovedPurchaseOrderList = () =>{
 	let count=1
+	const dispatch = useDispatch()
+	let navigate = useNavigate()
+
+	const orderList = useSelector(state => state.orderList)
+	const { loading, error, orders } = orderList
+
+	const userLogin = useSelector(state => state.userLogin)
+	const {userInfo} = userLogin
+
+	useEffect(() => {
+
+		if(!userInfo || !(userInfo.role === '4' || userInfo.role === '6')){
+			navigate('/')
+		} else {
+			dispatch(listOrders())
+		}
+
+				
+	}, [dispatch, navigate, userInfo] )
+
+	
+
 	return(
 		<>
-			<Nav className='my-3' variant="tabs" >
-			  	<LinkContainer to='/order' >
-					<Nav.Link>Purchase Order</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderlist' >
-						<Nav.Link>Purchase Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved'>
-					<Nav.Link>Approved Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved/finance'>
-					<Nav.Link>Finance Approval Order list</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderstatus'>
-					<Nav.Link>Purchase Order Status</Nav.Link>
-				</LinkContainer>
-			</Nav>
-
+			<OrderSteps />
+			{ loading ? <Loader />
+			: error ? <Message variant='danger'>{error}</Message>
+			: (
 			<Table striped bordered hover responsive='md' className='table-sm mt-3' id="table-to-xls">
 						<thead>
 							<tr>
 								<th>S.No</th>
-								<th >PR.No</th>
-								<th >Requested Date</th>
-								<th >Requested By</th>
-								<th >Total Price</th>
-								<th >Finance Approval</th>
-								<th >Action</th>
+								<th>PR.No</th>
+								<th>Requested Date</th>
+								<th>Requested By</th>
+								<th>Approved By</th>
+								<th>Approved Date</th>
+								<th>Total Price</th>
+								<th>Finance Approval</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -51,6 +62,16 @@ const ApprovedPurchaseOrderList = () =>{
 										<td>{order._id}</td>
 										<td>{order.createdAt.substring(0,10)}</td>
 										<td>{order.user.firstName}</td>
+										{
+											order.approvalDetails.map(app => (
+												<>
+													<td>{app.approverName}</td>
+													<td>{app.approvedAt.substring(0,10)}</td>
+												</>
+												))
+										}
+										
+										{/*<td>{order.approvalDetails[0].approvedAt.substring(0,10)}</td>*/}
 										<td>{order.orderTotalPrice}</td>
 										<td>
 											{
@@ -85,6 +106,7 @@ const ApprovedPurchaseOrderList = () =>{
 								)) }
 						</tbody>
 				</Table>
+				)}
 		</>
 
 		)

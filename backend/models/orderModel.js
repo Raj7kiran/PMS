@@ -1,5 +1,73 @@
 import mongoose from 'mongoose'
 
+const approveSchema = mongoose.Schema(
+		{
+			approverName: { type: String, required: true },
+			approverId : {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'User'
+				},
+			approvedAt: {
+				type: Date
+			},
+			orderId: {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'Order'
+			}
+		},
+		{
+			timestamps: true
+		}
+	)
+
+const financeApproveSchema = mongoose.Schema(
+		{
+			approverName: { type: String, required: true },
+			approverId : {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'User'
+				},
+			approvedAt: {
+				type: Date
+			},
+			orderId: {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'Order'
+			},
+			remarks:{ type: String }
+		},
+		{
+			timestamps: true
+		}
+	)
+
+const finalApproveSchema = mongoose.Schema(
+		{
+			approverName: { type: String, required: true },
+			approverId : {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'User'
+				},
+			approvedAt: {
+				type: Date
+			},
+			orderId: {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'Order'
+			},
+			remarks:{ type: String }
+		},
+		{
+			timestamps: true
+		}
+	)
+
 const orderSchema = mongoose.Schema(
 	{
 		user:{
@@ -31,16 +99,28 @@ const orderSchema = mongoose.Schema(
 				type: Boolean,
 				// required: true,
 			},
+			approvalDetails: [approveSchema],
 			isFinanceApproved: {
 				type: Boolean,
 				// required: true,
 			},
+			financeApprovalDetails: [financeApproveSchema],
+			isFinalApproved: {
+				type: Boolean,
+				// required: true,
+			},
+			finalApprovalDetails: [finalApproveSchema],
 			taxPrice: {
 				type: Number,
 				required: true,
 				default: 0.0
 			},
 			shippingPrice: {
+				type: Number,
+				required: true,
+				default: 0.0
+			},
+			itemTotalPrice: {
 				type: Number,
 				required: true,
 				default: 0.0

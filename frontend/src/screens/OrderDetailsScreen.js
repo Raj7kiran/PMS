@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
+import React, {useEffect} from 'react'
 import {Link, useParams, useNavigate} from 'react-router-dom'
-import { Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
+import { Table} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import ProductSteps from '../components/ProductSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getOrderDetails } from '../actions/orderActions'
@@ -15,6 +13,7 @@ const OrderDetailsScreen = ({history}) => {
 
 	const { id } = useParams()
 	const orderId = id
+	let navigate = useNavigate()
 
 	const userLogin = useSelector(state => state.userLogin)
 	const {userInfo} = userLogin
@@ -31,8 +30,8 @@ const OrderDetailsScreen = ({history}) => {
 
 	useEffect(() => {
 
-		if(!userInfo){
-			history.push('/login')
+		if(!userInfo ){
+			navigate('/')
 		}
 		
 		if(!order || order._id !== orderId ){
@@ -41,13 +40,13 @@ const OrderDetailsScreen = ({history}) => {
 			}
 
 		
-	},[dispatch, order, orderId, history, userInfo])
+	},[dispatch, order, orderId, navigate, userInfo])
 
 
 
 	return(
 		<>
-			<Link to='/orderstatus' className='btn btn-dark my-3'>Go Back</Link>
+			<Link to='/order/status' className='btn btn-dark my-3'>Go Back</Link>
 			<h1>Order : {order._id}</h1>
 			{loading ? <Loader />
 					: error ? <Message variant='danger'>{error}</Message>

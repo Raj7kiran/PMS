@@ -449,10 +449,11 @@ const ProfileScreen = () => {
 									</Row>
 									</>
 								) }
-							
+								<>
+								<Row>
 								{ userInfo.isClientAdmin && (
 									<>
-										{/*<Form.Group className="mb-3" controlId='company'>
+									{/*<Form.Group className="mb-3" controlId='company'>
 											<FloatingLabel controlId="floatingInput" label="Company Name" >
 												<Form.Control 	type="company"  placeholder="Company Name"
 																value={userInfo.company} disabled
@@ -481,9 +482,7 @@ const ProfileScreen = () => {
 												    		disabled={editHand}
 										    	 />
 										 </Form.Group>*/}
-
-										<Row>
-											<Col>
+										<Col>
 												<Form.Group controlId='role' className="mb-3">
 													<FloatingLabel controlId="floatingSelect" label="Role">
 														<Form.Control as='select' value={role} 
@@ -502,6 +501,9 @@ const ProfileScreen = () => {
 													{roleErr.length>1 ? (<div className='errMsg'>{roleErr}</div>): null}
 											</Form.Group>
 											</Col>
+										</>
+										)}
+
 											<Col>
 												<Form.Group controlId='gender' className="mb-3">
 														<FloatingLabel controlId="floatingSelect" label="Gender">
@@ -612,7 +614,7 @@ const ProfileScreen = () => {
 											</FloatingLabel>
 										</Form.Group>*/}
 									</>
-								)}
+								
 											
 
 						{

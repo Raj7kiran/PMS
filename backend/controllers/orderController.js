@@ -20,9 +20,14 @@ export const addOrderItems = asyncHandler(async(req, res) => {
 	}
 })
 
+export const getOrders = asyncHandler(async(req,res) => {
+	const orders = await Order.find({}).populate('user', 'firstName')
+	res.json(orders)
+	
+})
 
 export const getOrderById = asyncHandler(async(req,res) => {
-	const order = await Order.findById(req.params.id).populate('user', 'firstName email phone').populate('orderItems.product','currentStock lowStockValue reOrderValue')
+	const order = await Order.findById(req.params.id).populate('user', 'firstName email phone').populate('orderItems.product','manufacturer tax mrp purchasePrice freeQty discountPrice currentStock lowStockValue reOrderValue ')
 
 	if(order){
 		res.json(order)
@@ -47,5 +52,178 @@ export const deleteOrderById = asyncHandler(async(req, res) => {
 	} else {
 		res.status(404)
 		throw new Error('Order not found')
+	}
+})
+
+
+export const approveOrder = asyncHandler(async(req,res) => {
+	const order = await Order.findById(req.params.id)
+
+	if(order){
+		if(order.isApproved === true || order.isApproved === false || order.isFinanceApproved === false || order.isFinalApproved === false){
+			res.status(400)
+			throw new Error('Order is already approved/rejected')
+		}
+
+		order.isApproved = true
+		
+		const approvalDetails = {
+			approverName: req.user.firstName,
+			approverId: req.user._id,
+			approvedAt: Date.now(),
+			orderId: req.params.id
+		}
+
+		order.approvalDetails.push(approvalDetails)
+		
+		const updatedOrder = await order.save()
+		res.json(updatedOrder)
+
+	} else{
+		res.status(404)
+		throw new Error("Order not Found") 
+	}
+})
+
+export const financeApproveOrder = asyncHandler(async(req,res) => {
+	const { remarks } = req.body
+
+	const order = await Order.findById(req.params.id)
+
+	if(order){
+		if(order.isFinanceApproved === true || order.isApproved === false || order.isFinanceApproved === false || order.isFinalApproved === false){
+			res.status(400)
+			throw new Error('Order is already approved/rejected')
+		}
+
+		const approvalDetails = {
+			approverName: req.user.firstName,
+			approverId: req.user._id,
+			approvedAt: Date.now(),
+			orderId: req.params.id,
+			remarks
+		}
+
+		order.financeApprovalDetails.push(approvalDetails)
+
+		order.isFinanceApproved = true
+		
+		
+		const updatedOrder = await order.save()
+		res.json(updatedOrder)
+
+	} else{
+		res.status(404)
+		throw new Error("Order not Found") 
+	}
+})
+
+export const finalApproveOrder = asyncHandler(async(req,res) => {
+	const { remarks } = req.body
+
+	const order = await Order.findById(req.params.id)
+
+	if(order){
+		if(order.isFinalApproved === true || order.isApproved === false || order.isFinanceApproved === false || order.isFinalApproved === false){
+			res.status(400)
+			throw new Error('Order is already approved/rejected')
+		}
+
+		const approvalDetails = {
+			approverName: req.user.firstName,
+			approverId: req.user._id,
+			approvedAt: Date.now(),
+			orderId: req.params.id,
+			remarks
+		}
+
+		order.finalApprovalDetails.push(approvalDetails)
+
+		order.isFinalApproved = true
+		
+		const updatedOrder = await order.save()
+		res.json(updatedOrder)
+
+	} else{
+		res.status(404)
+		throw new Error("Order not Found") 
+	}
+})
+
+export const rejectOrder = asyncHandler(async(req,res) => {
+	const { remarks } = req.body
+	const order = await Order.findById(req.params.id)
+
+	if(order){
+		if(order.isApproved === false || order.isFinanceApproved === false || order.isFinalApproved === false){
+			res.status(400)
+			throw new Error('Order is already rejected')
+		}
+
+		
+
+		if(order.isFinanceApproved === true && order.isApproved === true){
+			if(order.isFinalApproved === true){
+				res.status(400)
+				throw new Error('Order is already approved')
+			}
+			const approvalDetails = {
+				approverName: req.user.firstName,
+				approverId: req.user._id,
+				approvedAt: Date.now(),
+				orderId: req.params.id,
+				remarks
+			}
+			order.finalApprovalDetails.push(approvalDetails)
+
+			order.isFinalApproved = false
+			order.finalApprovedAt = Date.now()
+
+		} else if(order.isApproved === true) {
+			if(order.isFinanceApproved === true || order.isFinalApproved === true){
+				res.status(400)
+				throw new Error('Order is already approved')
+			}
+			const approvalDetails = {
+				approverName: req.user.firstName,
+				approverId: req.user._id,
+				approvedAt: Date.now(),
+				orderId: req.params.id,
+				remarks
+			}
+			order.financeApprovalDetails.push(approvalDetails)
+
+			order.isFinanceApproved = false
+			order.financeApprovedAt = Date.now()
+			order.isFinalApproved = false
+			order.finalApprovedAt = Date.now()
+
+		} else {
+			if(order.isApproved === true || order.isFinanceApproved === true || order.isFinalApproved === true){
+				res.status(400)
+				throw new Error('Order is already approved')
+			}
+			const approvalDetails = {
+				approverName: req.user.firstName,
+				approverId: req.user._id,
+				approvedAt: Date.now(),
+				orderId: req.params.id,
+			}
+			order.approvalDetails.push(approvalDetails)
+
+			order.isApproved = false
+			order.approvedAt = Date.now()
+			order.isFinanceApproved = false
+			order.financeApprovedAt = Date.now()
+			order.isFinalApproved = false
+			order.finalApprovedAt = Date.now()
+		}		
+		
+		const updatedOrder = await order.save()
+		res.json(updatedOrder)
+
+	} else{
+		res.status(404)
+		throw new Error("Order not Found") 
 	}
 })

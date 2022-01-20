@@ -21,8 +21,9 @@ import ProductEditScreen from './screens/ProductEditScreen'
 import PurchaseOrderScreen from './screens/PurchaseOrderScreen'
 import OrderDetailsScreen from './screens/OrderDetailsScreen'
 import PurchaseOrderEditScreen from './screens/PurchaseOrderEditScreen'
+import OrderScreen from './screens/OrderScreen'
 import PurchaseOrderStatusScreen from './screens/PurchaseOrderStatusScreen'
-import PurchaseOrderApprovalScreen from './screens/PurchaseOrderApprovalScreen'
+import VerifyOrderScreen from './screens/VerifyOrderScreen'
 import PurchaseOrderListScreen from './screens/PurchaseOrderListScreen'
 import ApprovedPurchaseOrderList from './screens/ApprovedPurchaseOrderList'
 import VerifyApprovedOrderScreen from './screens/VerifyApprovedOrderScreen'
@@ -58,16 +59,17 @@ const App = () => {
             <Route path='/productlist' element={<ProductListScreen />} exact />
             <Route path='/products/:id/edit' element={<ProductEditScreen />} exact />
             <Route path='/supplier/:id/edit' element={<SupplierEditScreen />} exact />
-            <Route path='/order' element={<PurchaseOrderScreen />} exact />
+            <Route path='/order' element={<OrderScreen />} exact />
+            <Route path='/order/purchase' element={<PurchaseOrderScreen />} exact />
             <Route path='/order/:id' element={<OrderDetailsScreen />} exact />
             <Route path='/order/:id/edit' element={<PurchaseOrderEditScreen />} exact />
-            <Route path='/order/:id/approve' element={<PurchaseOrderApprovalScreen />} exact />
+            <Route path='/order/:id/approve' element={<VerifyOrderScreen />} exact />
             <Route path='/order/approved' element={<ApprovedPurchaseOrderList />} exact />
             <Route path='/order/approved/:id' element={<VerifyApprovedOrderScreen />} exact />
             <Route path='/order/approved/finance' element={<FinanceApprovalOrderListScreen />} exact />
             <Route path='/order/approved/finance/:id' element={<VerifyFinanceApprovedOrderScreen />} exact />
-            <Route path='/orderstatus' element={<PurchaseOrderStatusScreen />} exact />
-            <Route path='/orderlist' element={<PurchaseOrderListScreen />} exact />
+            <Route path='/order/status' element={<PurchaseOrderStatusScreen />} exact />
+            <Route path='/order/list' element={<PurchaseOrderListScreen />} exact />
             {/*<Route path='/addUsers' element={<NewAddClientScreen2 />} exact />*/}
           </Routes>
         </Container>

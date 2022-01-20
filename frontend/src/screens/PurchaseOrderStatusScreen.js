@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Modal } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import OrderSteps from '../components/OrderSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listMyOrders, deleteOrder,getOrderDetails } from '../actions/orderActions'
@@ -12,6 +14,7 @@ const PurchaseOrderStatusScreen = ({history}) => {
 	let count=1;
 	const dispatch = useDispatch()
 	const [lgShow, setLgShow] = useState(false);
+	let navigate = useNavigate()
 
 	const userDetails = useSelector((state) => state.userDetails)
 	const { user } = userDetails
@@ -29,14 +32,14 @@ const PurchaseOrderStatusScreen = ({history}) => {
 	const { loading: loadingDelete, success: successDelete, error:errorDelete } = orderDelete
 
 	useEffect(()=> {
-		if(!userInfo){
-			history.push('/login')
+		if(!userInfo || !(userInfo.role === '1' || userInfo.role === '3') ){
+			navigate('/')
 		} 
 			
 		dispatch(listMyOrders())
 
 		
-	}, [dispatch, history, userInfo, successDelete])
+	}, [dispatch, navigate, userInfo, successDelete])
 
 	const deleteHandler = (id) => {
 		if(window.confirm('Are you sure you want to delete?')){
@@ -53,23 +56,7 @@ const PurchaseOrderStatusScreen = ({history}) => {
 	console.log(odDetails)
 	return(
 		<>
-			<Nav className='my-3' variant="tabs" >
-			  	<LinkContainer to='/order' >
-					<Nav.Link>Purchase Order</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderlist' >
-						<Nav.Link>Purchase Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved'>
-					<Nav.Link>Approved Order List</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/order/approved/finance'>
-					<Nav.Link>Finance Approval Order list</Nav.Link>
-				</LinkContainer>
-				<LinkContainer to='/orderstatus'>
-					<Nav.Link>Purchase Order Status</Nav.Link>
-				</LinkContainer>
-			</Nav>
+			<OrderSteps />
 			{ loadingOrders ? <Loader />
 			: errorOrders ? <Message variant='danger'>{errorOrders}</Message>
 			: (
@@ -95,8 +82,8 @@ const PurchaseOrderStatusScreen = ({history}) => {
 										<td>{order.orderTotalPrice}</td>
 										<td>
 											{
-												order.isApproved === true ? <Button variant='sucess' className='btn-sm' disabled>Approved</Button>
-												: order.isApproved === false ? <Button variant='danger' className='btn-sm' disabled>Rejected</Button>
+												order.isFinalApproved === true ? <Button variant='sucess' className='btn-sm' disabled>Approved</Button>
+												: order.isFinalApproved === false ? <Button variant='danger' className='btn-sm' disabled>Rejected</Button>
 												: <Button variant='info' className='btn-sm' disabled>Pending</Button>
 
 											}

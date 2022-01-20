@@ -25,7 +25,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
            <Nav className='ml-auto'>
-              { userInfo && !userInfo.isAdmin ? (
+              { userInfo && userInfo.isClientAdmin ? (
                   <NavDropdown title={userInfo.firstName} id='username'>
                       <LinkContainer to='/profile'>
                           <NavDropdown.Item>Profile</NavDropdown.Item>
@@ -42,9 +42,7 @@ const Header = () => {
                       <LinkContainer to='/products'>
                           <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to='/order'>
-                          <NavDropdown.Item>Order</NavDropdown.Item>
-                      </LinkContainer>
+                      
                       <NavDropdown.Item onClick={logoutHandler} >
                         Logout
                       </NavDropdown.Item>                      
@@ -64,7 +62,23 @@ const Header = () => {
                             Logout
                           </NavDropdown.Item>                
                       </NavDropdown>
-                ) : ('')  }   
+                ) : userInfo && (
+                    <NavDropdown title={userInfo.firstName} id='username'>
+                      <LinkContainer to='/profile'>
+                          <NavDropdown.Item>Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to='/productlist'>
+                          <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to='/order'>
+                          <NavDropdown.Item>Order</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Item onClick={logoutHandler} >
+                        Logout
+                      </NavDropdown.Item>                      
+                  </NavDropdown>
+
+                )  }   
                 
             </Nav>
           </Navbar.Collapse>

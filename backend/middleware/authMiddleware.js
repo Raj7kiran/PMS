@@ -47,6 +47,66 @@ const admin = (req, res, next) => {
 	}
 }
 
+const initiator = (req, res, next) => {
+	if(req.user && req.user.role === '1'){
+		// console.log(req.user.isAdmin)
+		next()
+	} else {
+		res.status(401)
+		throw new Error('Not Authorized as initiator')
+	}
+}
+
+const approver = (req, res, next) => {
+	if(req.user && req.user.role === '2'){
+		// console.log(req.user.isAdmin)
+		next()
+	} else {
+		res.status(401)
+		throw new Error('Not Authorized as approver')
+	}
+}
+
+const initAndApprov = (req, res, next) => {
+	if(req.user && req.user.role === '3'){
+		// console.log(req.user.isAdmin)
+		next()
+	} else {
+		res.status(401)
+		throw new Error('Not Authorized as initiator and approver')
+	}
+}
+
+const financer = (req, res, next) => {
+	if(req.user && req.user.role === '4'){
+		// console.log(req.user.isAdmin)
+		next()
+	} else {
+		res.status(401)
+		throw new Error('Not Authorized as financer')
+	}
+}
+
+const finalApprover = (req, res, next) => {
+	if(req.user && req.user.role === '5'){
+		// console.log(req.user.isAdmin)
+		next()
+	} else {
+		res.status(401)
+		throw new Error('Not Authorized as finalApprover')
+	}
+}
+
+const financeAndFinal = (req, res, next) => {
+	if(req.user && req.user.role === '6'){
+		// console.log(req.user.isAdmin)
+		next()
+	} else {
+		res.status(401)
+		throw new Error('Not Authorized as financer or finalApprover')
+	}
+}
+
 
 
 export { protect, admin }
