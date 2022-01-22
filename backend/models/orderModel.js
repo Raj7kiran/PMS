@@ -70,7 +70,7 @@ const finalApproveSchema = mongoose.Schema(
 
 const orderSchema = mongoose.Schema(
 	{
-		user:{
+			user:{
 					type: mongoose.Schema.Types.ObjectId,
 					required: true,
 					ref: 'User'

@@ -13,7 +13,9 @@ import { ORDER_CREATE_REQUEST,ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL,
 import { logout } from './userActions'
 
 
-export const createOrder = (order) => async (dispatch, getState) => {
+export const createOrder = ({orderItems}) => async (dispatch, getState) => {
+  console.log('actions')
+  console.log(orderItems)
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
@@ -31,7 +33,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     }	
 
-    const { data } = await axios.post(`/order`, order, config)	  
+    const { data } = await axios.post(`/order`, orderItems, config)	  
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,

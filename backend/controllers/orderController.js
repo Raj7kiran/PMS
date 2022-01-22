@@ -3,7 +3,12 @@ import Order from '../models/orderModel.js'
 
 
 export const addOrderItems = asyncHandler(async(req, res) => {
-	const { orderItems, orderTotalPrice } = req.body
+	const orderItems = req.body
+	console.log('backend')
+	console.log(orderItems)
+
+	const orderTotalPrice = (orderItems.reduce((acc, item) => acc + item.totalPrice, 0 )).toFixed(2)
+	console.log(orderTotalPrice)
 
 	if(orderItems && orderItems.length === 0){
 		res.status(400)
