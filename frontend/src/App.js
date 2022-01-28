@@ -29,6 +29,9 @@ import ApprovedPurchaseOrderList from './screens/ApprovedPurchaseOrderList'
 import VerifyApprovedOrderScreen from './screens/VerifyApprovedOrderScreen'
 import VerifyFinanceApprovedOrderScreen from './screens/VerifyFinanceApprovedOrderScreen'
 import FinanceApprovalOrderListScreen from './screens/FinanceApprovalOrderListScreen'
+import SaleScreen from './screens/SaleScreen'
+import SaleDetailsScreen from './screens/SaleDetailsScreen'
+import MySalesScreen from './screens/MySalesScreen'
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -70,6 +73,9 @@ const App = () => {
             <Route path='/order/approved/finance/:id' element={<VerifyFinanceApprovedOrderScreen />} exact />
             <Route path='/order/status' element={<PurchaseOrderStatusScreen />} exact />
             <Route path='/order/list' element={<PurchaseOrderListScreen />} exact />
+            <Route path='/sale' element={<SaleScreen />} exact />            
+            <Route path='/mysales' element={<MySalesScreen />} exact />
+            <Route path='/sale/:id' element={<SaleDetailsScreen />} exact />
             {/*<Route path='/addUsers' element={<NewAddClientScreen2 />} exact />*/}
           </Routes>
         </Container>

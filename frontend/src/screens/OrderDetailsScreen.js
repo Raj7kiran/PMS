@@ -38,7 +38,6 @@ const OrderDetailsScreen = ({history}) => {
 				console.log('dispatch')
 				dispatch(getOrderDetails(orderId))
 			}
-
 		
 	},[dispatch, order, orderId, navigate, userInfo])
 

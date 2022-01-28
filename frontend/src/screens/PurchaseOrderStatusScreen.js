@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Modal } from 'react-bootstrap'
+import { Table, Button, Form, FloatingLabel, Modal } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import OrderSteps from '../components/OrderSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listMyOrders, deleteOrder,getOrderDetails } from '../actions/orderActions'
+import { listMyOrders, deleteOrder } from '../actions/orderActions'
 import { ORDER_DELETE_RESET } from '../constants/orderConstants'
 // import OrderDetailsScreen2 from '../screens/OrderDetailsScreen2'
 
-const PurchaseOrderStatusScreen = ({history}) => {
+const PurchaseOrderStatusScreen = () => {
 	let count=1;
 	const dispatch = useDispatch()
 	const [lgShow, setLgShow] = useState(false);

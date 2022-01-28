@@ -11,11 +11,14 @@ import { manufacturerListReducer, manufacturerCreateReducer, manufacturerDeleteR
 		 productListReducer, productCreateReducer, productDeleteReducer, productDetailsReducer,
 		 productUpdateReducer,
 	 } from './reducers/otherReducers'
-import { userListReducer, userDetailsReducer,userUpdateProfileReducer, userUpdateReducer, userDeleteReducer } from './reducers/userReducers'
+import { userListReducer, userDetailsReducer,userUpdateProfileReducer, userUpdateReducer, userDeleteReducer,doctorListReducer } from './reducers/userReducers'
 import { countryListReducer, stateListReducer, cityListReducer } from './reducers/dropReducers'
 import { orderCreateReducer, orderDetailsReducer, orderListMyReducer, orderListReducer, orderDeleteReducer,
 		 orderApproveReducer, orderFinanceApproveReducer, orderFinalApproveReducer, orderRejectReducer
 		  } from './reducers/orderReducers'
+import { saleCreateReducer, saleListMyReducer, saleDetailsReducer, saleListReducer, saleDeleteReducer,
+		 saleSubmitReducer
+		} from './reducers/saleReducers'
 
 
 const reducer = combineReducers({
@@ -34,6 +37,7 @@ const reducer = combineReducers({
 	userUpdateProfile: userUpdateProfileReducer,
 	userUpdate: userUpdateReducer,
 	userDelete:userDeleteReducer,
+	doctorList: doctorListReducer,
 	manufacturerList: manufacturerListReducer,
 	manufacturerCreate: manufacturerCreateReducer,
 	manufacturerDelete: manufacturerDeleteReducer,
@@ -57,7 +61,13 @@ const reducer = combineReducers({
 	orderApprove: orderApproveReducer,
 	orderFinanceApprove: orderFinanceApproveReducer,
 	orderFinalApprove: orderFinalApproveReducer,
-	orderReject:orderRejectReducer
+	orderReject:orderRejectReducer,
+	saleCreate: saleCreateReducer,
+	saleListMy: saleListMyReducer,
+	saleDetails: saleDetailsReducer,
+	saleList: saleListReducer,
+	saleDelete: saleDeleteReducer,
+	saleSubmit: saleSubmitReducer
 })
 
 

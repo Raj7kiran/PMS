@@ -397,6 +397,11 @@ const AddClientScreen = () => {
 															<option value='4'>Financer</option>
 															<option value='5'>Final Approver</option>
 															<option value='6'>Financer & Final</option>
+															<option value='7'>Doctor</option>
+															<option value='8'>Parmacist</option>
+															<option value='9'>Biller</option>
+															<option value='10'>Collector</option>
+															<option value='11'>Delivery</option>
 														</Form.Control>
 													</FloatingLabel>
 													{roleErr.length>1 ? (<div className='errMsg'>{roleErr}</div>): null}
@@ -450,14 +455,14 @@ const AddClientScreen = () => {
 															))  }
 														</Form.Control>
 													</FloatingLabel>
-											</Form.Group>
+												</Form.Group>
 											</Col>
 										</Row>
 										<Row>
 											<Col>
 												<Form.Group className="mb-3" controlId='phone'>
 													<FloatingLabel controlId="floatingInput" label="Phone" >
-														<Form.Control 	type="phone"  placeholder="9911223344"
+														<Form.Control 	type="number"  placeholder="9911223344"
 																		className={`${phoneErr.length>1 ? 'inCorrect' : null}`}
 																		value={phone}
 																		onChange = {(e)=> PH(e.target.value)}

@@ -30,7 +30,6 @@ const ClientEditScreen = ({match}) => {
 	const [ password, setPassword ] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('');
 
-
 	const [ company, setCompany ] = useState('')
 	const [ compErr, setCompErr ] = useState('')
 

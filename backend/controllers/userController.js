@@ -84,6 +84,17 @@ const getUsers = asyncHandler(async(req,res) => {
 	
 })
 
+const getDoctor = asyncHandler(async(req,res) => {
+	const doctors = await User.find({role : '7'})
+
+	if(doctors){
+		res.json(doctors)
+	} else {
+		res.status(404)
+		throw new Error ('No doctors found')
+	}
+})
+
 
 //add User
 const addUser = asyncHandler(async(req,res) => {
@@ -322,4 +333,5 @@ const updateUserProfile = asyncHandler(async (req,res) => {
 
 
 
-export { authUser, addUser, getUsers, getUserProfile, getUserById, deleteUser, updateUser, updateUserProfile }
+export { authUser, addUser, getUsers, getUserProfile, getUserById, deleteUser, 
+	updateUser, updateUserProfile, getDoctor }

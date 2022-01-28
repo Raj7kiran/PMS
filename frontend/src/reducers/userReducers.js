@@ -1,5 +1,6 @@
 import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, 
          USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_RESET,
+         DOCTOR_LIST_FAIL, DOCTOR_LIST_REQUEST, DOCTOR_LIST_SUCCESS, DOCTOR_LIST_RESET,
          USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_RESET,
          USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_RESET,
          USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_RESET,
@@ -31,6 +32,21 @@ export const userListReducer = (state = { users:[] }, action) => {
       return { loading: false, error: action.payload }
     case USER_LIST_RESET:
       return { users: [] }
+    default:
+      return state
+  }
+}
+
+export const doctorListReducer = (state = { doctors:[] }, action) => {
+  switch (action.type) {
+    case DOCTOR_LIST_REQUEST:
+      return { loading: true, doctors:[] }
+    case DOCTOR_LIST_SUCCESS:
+      return { loading: false,  doctors: action.payload }
+    case DOCTOR_LIST_FAIL:
+      return { loading: false, error: action.payload }
+    case DOCTOR_LIST_RESET:
+      return { doctors: [] }
     default:
       return state
   }
