@@ -13,7 +13,7 @@ const UserListScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 	const [q , setQ] = useState('')
-	const [ order, setOrder ] = useState('ASC')
+	// const [ order, setOrder ] = useState('ASC')
 
 	const userList = useSelector(state => state.userList)
 	const { loading, error, users } = userList
@@ -38,7 +38,7 @@ const UserListScreen = () => {
 		} else {
 			navigate('/')
 		}		
-	}, [dispatch, userInfo, navigate] )
+	}, [dispatch, userInfo, navigate, successDelete] )
 
 
 	// const sorting = (col) => {
@@ -63,7 +63,7 @@ const UserListScreen = () => {
 						user.firstName.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
 						user.email.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
 						user.role.toLowerCase().indexOf(q.toLowerCase()) > -1 ||
-					user.address && user.address.toLowerCase().indexOf(q.toLowerCase()) > -1 																		 										
+						(user.address && user.address.toLowerCase().indexOf(q.toLowerCase()) )> -1 																		 										
 					)
 		}
 

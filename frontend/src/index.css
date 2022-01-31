@@ -65,6 +65,12 @@ h2 {
   padding: 0.5rem 0;
 }
 
+.fixedBottomButton{
+            position: absolute;
+            bottom: 60px;
+            right: 80px; 
+            padding: 20px;
+        }
 
 footer { 
     position: block; 

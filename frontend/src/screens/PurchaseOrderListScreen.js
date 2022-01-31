@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Table, Row, Col, Button } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Table, Button } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import OrderSteps from '../components/OrderSteps'
 import {useNavigate} from 'react-router-dom'

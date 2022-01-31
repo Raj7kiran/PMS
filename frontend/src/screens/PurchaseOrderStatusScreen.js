@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Form, FloatingLabel, Modal } from 'react-bootstrap'
+import { Table, Button, } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -7,27 +7,23 @@ import OrderSteps from '../components/OrderSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listMyOrders, deleteOrder } from '../actions/orderActions'
-import { ORDER_DELETE_RESET } from '../constants/orderConstants'
+// import { ORDER_DELETE_RESET } from '../constants/orderConstants'
 // import OrderDetailsScreen2 from '../screens/OrderDetailsScreen2'
 
 const PurchaseOrderStatusScreen = () => {
 	let count=1;
 	const dispatch = useDispatch()
-	const [lgShow, setLgShow] = useState(false);
+	// const [lgShow, setLgShow] = useState(false);
 	let navigate = useNavigate()
 
-	const userDetails = useSelector((state) => state.userDetails)
-	const { user } = userDetails
-
+	
 	const userLogin = useSelector((state) => state.userLogin)
 	const { userInfo } = userLogin
 
 	const orderListMy = useSelector((state) => state.orderListMy)
 	const { loading: loadingOrders , error: errorOrders, orders } = orderListMy
 
-	const orderDetails = useSelector( state => state.orderDetails )
-	const { loading, error, odDetails } = orderDetails
-
+	
 	const orderDelete = useSelector( state => state.orderDelete )
 	const { loading: loadingDelete, success: successDelete, error:errorDelete } = orderDelete
 
@@ -53,10 +49,12 @@ const PurchaseOrderStatusScreen = () => {
 	// 	dispatch(getOrderDetails(orderId))
 	// }
 
-	console.log(odDetails)
+	// console.log(odDetails)
 	return(
 		<>
 			<OrderSteps />
+			{loadingDelete && <Loader />}
+			{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 			{ loadingOrders ? <Loader />
 			: errorOrders ? <Message variant='danger'>{errorOrders}</Message>
 			: (

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Card, ListGroup } from 'react-bootstrap'
-import{ LinkContainer } from 'react-router-bootstrap'
+import { Table, Row, Col, Button, Form, FloatingLabel, Card, ListGroup } from 'react-bootstrap'
 import {Link, useParams, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import ProductSteps from '../components/ProductSteps'
-import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
+import { Row, Col, Button, Form, FloatingLabel, } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listManufacturers, createProduct } from '../actions/otherActions'
-import { PRODUCT_CREATE_RESET } from '../constants/otherConstants'
+// import { PRODUCT_CREATE_RESET } from '../constants/otherConstants'
 
 const ProductScreen = ({history}) => {
 	const dispatch = useDispatch()
@@ -243,14 +243,14 @@ const ProductScreen = ({history}) => {
 			else {setStorageTempErr('')}
 	}
 
-	const tempCheck1 = (data) => {
-		if(!new RegExp( /^\d/).test(data)){setStorageTempErr('Required: Numbers')}
-		 else {
-			setStorageTemp(data)
-			console.log(data)
-			setStorageTempErr('')
-		}
-	}
+	// const tempCheck1 = (data) => {
+	// 	if(!new RegExp( /^\d/).test(data)){setStorageTempErr('Required: Numbers')}
+	// 	 else {
+	// 		setStorageTemp(data)
+	// 		console.log(data)
+	// 		setStorageTempErr('')
+	// 	}
+	// }
 
 	const binCheck = (data) => {
 		if(data.length<1 || data.length>20){ setBinLocationErr('Required: 1-20 charcters')} 

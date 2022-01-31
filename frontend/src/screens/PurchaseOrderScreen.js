@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
-import{ LinkContainer } from 'react-router-bootstrap'
+import { Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import OrderSteps from '../components/OrderSteps'
@@ -35,7 +34,7 @@ const PurchaseOrderScreen = ({history}) => {
 	const {userInfo} = userLogin
 
 	const orderCreate = useSelector(state => state.orderCreate)
-	const { order, loading: createLoading, error: createError, success:createSuccess } = orderCreate
+	const { loading: createLoading, error: createError, success:createSuccess } = orderCreate
 
 	const [dropDownData, setDropDownData] = useState(products)
 
@@ -170,8 +169,7 @@ const PurchaseOrderScreen = ({history}) => {
 
 			let orderItems = []
 
-			tableData.map(row => {
-				
+			tableData.map(row => {				
 				let totalPrice = Number(addDecimals(row.product.purchasePrice*row.quantity))
 				const newItem =  {
 					name: row.product.medicineName,

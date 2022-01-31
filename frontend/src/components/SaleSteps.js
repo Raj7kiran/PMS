@@ -12,14 +12,40 @@ const SaleSteps = () => {
 
 	return(
 		<Nav className='my-3' variant="tabs" >
+			{
+				(userInfo.role === '7' || userInfo.role === '9') && (
+					<>
+						<LinkContainer to='/sale' >
+							<Nav.Link>Sale/Prescription</Nav.Link>
+						</LinkContainer>
+						<LinkContainer to='/mysales'>
+							<Nav.Link>My Sale/Prescription</Nav.Link>
+						</LinkContainer>
+					</>
+				)
+			}
+			{
+				(userInfo.role === '9') && (				
+					<LinkContainer to='/sale/list'>
+						<Nav.Link>Sales Order List</Nav.Link>
+					</LinkContainer>				
+				)
+			}
+			{
+				(userInfo.role === '10') && (				
+					<LinkContainer to='/sale/billed'>
+						<Nav.Link>Billed Order List</Nav.Link>
+					</LinkContainer>				
+				)
+			}
+			{
+				(userInfo.role === '11') && (				
+					<LinkContainer to='/sale/collected'>
+					<Nav.Link>Collected Order List</Nav.Link>
+				</LinkContainer>				
+				)
+			}	
 			
-			<LinkContainer to='/sale' >
-				<Nav.Link>Sale/Prescription</Nav.Link>
-			</LinkContainer>
-			<LinkContainer to='/mysales'>
-				<Nav.Link>My Sale/Prescription</Nav.Link>
-			</LinkContainer>
-						
 		</Nav>
 		)
 }

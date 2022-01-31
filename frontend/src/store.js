@@ -17,7 +17,9 @@ import { orderCreateReducer, orderDetailsReducer, orderListMyReducer, orderListR
 		 orderApproveReducer, orderFinanceApproveReducer, orderFinalApproveReducer, orderRejectReducer
 		  } from './reducers/orderReducers'
 import { saleCreateReducer, saleListMyReducer, saleDetailsReducer, saleListReducer, saleDeleteReducer,
-		 saleSubmitReducer
+		 saleSubmitReducer, saleSubmittedListReducer, salePayReducer, saleBillReducer, saleBilledListReducer,
+		 saleCollectReducer, saleCollectedListReducer, saleDeliverReducer, 
+		 saleDeliveredListReducer, sendBackReducer, saleRejectReducer
 		} from './reducers/saleReducers'
 
 
@@ -67,7 +69,17 @@ const reducer = combineReducers({
 	saleDetails: saleDetailsReducer,
 	saleList: saleListReducer,
 	saleDelete: saleDeleteReducer,
-	saleSubmit: saleSubmitReducer
+	saleSubmit: saleSubmitReducer,
+	saleSubmittedList: saleSubmittedListReducer,
+	salePay: salePayReducer,
+	saleBill: saleBillReducer,
+	saleBilledList: saleBilledListReducer,
+	saleCollect: saleCollectReducer,
+	saleCollectedList: saleCollectedListReducer,
+	saleDeliver: saleDeliverReducer,
+	saleDeliveredList: saleDeliveredListReducer,
+	sendBack: sendBackReducer,
+	saleReject: saleRejectReducer
 })
 
 

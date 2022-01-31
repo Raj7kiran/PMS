@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
+import { Table, Row, Col, Button, InputGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import ProductSteps from '../components/ProductSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import {listProducts, deleteProduct} from '../actions/otherActions'
-import { PRODUCT_DELETE_RESET } from '../constants/otherConstants'
+// import { PRODUCT_DELETE_RESET } from '../constants/otherConstants'
 
 
 const ProductListScreen = ({history}) => {

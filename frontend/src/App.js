@@ -31,7 +31,14 @@ import VerifyFinanceApprovedOrderScreen from './screens/VerifyFinanceApprovedOrd
 import FinanceApprovalOrderListScreen from './screens/FinanceApprovalOrderListScreen'
 import SaleScreen from './screens/SaleScreen'
 import SaleDetailsScreen from './screens/SaleDetailsScreen'
+import SalesOrderListScreen from './screens/SalesOrderListScreen'
+import BilledOrderListScreen from './screens/BilledOrderListScreen'
+import CollectedOrderListScreen from './screens/CollectedOrderListScreen'
 import MySalesScreen from './screens/MySalesScreen'
+import CollectorScreen from './screens/CollectorScreen'
+import BillerScreen from './screens/BillerScreen'
+import DeliverScreen from './screens/DeliverScreen'
+import AllSaleScreen from './screens/AllSaleScreen'
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -75,7 +82,14 @@ const App = () => {
             <Route path='/order/list' element={<PurchaseOrderListScreen />} exact />
             <Route path='/sale' element={<SaleScreen />} exact />            
             <Route path='/mysales' element={<MySalesScreen />} exact />
+            <Route path='/sale/list' element={<SalesOrderListScreen />} exact />
+            <Route path='/sale/billed' element={<BilledOrderListScreen />} exact />
+            <Route path='/sale/collected' element={<CollectedOrderListScreen />} exact />
             <Route path='/sale/:id' element={<SaleDetailsScreen />} exact />
+            <Route path='/sale/:id/biller' element={<BillerScreen />} exact />
+            <Route path='/sale/:id/collector' element={<CollectorScreen />} exact />
+            <Route path='/sale/:id/deliver' element={<DeliverScreen />} exact />
+            <Route path='/sales' element={<AllSaleScreen />} exact />
             {/*<Route path='/addUsers' element={<NewAddClientScreen2 />} exact />*/}
           </Routes>
         </Container>

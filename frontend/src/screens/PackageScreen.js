@@ -23,10 +23,10 @@ const PackageScreen = ({ match }) => {
 	
 	
 	const packageList = useSelector(state => state.packageList)
-	const { loading, error, success: successList, packages } = packageList
+	const { loading, error, packages } = packageList
 
 	const packageCreate = useSelector(state => state.packageCreate)
-	const { loading:loadingCreate , error:errorCreate , success: successCreate, package: createdPackage } = packageCreate
+	const { loading:loadingCreate , error:errorCreate , success: successCreate } = packageCreate
 
 	const packageDelete = useSelector(state => state.packageDelete)
 	const { loading:loadingDelete , error:errorDelete , success: successDelete } = packageDelete
@@ -124,6 +124,8 @@ const PackageScreen = ({ match }) => {
 		
 		{loadingCreate && <Loader />}
 		{errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+		{loadingDelete && <Loader />}
+		{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 		
 		<Form onSubmit={submitHandler} validated={validated} noValidate>
 		<Row className='my-3' >			

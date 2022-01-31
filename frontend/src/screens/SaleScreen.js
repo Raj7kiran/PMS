@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Card,ListGroup } from 'react-bootstrap'
-import{ LinkContainer } from 'react-router-bootstrap'
+import { Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Card,ListGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import Loader from '../components/Loader'
@@ -8,7 +7,7 @@ import Message from '../components/Message'
 import SaleSteps from '../components/SaleSteps'
 import {listProducts} from '../actions/otherActions'
 import { createSale } from '../actions/saleActions'
-import { listDoctors, deleteClient } from '../actions/userActions'
+import { listDoctors} from '../actions/userActions'
 import { SALE_CREATE_RESET } from '../constants/saleConstants'
 
 const SaleScreen = () =>{
@@ -38,7 +37,7 @@ const SaleScreen = () =>{
 
 	const [ frequency, setFrequency ] = useState('')
 
-	const [ productTotal, setProductTotal ] = useState('')
+	// const [ productTotal, setProductTotal ] = useState('')
 	
 	const [medicineName, setMedicineName] = useState('')
 	const [quantity, setQuantity] = useState('')
@@ -112,7 +111,7 @@ const SaleScreen = () =>{
 	const {userInfo} = userLogin
 
 	const saleCreate = useSelector(state => state.saleCreate)
-	const { sale, loading: createLoading, error: createError, success:createSuccess } = saleCreate
+	const { loading: createLoading, error: createError, success:createSuccess } = saleCreate
 
 	const [dropDownData, setDropDownData] = useState(products)
 
@@ -126,7 +125,7 @@ const SaleScreen = () =>{
 
 	useEffect(() => {
 
-		if(!userInfo){
+		if(!userInfo || !(userInfo.role === '7' || userInfo.role === '9')){
 			navigate('/')
 		}
 

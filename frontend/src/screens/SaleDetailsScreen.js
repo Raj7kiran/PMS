@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {Link, useParams, useNavigate} from 'react-router-dom'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Card,ListGroup } from 'react-bootstrap'
+import { Table, Row, Col, Button, Form, FloatingLabel, ListGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -30,7 +30,7 @@ const SaleDetailsScreen = () => {
 
 	useEffect(() => {
 
-		if(!userInfo ){
+		if(!userInfo || !(userInfo.role === '7' || userInfo.role === '9') ){
 			navigate('/')
 		}
 		
@@ -149,7 +149,7 @@ const SaleDetailsScreen = () => {
 						</tbody>						
 				</Table>
 				{
-					(sale.isSaved === true && sale.isSubmitted === false) && (
+					((sale.isSaved === true && sale.isSubmitted === false) || (sale.isSubmitted === false)) && (
 						<Row>
 							<Col md={9}>
 								<FloatingLabel controlId="floatingTextarea2" label="Remarks/Notes" className='my-3'>

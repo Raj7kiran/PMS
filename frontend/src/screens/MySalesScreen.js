@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Table, Button, Form, FloatingLabel, Modal } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Table, Button,} from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -15,9 +15,6 @@ const MySalesScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 
-	const userDetails = useSelector((state) => state.userDetails)
-	const { user } = userDetails
-
 	const userLogin = useSelector((state) => state.userLogin)
 	const { userInfo } = userLogin
 
@@ -29,7 +26,7 @@ const MySalesScreen = () => {
 
 
 	useEffect(()=> {
-		if(!userInfo){
+		if(!userInfo || !(userInfo.role === '7' || userInfo.role === '9') ){
 			navigate('/')
 		} 
 			
@@ -48,6 +45,8 @@ const MySalesScreen = () => {
 	return (
 		<>
 		<SaleSteps />
+		{loadingDelete && <Loader />}
+		{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 		{ loadingSales ? <Loader />
 			: errorSales ? <Message variant='danger'>{errorSales}</Message>
 			: (
@@ -72,7 +71,12 @@ const MySalesScreen = () => {
 										<td>{sale.age}</td>
 										<td>{sale.gender}</td>
 										<td>{
-											 (sale.isSubmitted === true && sale.isSaved=== true ) ? <Button variant='info' className='btn-sm' disabled>Submitted</Button>
+											  (sale.isSentBack === true) ? <Button variant='secondary' className='btn-sm' disabled>Sent Back</Button>
+											 : (sale.isRejected === true) ? <Button variant='dark' className='btn-sm' disabled>Rejected</Button>
+											 : (sale.isBilled === true) ? <Button variant='warning' className='btn-sm' disabled>Billed</Button>
+											 : (sale.isCollected === true) ? <Button variant='primary' className='btn-sm' disabled>Collected</Button>
+											 : (sale.isDelivered === true) ? <Button variant='success' className='btn-sm' disabled>Delivered</Button>
+											 :(sale.isSubmitted === true && sale.isSaved=== true ) ? <Button variant='info' className='btn-sm' disabled>Submitted</Button>
 											 : (sale.isSubmitted === false && sale.isSaved=== true ) ? <Button variant='info' className='btn-sm' disabled>Saved</Button>
 											 : (sale.isSubmitted === true && sale.isSaved=== false ) && <Button variant='info' className='btn-sm' disabled>Submitted</Button>
 											}

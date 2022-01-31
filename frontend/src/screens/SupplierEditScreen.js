@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {Link, useParams, useNavigate} from 'react-router-dom'
 import { Row, Col, Button, Form, FloatingLabel } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import {getSupplierDetails, updateSupplier} from '../actions/otherActions'
@@ -238,7 +237,7 @@ const SupplierEditScreen = () => {
 				setStreet(supplier.street)			
 				setArea(supplier.area)			
 			}
-	},[dispatch, navigate, supplier, supplierId, successUpdate])
+	},[dispatch, navigate, supplier, supplierId, successUpdate, userInfo])
 
 	const submitHandler = (e) => {		
 		// setAddress(`${houseno}, ${street}, ${area}`)
