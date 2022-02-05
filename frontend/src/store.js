@@ -19,7 +19,7 @@ import { orderCreateReducer, orderDetailsReducer, orderListMyReducer, orderListR
 import { saleCreateReducer, saleListMyReducer, saleDetailsReducer, saleListReducer, saleDeleteReducer,
 		 saleSubmitReducer, saleSubmittedListReducer, salePayReducer, saleBillReducer, saleBilledListReducer,
 		 saleCollectReducer, saleCollectedListReducer, saleDeliverReducer, 
-		 saleDeliveredListReducer, sendBackReducer, saleRejectReducer
+		 saleDeliveredListReducer, sendBackReducer, saleRejectReducer, saleCardPayReducer
 		} from './reducers/saleReducers'
 
 
@@ -79,7 +79,8 @@ const reducer = combineReducers({
 	saleDeliver: saleDeliverReducer,
 	saleDeliveredList: saleDeliveredListReducer,
 	sendBack: sendBackReducer,
-	saleReject: saleRejectReducer
+	saleReject: saleRejectReducer,
+	saleCardPay: saleCardPayReducer
 })
 
 

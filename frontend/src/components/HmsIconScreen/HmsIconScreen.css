@@ -1,0 +1,124 @@
+.hms-icon-screen,
+.hms-icon-screen-1,
+.hms-icon-screen-2,
+.hms-icon-screen-3,
+.hms-icon-screen-4 {
+  align-items: flex-start;
+  background-color: var(--white-2);
+  box-shadow: 0px 30px 60px #00000078;
+  display: flex;
+  height: 598px;
+  left: 163px;
+  min-width: 1071px;
+  position: absolute;
+  top: 97px;
+}
+
+.overlap-group1,
+.overlap-group1-1,
+.overlap-group1-2,
+.overlap-group1-3,
+.overlap-group1-4 {
+  height: 658px;
+  margin-left: -90px;
+  margin-top: -60.0px;
+  position: relative;
+  width: 716px;
+}
+
+.rectangle-77,
+.rectangle-77-1,
+.rectangle-77-2,
+.rectangle-77-3,
+.rectangle-77-4 {
+  background-color: var(--bright-red);
+  height: 598px;
+  left: 90px;
+  position: absolute;
+  top: 60px;
+  width: 536px;
+}
+
+.path-63,
+.path-63-1,
+.path-63-2,
+.path-63-3,
+.path-63-4 {
+  height: 368px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 716px;
+}
+
+.hospital-sign,
+.hospital-sign-1,
+.hospital-sign-2,
+.hospital-sign-3,
+.hospital-sign-4 {
+  align-items: flex-end;
+  /*background-image: url(/static/img/path-35@1x.png);*/
+  background-position: 50% 50%;
+  background-size: cover;
+  display: flex;
+  height: 148px;
+  justify-content: flex-end;
+  left: 284px;
+  min-width: 148px;
+  padding: 12.4px 12.3px;
+  position: absolute;
+  top: 218px;
+}
+
+.path-container-3,
+.path-container-4,
+.path-container-5,
+.path-container-6,
+.path-container-7 {
+  align-items: flex-start;
+  background-position: 50% 50%;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  min-height: 124px;
+  padding: 11.6px 23.3px;
+  width: 124px;
+}
+
+.path-37,
+.path-37-1,
+.path-37-2,
+.path-37-3,
+.path-37-4 {
+  height: 6px;
+  object-fit: cover;
+  width: 6px;
+}
+
+.path-38,
+.path-38-1,
+.path-38-2,
+.path-38-3,
+.path-38-4 {
+  align-self: center;
+  height: 76px;
+  margin-right: 0.05px;
+  margin-top: 7px;
+  object-fit: cover;
+  width: 75px;
+}
+
+.title,
+.healthiocre,
+.healthiocre-1,
+.healthiocre-2,
+.healthiocre-3 {
+  left: 246px;
+  letter-spacing: 0.40px;
+  line-height: 40px;
+  position: absolute;
+  top: 402px;
+  white-space: nowrap;
+}
+

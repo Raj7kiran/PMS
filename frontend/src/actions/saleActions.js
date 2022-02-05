@@ -14,7 +14,8 @@ import {  SALE_CREATE_REQUEST, SALE_CREATE_SUCCESS, SALE_CREATE_FAIL,
           SALE_DELIVER_REQUEST, SALE_DELIVER_SUCCESS, SALE_DELIVER_FAIL, SALE_DELIVER_RESET,
           SALE_DELIVERED_LIST_REQUEST, SALE_DELIVERED_LIST_SUCCESS, SALE_DELIVERED_LIST_FAIL,
           SALE_SB_REQUEST, SALE_SB_SUCCESS, SALE_SB_FAIL,
-          SALE_REJECT_REQUEST, SALE_REJECT_SUCCESS, SALE_REJECT_FAIL, SALE_REJECT_RESET, 
+          SALE_REJECT_REQUEST, SALE_REJECT_SUCCESS, SALE_REJECT_FAIL, SALE_REJECT_RESET,
+          SALE_CARD_PAY_REQUEST, SALE_CARD_PAY_SUCCESS, SALE_CARD_PAY_FAIL, SALE_CARD_PAY_RESET, 
 	} from '../constants/saleConstants'
 import { logout } from './userActions'
 
@@ -597,6 +598,48 @@ export const sendBackSale = (saleId) => async (dispatch, getState) => {
         }
         dispatch({
           type: SALE_SB_FAIL,
+          payload: message,
+        })
+    }
+}
+
+
+// -----------------------------------
+
+export const payCardSale = (token, price) => async (dispatch, getState) => {
+  console.log('action')
+  console.log(token)
+  console.log(price)
+  try {
+    dispatch({
+      type: SALE_CARD_PAY_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+                  
+    const config = {
+      headers: { Authorization: `Bearer ${userInfo.token}`,},
+    } 
+
+    const { data } = await axios.post(`/payment`, {token, price}, config)
+
+    dispatch({
+      type: SALE_CARD_PAY_SUCCESS,
+      payload: data,
+    })
+    
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+      if (message === 'Not authorized, token failed') {
+          dispatch(logout())
+        }
+        dispatch({
+          type: SALE_CARD_PAY_FAIL,
           payload: message,
         })
     }

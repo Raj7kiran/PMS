@@ -1,0 +1,37 @@
+.or {
+  align-items: center;
+  display: flex;
+  height: 18px;
+  left: 870px;
+  min-width: 199px;
+  position: absolute;
+  top: 610px;
+}
+
+.rectangle-80 {
+  background-color: var(--white);
+  height: 1px;
+  margin-top: 3.0px;
+  width: 80px;
+}
+
+.or-1 {
+  height: 18px;
+  margin-left: 12px;
+  object-fit: cover;
+  width: 15px;
+}
+
+.rectangle-81 {
+  background-color: var(--white);
+  height: 1px;
+  margin-left: 12px;
+  margin-top: 3.0px;
+  width: 80px;
+}
+
+.or.or-2 {
+  left: 873px;
+  top: 348px;
+}
+

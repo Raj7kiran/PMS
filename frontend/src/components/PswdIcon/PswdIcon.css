@@ -1,0 +1,31 @@
+.pswd-icon {
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 18px/19px;
+  box-shadow: 3px 3px 18px #0000001f;
+  display: flex;
+  height: 38px;
+  justify-content: flex-end;
+  left: 766px;
+  min-width: 36px;
+  padding: 8.0px 9.8px;
+  position: absolute;
+  top: 285px;
+}
+
+.lock-_2 {
+  /*background-image: url(/static/img/path-126-2@1x.png);*/
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 22px;
+  width: 16px;
+}
+
+.pswd-icon.pswd-icon-1 {
+  top: 384px;
+}
+
+.pswd-icon.pswd-icon-2 {
+  top: 378px;
+}
+

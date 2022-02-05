@@ -1,0 +1,396 @@
+.otp-verification {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  height: 800px;
+  overflow: hidden;
+  width: 1400px;
+}
+
+.overlap-group3 {
+  height: 804px;
+  margin-left: -14px;
+  margin-top: -2.85px;
+  position: relative;
+  width: 1414px;
+}
+
+.rectangle-1 {
+  background: linear-gradient(180deg, #cc0e19 0%, #70060c 100%);
+  height: 800px;
+  left: 14px;
+  position: absolute;
+  top: 3px;
+  width: 1400px;
+}
+
+.bottom-semi {
+  height: 229px;
+  left: 990px;
+  object-fit: cover;
+  position: absolute;
+  top: 576px;
+  width: 424px;
+}
+
+.top-quarter {
+  height: 296px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 345px;
+}
+
+.verify {
+  align-items: flex-end;
+  background-color: var(--tamarillo);
+  border-radius: 12px;
+  box-shadow: 12px 12px 24px #00000054;
+  cursor: pointer;
+  display: flex;
+  height: 71px;
+  justify-content: flex-end;
+  left: 756px;
+  min-width: 427px;
+  padding: 16.5px 169px;
+  position: absolute;
+  top: 490px;
+  transition: all 0.2s ease;
+}
+
+.verify:hover {
+  transform: translate(0, -5px);
+}
+
+.verify-1 {
+  letter-spacing: -0.23px;
+  line-height: 23px;
+  min-height: 30px;
+  min-width: 87px;
+  white-space: nowrap;
+}
+
+.enter-otp {
+  align-items: flex-start;
+  display: flex;
+  height: 59px;
+  left: 794px;
+  min-width: 351px;
+  position: absolute;
+  top: 331px;
+}
+
+.mobile-bg-1 {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 6px 6px 8px #00000045;
+  height: 59px;
+  opacity: 0.7;
+  width: 72px;
+}
+
+.mobile-bg {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 6px 6px 8px #00000045;
+  height: 59px;
+  margin-left: 21px;
+  opacity: 0.7;
+  width: 72px;
+}
+
+.otp-verify-title {
+  display: flex;
+  height: 37px;
+  justify-content: space-between;
+  left: 788px;
+  position: absolute;
+  top: 167px;
+  width: 363px;
+}
+
+.password {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 0 0.0px;
+  width: 38.21px;
+}
+
+.flex-col {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.91px;
+  min-height: 33px;
+  width: 36px;
+}
+
+.path-147 {
+  height: 22px;
+  margin-left: 0.25px;
+  object-fit: cover;
+  width: 17px;
+}
+
+.path-container {
+  align-items: flex-start;
+  display: flex;
+  margin-top: 5px;
+  min-width: 36px;
+}
+
+.path-148 {
+  align-self: flex-end;
+  height: 6px;
+  object-fit: cover;
+  width: 5px;
+}
+
+.path-1 {
+  height: 6px;
+  margin-left: 5px;
+  object-fit: cover;
+  width: 5px;
+}
+
+.path-151 {
+  align-self: center;
+  height: 6px;
+  margin-left: 5px;
+  margin-top: 0;
+  object-fit: cover;
+  width: 5px;
+}
+
+.path-container-1 {
+  align-items: flex-end;
+  display: flex;
+  margin-top: 2px;
+  min-width: 38px;
+}
+
+.path-152 {
+  height: 2px;
+  margin-bottom: 0;
+  object-fit: cover;
+  width: 7px;
+}
+
+.path-153 {
+  height: 2px;
+  margin-bottom: 0;
+  margin-left: 3px;
+  object-fit: cover;
+  width: 7px;
+}
+
+.path-154 {
+  height: 2px;
+  margin-left: 3px;
+  object-fit: cover;
+  width: 7px;
+}
+
+.path-155 {
+  align-self: flex-start;
+  height: 2px;
+  margin-left: 3px;
+  object-fit: cover;
+  width: 7px;
+}
+
+.otp-verification-1 {
+  object-fit: cover;
+  width: 294px;
+}
+
+.you-will-get-a-otp-via-mobile-number {
+  left: 815px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 221px;
+  white-space: nowrap;
+}
+
+.phone-number {
+  display: flex;
+  height: 19px;
+  justify-content: flex-end;
+  left: 896px;
+  position: absolute;
+  top: 251px;
+  width: 146px;
+}
+
+.phone {
+  color: #000000;
+  flex: 1;
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-m);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 16px;
+  margin-bottom: -3.5px;
+  margin-right: 6.7px;
+  margin-top: 1.5px;
+  white-space: nowrap;
+}
+
+.pencil-_1_ {
+  align-items: flex-end;
+  display: flex;
+  height: 12.68px;
+  margin-right: 0;
+  margin-top: -6.0px;
+  min-width: 12.7px;
+}
+
+.path-container-2 {
+  height: 13px;
+  margin-bottom: 0;
+  position: relative;
+  width: 13px;
+}
+
+.path-156 {
+  height: 4px;
+  left: 9px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 4px;
+}
+
+.path-157 {
+  height: 11px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 2px;
+  width: 11px;
+}
+
+.enter-otp-1 {
+  left: 928px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 404px;
+  white-space: nowrap;
+}
+
+.d-otp-container {
+  height: 26px;
+  left: 816px;
+  position: absolute;
+  top: 579px;
+  width: 310px;
+}
+
+.didnt-received-otp {
+  left: 0;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 2px;
+  white-space: nowrap;
+}
+
+.resend-otp {
+  cursor: pointer;
+  left: 182px;
+  letter-spacing: 0;
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.resend-otp:hover,
+.cancel:hover {
+  transform: scale(1.1);
+}
+
+.x0 {
+  background-color: transparent;
+  border: 0;
+  height: 26px;
+  left: 821px;
+  letter-spacing: 0;
+  line-height: 20px;
+  opacity: 0.73;
+  padding: 0;
+  position: absolute;
+  top: 349px;
+  white-space: nowrap;
+  width: 43px;
+}
+
+.x0::placeholder,
+.x0-1::placeholder,
+.x0-2::placeholder,
+.x0-3::placeholder {
+  color: #8a081099;
+}
+
+.x0-1 {
+  background-color: transparent;
+  border: 0;
+  height: 26px;
+  left: 915px;
+  letter-spacing: 0;
+  line-height: 20px;
+  opacity: 0.73;
+  padding: 0;
+  position: absolute;
+  top: 349px;
+  white-space: nowrap;
+  width: 43px;
+}
+
+.x0-2 {
+  background-color: transparent;
+  border: 0;
+  height: 26px;
+  left: 1008px;
+  letter-spacing: 0;
+  line-height: 20px;
+  opacity: 0.73;
+  padding: 0;
+  position: absolute;
+  top: 349px;
+  white-space: nowrap;
+  width: 43px;
+}
+
+.x0-3 {
+  background-color: transparent;
+  border: 0;
+  height: 26px;
+  left: 1101px;
+  letter-spacing: 0;
+  line-height: 20px;
+  opacity: 0.73;
+  padding: 0;
+  position: absolute;
+  top: 349px;
+  white-space: nowrap;
+  width: 43px;
+}
+
+.cancel {
+  cursor: pointer;
+  left: 942px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 644px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+

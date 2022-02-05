@@ -1,0 +1,89 @@
+.login-successful {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  height: 800px;
+  overflow: hidden;
+  width: 1400px;
+}
+
+.overlap-group3-1 {
+  height: 804px;
+  margin-left: -14px;
+  margin-top: -2.85px;
+  position: relative;
+  width: 1414px;
+}
+
+.rectangle-1-3 {
+  background: linear-gradient(180deg, #cc0e19 0%, #70060c 100%);
+  height: 800px;
+  left: 14px;
+  position: absolute;
+  top: 3px;
+  width: 1400px;
+}
+
+.bottom-semi-3 {
+  height: 229px;
+  left: 990px;
+  object-fit: cover;
+  position: absolute;
+  top: 576px;
+  width: 424px;
+}
+
+.top-quarter-3 {
+  height: 296px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 345px;
+}
+
+.path-container-10 {
+  height: 47px;
+  left: 938px;
+  position: absolute;
+  top: 258px;
+  width: 49px;
+}
+
+.path-124 {
+  height: 10px;
+  left: 34px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 10px;
+}
+
+.path-125 {
+  height: 40px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 8px;
+  width: 49px;
+}
+
+.login-successful-1 {
+  height: 37px;
+  left: 813px;
+  object-fit: cover;
+  position: absolute;
+  top: 342px;
+  width: 316px;
+}
+
+.log-out {
+  cursor: pointer;
+  left: 946px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 603px;
+  white-space: nowrap;
+}
+

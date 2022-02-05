@@ -4,13 +4,17 @@ import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormContr
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { getSaleDetails, paySale, billSale, rejectSale, sendBackSale  } from '../actions/saleActions'
-import { SALE_BILL_RESET, SALE_SB_RESET, SALE_PAY_RESET, SALE_REJECT_RESET } from '../constants/saleConstants'
+import StripeCheckout from 'react-stripe-checkout'
+import { getSaleDetails, paySale, billSale, rejectSale, sendBackSale, payCardSale  } from '../actions/saleActions'
+import { SALE_BILL_RESET, SALE_SB_RESET, SALE_PAY_RESET, SALE_REJECT_RESET, SALE_CARD_PAY_RESET } from '../constants/saleConstants'
 
 
 const BillerScreen = () => {
 	let count=1;
 	const dispatch = useDispatch()
+
+	let amount = 1500
+	let productNewName = 'new product name'
 
 	const { id } = useParams()
 	const saleId = id
@@ -18,6 +22,15 @@ const BillerScreen = () => {
 	let navigate = useNavigate()
 
 	const [remarks, setRemarks] = useState('')
+
+	const [singlePay, setSinglePay] = useState(false)
+	const [multiplePay, setMultiplePay] = useState(false)
+	const [cashPay, setCashPay] = useState(false)
+	const [cardPay, setCardPay] = useState(false)
+	const [chequePay, setChequePay] = useState(false)
+	const [cash2Pay, setCash2Pay] = useState(false)
+	const [card2Pay, setCard2Pay] = useState(false)
+	const [cheque2Pay, setCheque2Pay] = useState(false)
 
 	
 	const userLogin = useSelector(state => state.userLogin)
@@ -28,6 +41,9 @@ const BillerScreen = () => {
 
 	const salePay = useSelector(state => state.salePay)
 	const { loading: payLoading, error: payError, success:paySuccess } = salePay
+
+	const saleCardPay = useSelector(state => state.saleCardPay)
+	const { loading: payCardLoading, error: payCardError, success:payCardSuccess,  } = saleCardPay
 
 	const saleBill = useSelector(state => state.saleBill)
 	const { loading: billLoading, error: billError, success:billSuccess } = saleBill
@@ -74,7 +90,7 @@ const BillerScreen = () => {
 		}
 
 		
-	},[dispatch, sale, saleId, navigate, userInfo, billSuccess, paySuccess, rejectSuccess, sbSuccess])
+	},[dispatch, sale, saleId, navigate, userInfo, billSuccess, paySuccess, rejectSuccess, sbSuccess, payCardSuccess])
 
 	const backHandler = () => {
 		dispatch(sendBackSale(saleId))
@@ -92,6 +108,30 @@ const BillerScreen = () => {
 		dispatch(billSale(saleId, remarks))
 	}
 
+	const makePayment = token => {
+
+		// console.log(token)
+		// dispatch(payCardSale(token, amount))
+		const body = {
+			token,
+			price: 300000
+		}
+		const headers = {
+			'Content-Type': 'application/json'
+		}
+
+		return fetch(`/payment`,{
+			method:'POST',
+			headers,
+			body: JSON.stringify(body)
+		}).then(response => {
+			console.log('RESPONSE', response)
+			const {status} = response
+			console.log(status)
+		}).catch(err => console.log('ERROR', err))
+
+	} 
+
 
 	return(
 		<>
@@ -102,6 +142,9 @@ const BillerScreen = () => {
 			{sbError && <Message variant='danger'>{sbError}</Message>}
 			{payLoading && <Loader />}
 			{payError && <Message variant='danger'>{payError}</Message>}
+			{payCardLoading && <Loader />}
+			{payCardError && <Message variant='danger'>{payCardError}</Message>}
+			{payCardSuccess && <Message variant='info'>Card Payment Received</Message>}
 			{/*{paySuccess && <Message variant='info'>Payment Received</Message>}*/}
 			
 			{loading ? <Loader />
@@ -208,19 +251,85 @@ const BillerScreen = () => {
 						</Card>
 					</div>
 				<h3>Payment</h3>
+				Payment:
+				<>
+					<Form.Check className='mx-2' inline label="Single" onClick= {(e) => setSinglePay(true)}/>
+					<Form.Check className='mx-2' inline label="Multiple" onClick= {(e) => setMultiplePay(!multiplePay)} />
+				</> 
+					{
+						singlePay === true && (
+							<>
+								<div className="mb-3">
+									<Form.Check inline label="Single" onClick= {(e) => setCashPay(!cashPay)}/>
+									<Form.Check inline label="Card" onClick= {(e) => setCardPay(!cardPay)} />
+									<Form.Check  inline label="Cheque" onClick= {(e) => setChequePay(!chequePay)} />
+								</div>
+							    <div>
+								    {
+								    	cashPay === true && <p>Cash Payment</p>
+								    }
+								    {
+								    	cardPay === true && (
+								    		<>
+									    		<p>Card Payment</p>
+									    		<StripeCheckout stripeKey='pk_test_51KOO5eSHdf7SFUGJX031M3Sakq9LTGkQcG2W0veJY079t4XSJnJvWACemGE34LCmqwiS53V7cio6IJluIC5xxf2D00jZYN8v24' token={makePayment} 
+									    		amount={amount} name='Pay from Card'><Button variant='warning' className='btn-small m-3'>Pay</Button></StripeCheckout>
+								    		</>
+								    		)
+								    }
+								    {
+								    	chequePay === true && <p>Cheque Payment</p>
+								    }
+							    </div>
+							</>
+						)
+					}
+					{
+						multiplePay === true && (
+							<>
+								<div className="mb-3">
+									<Form.Check inline label="Single" onClick= {(e) => setCash2Pay(!cash2Pay)}/>
+									<Form.Check inline label="Card" onClick= {(e) => setCard2Pay(!card2Pay)} />
+									<Form.Check  inline label="Cheque" onClick= {(e) => setCheque2Pay(!cheque2Pay)} />
+								</div>
+							    <div>
+								    {
+								    	cash2Pay === true && <p>Cash Payment</p>
+								    }
+								    {
+								    	card2Pay === true && (
+								    		<>
+									    		<p>Card Payment</p>
+									    		<StripeCheckout stripeKey={process.env.REACT_APP_KEY} token={makePayment} price={sale.saleTotal} name='Pay from Card'><Button variant='warning' className='btn-small m-3'>Pay</Button></StripeCheckout>
+								    		</>
+								    		)
+								    }
+								    {
+								    	cheque2Pay === true && <p>Cheque Payment</p>
+								    }
+							    </div>
+							</>
+						)
+					}
+
+
+				<div>
+
+
 				{
 					sale.isPaid === true ? (
-							<Button variant='success' className='btn mx-1' disabled >
+							<Button variant='success' className='btn m-3' disabled >
 								Payment Received
 							</Button>
 						) : (
-							<Button variant='outline-success' className='btn mx-1'
+							<Button variant='outline-success' className='btn m-3'
 								onClick={paymentHandler} 
 								>
 								Complete Payment
 							</Button>
 						)
 				}
+				</div>
 				
 
 				<Row>
