@@ -41,6 +41,36 @@ code {
     monospace;
 }
 
+.login-page-new{
+  width: 450px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all .3s;
+}
+
+.login-page-new .form-control:focus {
+  border-color: black;
+  box-shadow: 5px black;
+}
+
+.logtitle {
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+}
+
+.listbox {
+  width: 350px;
+  background-color: black;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  margin: auto;
+  padding: 40px 55px 45px 55px;;
+  color: white;
+
+}
 
 input.inCorrect {
   border: 1px solid red;
@@ -78,7 +108,16 @@ footer {
     bottom: 0;
 }
 
+#order-dropdown {
+  max-height: 10px;
+  overflow-y: scroll;
+}
 
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
 
 /*-----------------------------------------------*/
 

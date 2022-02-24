@@ -68,6 +68,25 @@ const finalApproveSchema = mongoose.Schema(
 		}
 	)
 
+// order = {
+// 	user: {},
+// 	.
+// 	.
+// 	.
+// 	orderItems: [
+// 		{
+// 			name: 'product name',
+// 			qty: 2,
+// 			price: 10.99,
+// 			totalPrice: 21.98,
+// 			product: { .... }
+// 		}
+// 	],
+// 	.
+// 	.
+// 	orderTotalPrice: 100.11
+// }
+
 const orderSchema = mongoose.Schema(
 	{
 			user:{
@@ -85,16 +104,14 @@ const orderSchema = mongoose.Schema(
 					price	: { type: Number },
 					totalPrice	: { type: Number },
 					taxPrice	: { type: Number },
+					vendor	: { type: String},
 					product	: { 
 						type : mongoose.Schema.Types.ObjectId,
 						required: true,
 						ref: 'Product'
 						}
 				}
-			],
-			createdAt: {
-				type: Date
-			},
+			],			
 			isApproved: {
 				type: Boolean,
 				// required: true,
@@ -145,7 +162,10 @@ const orderSchema = mongoose.Schema(
 			},
 			deliveredAt: {
 				type: Date
-			}
+			},
+			createdAt: {
+				type: Date
+			},
 	},
 		{
 			timestamps: true

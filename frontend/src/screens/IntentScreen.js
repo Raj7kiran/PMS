@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
-import OrderSteps from '../components/OrderSteps'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {listProducts} from '../actions/otherActions'
-import { createOrder } from '../actions/orderActions'
-import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+import IntentSteps from '../components/IntentSteps'
 
 
-const PurchaseOrderScreen = ({history}) => {
+
+const IntentScreen = () => {
 	let count=0;
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
@@ -23,6 +21,7 @@ const PurchaseOrderScreen = ({history}) => {
 
 	const [medicineName, setMedicineName] = useState('')
 	const [quantity, setQuantity] = useState('')
+	const [remarks, setRemarks] = useState('')
 	const [tableData, setTableData] = useState([])
 
 	// const [orderItems, setOrderItems] = useState([])
@@ -49,16 +48,16 @@ const PurchaseOrderScreen = ({history}) => {
 
 	useEffect(() => {
 
-		if(!userInfo || !(userInfo.role === '1' || userInfo.role === '3')){
+		if(!userInfo){
 			navigate('/')
 		}
 
 		
-			dispatch(listProducts())
+			// dispatch(listProducts())
 		
 
 		if(createSuccess){
-			dispatch({type: ORDER_CREATE_RESET})
+			// dispatch({type: ORDER_CREATE_RESET})
 			setTableData([])
 			// setOrderItems([])
 			navigate('/order/status')
@@ -188,9 +187,9 @@ const PurchaseOrderScreen = ({history}) => {
 			// console.log(orderTotalPrice)
 			console.log(orderItems)
 
-				dispatch(
-					createOrder({orderItems})
-				)
+				// dispatch(
+				// 	createOrder({orderItems})
+				// )
 
 
 			// if(window.confirm('Make sure you have clicked the Confirm button to add the products in the order?')){
@@ -206,7 +205,7 @@ const PurchaseOrderScreen = ({history}) => {
 
 	return(
 		<>
-			<OrderSteps />
+			<IntentSteps />
 			{createLoading && <Loader />}
 			{createError && <Message variant='danger'>{createError}</Message>}
 			{/*{createSuccess && <Message variant='info'>Purchase Initiated</Message>}*/}
@@ -265,10 +264,11 @@ const PurchaseOrderScreen = ({history}) => {
 							<tr>
 								<th ><span className='btn'>Sl</span></th>
 								<th ><span className='btn'>Medicine</span></th>
-								<th ><span className='btn'>C.Stock</span></th>
-								<th ><span className='btn'>Low Stock</span></th>
-								<th ><span className='btn'>Reorder Quantity</span></th>
-								<th ><span className='btn'>Quantity</span></th>
+								<th ><span className='btn'>Generic Name</span></th>
+								<th ><span className='btn'>Dosage</span></th>
+								<th ><span className='btn'>Type</span></th>
+								<th ><span className='btn'>Requested Quantity</span></th>
+								<th ><span className='btn'>Approved Quantity</span></th>
 								<th><span className='btn'>Action</span></th>
 							</tr>
 						</thead>
@@ -277,9 +277,10 @@ const PurchaseOrderScreen = ({history}) => {
 									<tr key={row.product._id} >
 										<td>{count+1}</td>
 										<td>{row.product.medicineName}</td>
-										<td>{row.product.currentStock}</td>
-										<td>{row.product.lowStockValue}</td>
-										<td>{row.product.reOrderValue}</td>
+										<td>{row.product.genericName}</td>
+										<td>{row.product.dose}</td>
+										<td>{row.product.type}</td>
+										<td>qty</td>
 										<td>{/*{row.quantity}*/}
 											<InputGroup size="sm" className="mb-3">
 											    <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm"
@@ -304,14 +305,42 @@ const PurchaseOrderScreen = ({history}) => {
 						</tbody>						
 				</Table>
 				<p className='mt-3'>Total Quantity: {tableData.reduce((acc, row) => acc + row.quantity, 0)}</p>
-			<div className='mt-3' style={{ display: 'flex', justifyContent: 'flex-end' }}>
-			<Button className='mt-3' type='submit' variant='dark'>Clear</Button>
-			{/*<Button className='mt-3' type='submit' variant='info'>Save</Button>*/}
-			<Button className='mt-3 mx-3' type='submit' onClick={() => submitHandler()} variant='dark'>Submit</Button>
-			</div>
+				<Row>
+					<Col>
+						<FloatingLabel controlId="floatingTextarea2" label="Remarks/Notes" className='my-3'>
+										<Form.Control
+										  as="textarea"
+										  placeholder="Leave a comment here"
+										  style={{ height: '100px' }}
+										  value={remarks}
+										  onChange={(e) => setRemarks(e.target.value)}
+										/>
+						</FloatingLabel>
+					</Col>
+					<Col>
+						<div className='mt-3' style={{ display: 'flex', justifyContent: 'flex-end' }}>
+							<Button variant='outline-dark' className='btn mx-1'
+								// onClick={clearHandler} 
+								>
+								Clear
+							</Button>
+							<Button variant='outline-dark' className='btn mx-1'
+								// onClick={e => saveHandler(e)} 
+								>
+								Save
+							</Button>
+							<Button variant='outline-dark' className='btn mx-1'
+								// onClick={e => submitHandler(e)} 
+								>
+								Submit
+							</Button>
+						</div>
+					</Col>
+
+				</Row>
 		</>
 		)
 }
 
 
-export default PurchaseOrderScreen
+export default IntentScreen

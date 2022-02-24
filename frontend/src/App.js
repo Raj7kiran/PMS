@@ -31,6 +31,7 @@ import VerifyFinanceApprovedOrderScreen from './screens/VerifyFinanceApprovedOrd
 import FinanceApprovalOrderListScreen from './screens/FinanceApprovalOrderListScreen'
 import SaleScreen from './screens/SaleScreen'
 import SaleDetailsScreen from './screens/SaleDetailsScreen'
+import SalesReturnScreen from './screens/SalesReturnScreen'
 import SalesOrderListScreen from './screens/SalesOrderListScreen'
 import BilledOrderListScreen from './screens/BilledOrderListScreen'
 import CollectedOrderListScreen from './screens/CollectedOrderListScreen'
@@ -39,11 +40,16 @@ import CollectorScreen from './screens/CollectorScreen'
 import BillerScreen from './screens/BillerScreen'
 import DeliverScreen from './screens/DeliverScreen'
 import AllSaleScreen from './screens/AllSaleScreen'
-import OtpVerification from "./components/OtpVerification";
-import ResetPassword from "./components/ResetPassword";
-import ForgotPassword from "./components/ForgotPassword";
-import LoginSuccessful from "./components/LoginSuccessful";
-import LoginPage from "./components/LoginPage";
+import Interview from './screens/Interview'
+import InboundScreen from './screens/InboundScreen'
+import InboundStatusScreen from './screens/InboundStatusScreen'
+import IntentScreen from './screens/IntentScreen'
+import IntentOrderListScreen from './screens/IntentOrderListScreen'
+// import OtpVerification from "./components/OtpVerification";
+// import ResetPassword from "./components/ResetPassword";
+// import ForgotPassword from "./components/ForgotPassword";
+// import LoginSuccessful from "./components/LoginSuccessful";
+// import LoginPage from "./components/LoginPage";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Container } from 'react-bootstrap'
@@ -94,33 +100,13 @@ const App = () => {
             <Route path='/sale/:id/collector' element={<CollectorScreen />} exact />
             <Route path='/sale/:id/deliver' element={<DeliverScreen />} exact />
             <Route path='/sales' element={<AllSaleScreen />} exact />
-            {/*<Route path='/addUsers' element={<NewAddClientScreen2 />} exact />*/}
-            {/*<Fragment>*/}
-                  <Route path="/otp-verification" element={<OtpVerification {...otpVerificationData} />} />
-                        
-                  {/*</Route>*/}
-                  <Route path="/reset-password" element={<ResetPassword {...resetPasswordData} />} />
-                        
-                  {/*</Route>*/}
-                  <Route path="/:path(|forgot-password)" element={<ForgotPassword {...forgotPasswordData} />} />
-                        
-                  {/*</Route>*/}
-                  <Route path="/login-successful" element={<LoginSuccessful
-                      bottomSemi="/img/path-128@1x.png"
-                      topQuarter="/img/path-127@1x.png"
-                      path124="/img/path-124@1x.png"
-                      path125="/img/path-125-1@1x.png"
-                      loginSuccessful="/img/login-successful-@1x.png"
-                      logOut="Log Out"
-                      hmsIconScreenProps={loginSuccessfulData.hmsIconScreenProps}
-                    />} />
-                    
-                  {/*</Route>*/}
-                  <Route path="/login-page" element={<LoginPage {...loginPageData} />} />
-                        
-                  {/*</Route>*/}
-            {/*</Fragment>*/}
-            </Routes>
+            <Route path='/sales/return' element={<SalesReturnScreen />} exact />
+            <Route path='/Interview' element={<Interview />} exact />
+            <Route path='/inbound' element={<InboundScreen />} exact/>
+            <Route path='/inbound/status' element={<InboundStatusScreen />} exact/>
+            <Route path='/intent' element={<IntentScreen />} exact/>
+            <Route path='/intent/list' element={<IntentOrderListScreen />} exact/>
+        </Routes>
           
         </Container>
         </main>
@@ -132,139 +118,139 @@ const App = () => {
 export default App;
 
 
-const hmsIconScreen1Data = {
-    pathContainer: "/img/path-36-1-1@1x.png",
-};
+// const hmsIconScreen1Data = {
+//     pathContainer: "/img/path-36-1-1@1x.png",
+// };
 
-const otpVerificationData = {
-    bottomSemi: "/img/path-128@1x.png",
-    topQuarter: "/img/path-127@1x.png",
-    verify: "VERIFY",
-    path147: "/img/path-147@1x.png",
-    path148: "/img/path-148@1x.png",
-    path149: "/img/path-149@1x.png",
-    path150: "/img/path-150@1x.png",
-    path151: "/img/path-151@1x.png",
-    path152: "/img/path-152-1@1x.png",
-    path153: "/img/path-153@1x.png",
-    path154: "/img/path-154-1@1x.png",
-    path155: "/img/path-155-1@1x.png",
-    otpVerification: "/img/otp-verification@1x.png",
-    youWillGetAOtpViaMobileNumber: "You will get a OTP via Mobile Number",
-    phone: "+91 9876543210",
-    path156: "/img/path-156-1@1x.png",
-    path157: "/img/path-157-1@1x.png",
-    enterOtp: "Enter OTP",
-    didnTReceivedOtp: "Didn't received OTP?",
-    resendOtp: "Resend OTP",
-    inputType1: "number",
-    inputPlaceholder1: "0     ",
-    inputType2: "number",
-    inputPlaceholder2: "0     ",
-    inputType3: "number",
-    inputPlaceholder3: "0     ",
-    inputType4: "number",
-    inputPlaceholder4: "0     ",
-    cancel: "Cancel",
-    hmsIconScreenProps: hmsIconScreen1Data,
-};
+// const otpVerificationData = {
+//     bottomSemi: "/img/path-128@1x.png",
+//     topQuarter: "/img/path-127@1x.png",
+//     verify: "VERIFY",
+//     path147: "/img/path-147@1x.png",
+//     path148: "/img/path-148@1x.png",
+//     path149: "/img/path-149@1x.png",
+//     path150: "/img/path-150@1x.png",
+//     path151: "/img/path-151@1x.png",
+//     path152: "/img/path-152-1@1x.png",
+//     path153: "/img/path-153@1x.png",
+//     path154: "/img/path-154-1@1x.png",
+//     path155: "/img/path-155-1@1x.png",
+//     otpVerification: "/img/otp-verification@1x.png",
+//     youWillGetAOtpViaMobileNumber: "You will get a OTP via Mobile Number",
+//     phone: "+91 9876543210",
+//     path156: "/img/path-156-1@1x.png",
+//     path157: "/img/path-157-1@1x.png",
+//     enterOtp: "Enter OTP",
+//     didnTReceivedOtp: "Didn't received OTP?",
+//     resendOtp: "Resend OTP",
+//     inputType1: "number",
+//     inputPlaceholder1: "0     ",
+//     inputType2: "number",
+//     inputPlaceholder2: "0     ",
+//     inputType3: "number",
+//     inputPlaceholder3: "0     ",
+//     inputType4: "number",
+//     inputPlaceholder4: "0     ",
+//     cancel: "Cancel",
+//     hmsIconScreenProps: hmsIconScreen1Data,
+// };
 
-const hmsIconScreen2Data = {
-    pathContainer: "/img/path-36-1-1@1x.png",
-};
+// const hmsIconScreen2Data = {
+//     pathContainer: "/img/path-36-1-1@1x.png",
+// };
 
-const pswdIcon2Data = {
-    className: "pswd-icon-1",
-};
+// const pswdIcon2Data = {
+//     className: "pswd-icon-1",
+// };
 
-const resetPasswordData = {
-    bottomSemi: "/img/path-128@1x.png",
-    topQuarter: "/img/path-127@1x.png",
-    submit: "SUBMIT",
-    inputType1: "email",
-    inputPlaceholder1: "Confirm New Password",
-    inputType2: "number",
-    inputPlaceholder2: "New Password",
-    path143: "/img/path-143@1x.png",
-    path144: "/img/path-144@1x.png",
-    path145: "/img/path-145@1x.png",
-    path146: "/img/path-146@1x.png",
-    resetPassword: "/img/reset-password@1x.png",
-    inputType3: "password",
-    inputPlaceholder3: "show",
-    inputType4: "password",
-    inputPlaceholder4: "show",
-    cancel: "Cancel",
-    hmsIconScreenProps: hmsIconScreen2Data,
-    pswdIconProps: pswdIcon2Data,
-};
+// const resetPasswordData = {
+//     bottomSemi: "/img/path-128@1x.png",
+//     topQuarter: "/img/path-127@1x.png",
+//     submit: "SUBMIT",
+//     inputType1: "email",
+//     inputPlaceholder1: "Confirm New Password",
+//     inputType2: "number",
+//     inputPlaceholder2: "New Password",
+//     path143: "/img/path-143@1x.png",
+//     path144: "/img/path-144@1x.png",
+//     path145: "/img/path-145@1x.png",
+//     path146: "/img/path-146@1x.png",
+//     resetPassword: "/img/reset-password@1x.png",
+//     inputType3: "password",
+//     inputPlaceholder3: "show",
+//     inputType4: "password",
+//     inputPlaceholder4: "show",
+//     cancel: "Cancel",
+//     hmsIconScreenProps: hmsIconScreen2Data,
+//     pswdIconProps: pswdIcon2Data,
+// };
 
-const hmsIconScreen3Data = {
-    pathContainer: "/img/path-36-1-1@1x.png",
-};
+// const hmsIconScreen3Data = {
+//     pathContainer: "/img/path-36-1-1@1x.png",
+// };
 
-const or2Data = {
-    className: "or-2",
-};
+// const or2Data = {
+//     className: "or-2",
+// };
 
-const forgotPasswordData = {
-    bottomSemi: "/img/path-128@1x.png",
-    topQuarter: "/img/path-127@1x.png",
-    sendOtp: "SEND OTP",
-    path127: "/img/path-127@1x.png",
-    path128: "/img/path-128@1x.png",
-    path129: "/img/path-129@1x.png",
-    path130: "/img/path-130@1x.png",
-    inputType1: "email",
-    inputPlaceholder1: "Enter Email                                                ",
-    padlock: "/img/padlock-1@1x.png",
-    inputType2: "number",
-    inputPlaceholder2: "Enter Mobile Number                     ",
-    path131: "/img/path-131-1@1x.png",
-    path132: "/img/path-132@1x.png",
-    forgotPassword: "/img/forgot-password@1x.png",
-    cancel: "Cancel",
-    hmsIconScreenProps: hmsIconScreen3Data,
-    orProps: or2Data,
-};
+// const forgotPasswordData = {
+//     bottomSemi: "/img/path-128@1x.png",
+//     topQuarter: "/img/path-127@1x.png",
+//     sendOtp: "SEND OTP",
+//     path127: "/img/path-127@1x.png",
+//     path128: "/img/path-128@1x.png",
+//     path129: "/img/path-129@1x.png",
+//     path130: "/img/path-130@1x.png",
+//     inputType1: "email",
+//     inputPlaceholder1: "Enter Email                                                ",
+//     padlock: "/img/padlock-1@1x.png",
+//     inputType2: "number",
+//     inputPlaceholder2: "Enter Mobile Number                     ",
+//     path131: "/img/path-131-1@1x.png",
+//     path132: "/img/path-132@1x.png",
+//     forgotPassword: "/img/forgot-password@1x.png",
+//     cancel: "Cancel",
+//     hmsIconScreenProps: hmsIconScreen3Data,
+//     orProps: or2Data,
+// };
 
-const hmsIconScreen4Data = {
-    pathContainer: "/img/path-36-1-1@1x.png",
-};
+// const hmsIconScreen4Data = {
+//     pathContainer: "/img/path-36-1-1@1x.png",
+// };
 
-const loginSuccessfulData = {
-    bottomSemi: "/img/path-128@1x.png",
-    topQuarter: "/img/path-127@1x.png",
-    path124: "/img/path-124@1x.png",
-    path125: "/img/path-125-1@1x.png",
-    loginSuccessful: "/img/login-successful-@1x.png",
-    logOut: "Log Out",
-    hmsIconScreenProps: hmsIconScreen4Data,
-};
+// const loginSuccessfulData = {
+//     bottomSemi: "/img/path-128@1x.png",
+//     topQuarter: "/img/path-127@1x.png",
+//     path124: "/img/path-124@1x.png",
+//     path125: "/img/path-125-1@1x.png",
+//     loginSuccessful: "/img/login-successful-@1x.png",
+//     logOut: "Log Out",
+//     hmsIconScreenProps: hmsIconScreen4Data,
+// };
 
-const hmsIconScreen5Data = {
-    pathContainer: "/img/path-36-1-1@1x.png",
-};
+// const hmsIconScreen5Data = {
+//     pathContainer: "/img/path-36-1-1@1x.png",
+// };
 
-const pswdIcon3Data = {
-    className: "pswd-icon-2",
-};
+// const pswdIcon3Data = {
+//     className: "pswd-icon-2",
+// };
 
-const loginPageData = {
-    bottomSemi: "/img/path-128@1x.png",
-    topQuarter: "/img/path-127@1x.png",
-    login: "LOGIN",
-    path124: "/img/path-124@1x.png",
-    path125: "/img/path-125-1@1x.png",
-    logIn: "/img/log-in-1@1x.png",
-    inputType1: "text",
-    inputPlaceholder1: "Username                                              ",
-    user_1_: "/img/user--1-@1x.png",
-    inputType2: "password",
-    inputPlaceholder2: "Password                                          ",
-    inputType3: "password",
-    inputPlaceholder3: "show",
-    forgotPassword: "/img/forgot-password-@1x.png",
-    hmsIconScreenProps: hmsIconScreen5Data,
-    pswdIconProps: pswdIcon3Data,
-};
+// const loginPageData = {
+//     bottomSemi: "/img/path-128@1x.png",
+//     topQuarter: "/img/path-127@1x.png",
+//     login: "LOGIN",
+//     path124: "/img/path-124@1x.png",
+//     path125: "/img/path-125-1@1x.png",
+//     logIn: "/img/log-in-1@1x.png",
+//     inputType1: "text",
+//     inputPlaceholder1: "Username                                              ",
+//     user_1_: "/img/user--1-@1x.png",
+//     inputType2: "password",
+//     inputPlaceholder2: "Password                                          ",
+//     inputType3: "password",
+//     inputPlaceholder3: "show",
+//     forgotPassword: "/img/forgot-password-@1x.png",
+//     hmsIconScreenProps: hmsIconScreen5Data,
+//     pswdIconProps: pswdIcon3Data,
+// };

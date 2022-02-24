@@ -17,6 +17,7 @@ import dpRoutes from './routes/dpRoutes.js'
 import otherRoutes from './routes/otherRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import saleRoutes from './routes/saleRoutes.js'
+import inboundRoutes from './routes/inboundRoutes.js'
 
 
 const app = express()
@@ -77,6 +78,7 @@ app.use('/users', userRoutes)
 app.use('/admin', adminRoutes)
 app.use('/order', orderRoutes)
 app.use('/sale', saleRoutes)
+app.use('/inbound', inboundRoutes)
 app.use('/drop', dpRoutes)
 app.use('/', otherRoutes)
 

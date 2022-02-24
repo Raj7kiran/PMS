@@ -7,7 +7,7 @@ export const addSale = asyncHandler(async(req, res) => {
 	
 
 	const { title, name, age, gender, phoneNumber, doctorID, purpose, saleItems, totalQty, 
-		itemTotalPrice, itemTotalPriceWithoutTax, totalGST, discountPrice, saleTotal, remarks, isSaved, isSubmitted } = req. body
+		itemTotalPrice, itemTotalPriceWithoutTax, totalGST, discountPrice, saleTotal, remarks, isSaved, isSubmitted } = req.body
 
 		if(saleItems && saleItems.length === 0){
 			res.status(400)
@@ -59,7 +59,7 @@ export const addSale = asyncHandler(async(req, res) => {
 
 
 export const getSales = asyncHandler(async(req,res) => {
-	const sales = await Sale.find({}).populate('doctorID', 'firstName')
+	const sales = await Sale.find({}).populate('doctorID', 'firstName').sort({createdAt: -1})
 	res.json(sales)
 })
 
@@ -75,7 +75,7 @@ export const getSaleById = asyncHandler(async(req,res) => {
 })
 
 export const getMySales = asyncHandler(async(req,res) => {
-	const sales = await Sale.find({ createdUserId: req.user._id })
+	const sales = await Sale.find({ createdUserId: req.user._id }).sort({createdAt: -1})
 	res.json(sales)
 	
 })
@@ -130,7 +130,7 @@ export const updateToSubmit = asyncHandler(async(req,res) => {
 })
 
 export const getSubmittedSales = asyncHandler(async(req,res) => {
-	const sale = await Sale.find({isSubmitted: true}).populate('doctorID','firstName')
+	const sale = await Sale.find({isSubmitted: true}).populate('doctorID','firstName').sort({createdAt: -1})
 
 	if(sale){
 		res.json(sale)
@@ -220,7 +220,7 @@ export const updateToBilled = asyncHandler(async(req,res) => {
 })
 
 export const getBilledSales = asyncHandler(async(req,res) => {
-	const sale = await Sale.find({isBilled: true}).populate('doctorID','firstName')
+	const sale = await Sale.find({isBilled: true}).populate('doctorID','firstName').sort({createdAt: -1})
 
 	if(sale){
 		res.json(sale)
@@ -259,7 +259,8 @@ export const updateToCollect = asyncHandler(async(req,res) => {
 })
 
 export const getCollectedSales = asyncHandler(async(req,res) => {
-	const sale = await Sale.find({isCollected: true}).populate('doctorID','firstName')
+	const sale = await Sale.find({isCollected: true}).populate('doctorID','firstName').sort({createdAt: -1})
+
 
 	if(sale){
 		res.json(sale)
@@ -296,7 +297,8 @@ export const updateToDelivered = asyncHandler(async(req,res) => {
 })
 
 export const getDeliveredSales = asyncHandler(async(req,res) => {
-	const sale = await Sale.find({isDelivered: true}).populate('doctorID','firstName')
+	const sale = await Sale.find({isDelivered: true}).populate('doctorID','firstName').sort({createdAt: -1})
+
 
 	if(sale){
 		res.json(sale)
@@ -366,3 +368,16 @@ export const updateToSendback = asyncHandler(async(req,res) => {
 
 })
 
+
+export const getPaidSales = asyncHandler(async(req,res) => {
+	const sale = await Sale.find({isPaid: true}).populate('doctorID','firstName').sort({createdAt: -1})
+
+
+	if(sale){
+		res.json(sale)
+	} else {
+		res.status(404)
+		throw new Error('Sale not found')
+	}
+
+})

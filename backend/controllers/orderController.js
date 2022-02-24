@@ -20,19 +20,18 @@ export const addOrderItems = asyncHandler(async(req, res) => {
 		})
 
 		const createdOrder = await order.save()
-
 		res.status(201).json(createdOrder)
 	}
 })
 
 export const getOrders = asyncHandler(async(req,res) => {
-	const orders = await Order.find({}).populate('user', 'firstName')
+	const orders = await Order.find({}).populate('user', 'firstName').sort({createdAt: -1})
 	res.json(orders)
 	
 })
 
 export const getOrderById = asyncHandler(async(req,res) => {
-	const order = await Order.findById(req.params.id).populate('user', 'firstName email phone').populate('orderItems.product','manufacturer tax mrp purchasePrice freeQty discountPrice currentStock lowStockValue reOrderValue ')
+	const order = await Order.findById(req.params.id).populate('user', 'firstName email phone').populate('orderItems.product','manufacturer tax mrp purchasePrice freeQty discountPrice discount stockDiscount currentStock lowStockValue reOrderValue ')
 
 	if(order){
 		res.json(order)
@@ -43,7 +42,7 @@ export const getOrderById = asyncHandler(async(req,res) => {
 })
 
 export const getMyOrders = asyncHandler(async(req,res) => {
-	const orders = await Order.find({ user: req.user._id }).populate('user', 'firstName email phone')
+	const orders = await Order.find({ user: req.user._id }).populate('user', 'firstName email phone').sort({createdAt: -1})
 	res.json(orders)
 	
 })
@@ -110,9 +109,7 @@ export const financeApproveOrder = asyncHandler(async(req,res) => {
 		}
 
 		order.financeApprovalDetails.push(approvalDetails)
-
-		order.isFinanceApproved = true
-		
+		order.isFinanceApproved = true		
 		
 		const updatedOrder = await order.save()
 		res.json(updatedOrder)
@@ -124,7 +121,9 @@ export const financeApproveOrder = asyncHandler(async(req,res) => {
 })
 
 export const finalApproveOrder = asyncHandler(async(req,res) => {
-	const { remarks } = req.body
+	const { orderItems, remarks } = req.body
+
+	console.log(orderItems)
 
 	const order = await Order.findById(req.params.id)
 
@@ -137,13 +136,13 @@ export const finalApproveOrder = asyncHandler(async(req,res) => {
 		const approvalDetails = {
 			approverName: req.user.firstName,
 			approverId: req.user._id,
-			approvedAt: Date.now(),
+			approvedAt: Date.now(),					
 			orderId: req.params.id,
 			remarks
 		}
 
 		order.finalApprovalDetails.push(approvalDetails)
-
+		order.orderItems = orderItems
 		order.isFinalApproved = true
 		
 		const updatedOrder = await order.save()
@@ -153,6 +152,11 @@ export const finalApproveOrder = asyncHandler(async(req,res) => {
 		res.status(404)
 		throw new Error("Order not Found") 
 	}
+})
+
+export const getFinalOrders = asyncHandler(async(req, res) => {
+	const orders = await Order.find({isFinalApproved: true}).sort({createdAt: -1})
+	res.json(orders) 
 })
 
 export const rejectOrder = asyncHandler(async(req,res) => {
@@ -231,4 +235,16 @@ export const rejectOrder = asyncHandler(async(req,res) => {
 		res.status(404)
 		throw new Error("Order not Found") 
 	}
+})
+
+
+export const getOrderByVendor = asyncHandler(async(req,res) => {
+		console.log(req.params)
+		if(req.params.id == 'all'){
+			const orders = await Order.find({isFinalApproved: true}).sort({createdAt: -1})
+			res.json(orders) 
+		} else {
+			res.send({message: 'not all'})
+		}
+		
 })

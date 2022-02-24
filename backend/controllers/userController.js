@@ -72,7 +72,8 @@ const authUser = asyncHandler(async(req,res) => {
 
 //get Users
 const getUsers = asyncHandler(async(req,res) => {
-	const users = await User.find({addedUserId: req.user._id});
+	const users = await User.find({addedUserId: req.user._id}).sort({createdAt: -1})
+
 	// console.log(`req: ${req}`)
 	// console.log(`req.user: ${req.user}`)
 	if(users){
@@ -85,7 +86,8 @@ const getUsers = asyncHandler(async(req,res) => {
 })
 
 const getDoctor = asyncHandler(async(req,res) => {
-	const doctors = await User.find({role : '7'})
+	const doctors = await User.find({role : '7'}).sort({createdAt: -1})
+
 
 	if(doctors){
 		res.json(doctors)

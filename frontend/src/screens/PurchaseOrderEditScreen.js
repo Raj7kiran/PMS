@@ -10,7 +10,7 @@ import { getOrderDetails } from '../actions/orderActions'
 
 
 const PurchaseOrderEditScreen = () => {
-	let count=0;
+	let count=1;
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 
@@ -30,17 +30,25 @@ const PurchaseOrderEditScreen = () => {
 	const orderDetails = useSelector( state => state.orderDetails )
 	const { loading, error, order } = orderDetails
 
-	// const [tableData, setTableData] = useState()
+	// const [tableData, setTableData] = useState({})
 	const [dropDownData, setDropDownData] = useState(products)
 
 	let addDecimals = (num) => {
 			return (Math.round(num*100)/100).toFixed(2)
 		}
 
+	// useEffect(() => {
+	// 	setTableData(order.orderItems)
+	// 	console.log('tableData')
+	// 	console.log(tableData)
+	// },[order.orderItems])
+
+
 	useEffect(()=>{
 		   setDropDownData(products)
 		},[products])
 
+	
 
 	useEffect(() => {
 
@@ -52,10 +60,14 @@ const PurchaseOrderEditScreen = () => {
 		
 		if(!order || order._id !== orderId ){
 				console.log('dispatch')
-					dispatch(getOrderDetails(orderId))
-				} 		
-		},[dispatch, order, orderId, navigate, userInfo])
-		console.log(order)
+				dispatch(getOrderDetails(orderId))
+			} 		
+	},[dispatch, order, orderId, navigate, userInfo])
+
+
+	
+	// console.log('tableData2')
+	// console.log(tableData)
 	
 	
 		// order.orderItems.map(items => {
@@ -66,10 +78,7 @@ const PurchaseOrderEditScreen = () => {
 
 		
 
-	// useEffect(() => {
-	// 	setTableData(order)
-	// 	console.log(tableData)
-	// },[order])
+	
 	
 	const addToTableHandler = (e) => {
 			// e.preventDefault()
@@ -93,8 +102,16 @@ const PurchaseOrderEditScreen = () => {
 
 	}
 
-	const changeQuantity = () => {
-		console.log('changeQuantity')
+	const changeQuantity = (id, quant) => {
+		console.log(id, quant)
+		
+		order.orderItems.map(item => {
+			if(item._id == id){
+				item.qty= quant
+				console.log(item)
+			}
+		})
+
 	}
 
 
@@ -138,7 +155,7 @@ const PurchaseOrderEditScreen = () => {
 												<Form.Control 	type="number"  placeholder="Quantity"
 																// className={`${phoneErr.length>1 ? 'inCorrect' : null}`}
 																value={quantity}
-																onChange = {(e)=> setQuantity(Number(e.target.value))}
+																onChange = {(e)=> setQuantity(e.target.value)}
 																// onBlur = {(e) => valPhone(e.target.value)}
 																required 
 															/>
@@ -187,7 +204,7 @@ const PurchaseOrderEditScreen = () => {
 												    <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm"
 												    	type='number' 
 												    	value={item.qty}
-												    	onChange = {(e) => changeQuantity(item.product.medicineName,e.target.value)}
+												    	onChange = {(e) => changeQuantity(item._id,e.target.value)}
 												    />
 												 </InputGroup>
 											</td>

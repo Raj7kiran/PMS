@@ -22,7 +22,6 @@ const PurchaseOrderStatusScreen = () => {
 
 	const orderListMy = useSelector((state) => state.orderListMy)
 	const { loading: loadingOrders , error: errorOrders, orders } = orderListMy
-
 	
 	const orderDelete = useSelector( state => state.orderDelete )
 	const { loading: loadingDelete, success: successDelete, error:errorDelete } = orderDelete

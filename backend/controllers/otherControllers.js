@@ -11,7 +11,7 @@ import Joi from 'joi'
 
 //get manufacturer
 export const getManufacturer = asyncHandler(async(req,res) => {
-	const manufacturer = await Manufacturer.find({})
+	const manufacturer = await Manufacturer.find({}).sort({createdAt: -1})
 	res.json(manufacturer)
 })
 
@@ -129,7 +129,7 @@ export const updateManufacturer = asyncHandler(async(req,res) => {
 
 //get Supplier
 export const getSupplier = asyncHandler(async(req,res) => {
-	const suppliers = await Supplier.find({})
+	const suppliers = await Supplier.find({}).sort({createdAt: -1})
 	res.json(suppliers)
 })
 

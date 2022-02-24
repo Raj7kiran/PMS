@@ -266,7 +266,7 @@ export const financeApproveOrder = (orderId, remarks) => async (dispatch, getSta
     }
 }
 
-export const finalApproveOrder = (orderId, remarks) => async (dispatch, getState) => {
+export const finalApproveOrder = (orderId, remarks, orderItems) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_FINALAPPROVE_REQUEST,
@@ -280,7 +280,7 @@ export const finalApproveOrder = (orderId, remarks) => async (dispatch, getState
       headers: { Authorization: `Bearer ${userInfo.token}`,},
     } 
 
-    const { data } = await axios.put(`/order/${orderId}/finalapprove`, {remarks}, config)   
+    const { data } = await axios.put(`/order/${orderId}/finalapprove`, {remarks, orderItems}, config)   
 
     dispatch({
       type: ORDER_FINALAPPROVE_SUCCESS,

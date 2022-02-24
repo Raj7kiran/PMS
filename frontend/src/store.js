@@ -21,6 +21,7 @@ import { saleCreateReducer, saleListMyReducer, saleDetailsReducer, saleListReduc
 		 saleCollectReducer, saleCollectedListReducer, saleDeliverReducer, 
 		 saleDeliveredListReducer, sendBackReducer, saleRejectReducer, saleCardPayReducer
 		} from './reducers/saleReducers'
+import { inboundCreateReducer, inboundListReducer } from './reducers/inboundReducers'
 
 
 const reducer = combineReducers({
@@ -80,7 +81,9 @@ const reducer = combineReducers({
 	saleDeliveredList: saleDeliveredListReducer,
 	sendBack: sendBackReducer,
 	saleReject: saleRejectReducer,
-	saleCardPay: saleCardPayReducer
+	saleCardPay: saleCardPayReducer,
+	inboundCreate: inboundCreateReducer,
+	inboundList: inboundListReducer
 })
 
 

@@ -3,7 +3,7 @@ const router = express.Router()
 import { protect } from '../middleware/authMiddleware.js'
 import { getSales, addSale, getSaleById, getMySales, deleteSaleById, updateToSubmit,
 		 updateToPaid, updateToBilled, updateToCollect, updateToDelivered, updateToSendback,
-		 getSubmittedSales, getBilledSales, getCollectedSales, getDeliveredSales, updateToReject
+		 getSubmittedSales, getBilledSales, getCollectedSales, getDeliveredSales, updateToReject, getPaidSales
   } from '../controllers/saleController.js'
 
 
@@ -13,6 +13,7 @@ router.route('/submitted').get(protect, getSubmittedSales)
 router.route('/billed').get(protect, getBilledSales)
 router.route('/collected').get(protect, getCollectedSales)
 router.route('/delivered').get(protect, getDeliveredSales)
+router.route('/paid').put(protect, getPaidSales)
 router.route('/:id').get(protect, getSaleById).delete(protect, deleteSaleById)
 router.route('/:id/submit').put(protect, updateToSubmit)
 router.route('/:id/pay').put(protect, updateToPaid)

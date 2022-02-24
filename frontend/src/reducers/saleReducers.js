@@ -15,6 +15,7 @@ import { SALE_CREATE_REQUEST, SALE_CREATE_SUCCESS, SALE_CREATE_FAIL,SALE_CREATE_
 		 SALE_SB_REQUEST, SALE_SB_SUCCESS, SALE_SB_FAIL, SALE_SB_RESET,
 		 SALE_REJECT_REQUEST, SALE_REJECT_SUCCESS, SALE_REJECT_FAIL, SALE_REJECT_RESET,
 		 SALE_CARD_PAY_REQUEST, SALE_CARD_PAY_SUCCESS, SALE_CARD_PAY_FAIL, SALE_CARD_PAY_RESET,
+		 SALE_PAID_LIST_REQUEST, SALE_PAID_LIST_SUCCESS, SALE_PAID_LIST_FAIL,
 	} from '../constants/saleConstants'
 
 
@@ -456,6 +457,30 @@ export const saleCardPayReducer = (state={}, action) => {
 		case SALE_CARD_PAY_RESET:
 			return{}		
 
+		default:
+			return state
+	}
+}
+
+export const salePaidListReducer = (state ={sales:[]}, action) => {
+	switch(action.type) {
+		case SALE_PAID_LIST_REQUEST:
+			return {
+				loading: true, sales: []
+			}
+
+		case SALE_PAID_LIST_SUCCESS:
+			return {
+				loading: false,
+				sales: action.payload
+			}
+
+		case SALE_PAID_LIST_FAIL:
+			return{
+				loading: false,
+				error: action.payload
+			}
+		
 		default:
 			return state
 	}

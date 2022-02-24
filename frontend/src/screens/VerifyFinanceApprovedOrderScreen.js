@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getOrderDetails, finalApproveOrder, rejectOrder } from '../actions/orderActions'
+import {listSupplier} from '../actions/otherActions'
 import { ORDER_FINALAPPROVE_RESET, ORDER_REJECT_RESET }  from '../constants/orderConstants'
 
 
@@ -15,11 +16,14 @@ const VerifyFinanceApprovedOrderScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 	
+	const userLogin = useSelector(state => state.userLogin)
+	const { userInfo } = userLogin
+
 	const orderDetails = useSelector(state => state.orderDetails)
 	const { order ,loading, error } = orderDetails
 
-	const userLogin = useSelector(state => state.userLogin)
-	const { userInfo } = userLogin
+	const supplierList = useSelector(state => state.supplierList)
+	const { loading: supplierLoading, error: supplierError, suppliers } = supplierList
 
 	const orderFinalApprove = useSelector(state => state.orderFinalApprove)
 	const { loading: loadingApprove, success: successApprove, error: errorApprove } = orderFinalApprove
@@ -28,6 +32,7 @@ const VerifyFinanceApprovedOrderScreen = () => {
 	const { loading: loadingReject, success: successReject, error: errorReject } = orderReject
 
 	const [remarks, setRemarks] = useState('')
+	const [vendor, setVendor] = useState('')
 
 	useEffect(() => {
 
@@ -35,6 +40,7 @@ const VerifyFinanceApprovedOrderScreen = () => {
 			navigate('/')
 		}
 
+		dispatch(listSupplier())
 		dispatch({type: ORDER_REJECT_RESET})
 		dispatch({type: ORDER_FINALAPPROVE_RESET})
 
@@ -69,10 +75,23 @@ const VerifyFinanceApprovedOrderScreen = () => {
 
 		order.orderTotalPrice = order.itemTotalPrice
 	}
+
+	const changeVendor = (vendor, id) => {
+		console.log(id)
+		console.log(vendor)
+
+		order.orderItems.map(item => {
+			if(item._id == id){
+				item.vendor = vendor
+			}
+		})
+	}
 	
 		const approveHandler = () => {
+				let orderItems = order.orderItems
 				console.log(remarks)
-				dispatch(finalApproveOrder(orderId, remarks))
+				console.log(orderItems)
+				dispatch(finalApproveOrder(orderId, remarks, orderItems))
 			}
 	
 		const rejectHandler = () => {
@@ -119,6 +138,7 @@ const VerifyFinanceApprovedOrderScreen = () => {
 								<th>Manufacturer</th>
 								<th>Medicine</th>
 								<th >Quantity</th>
+								<th>Vendor</th>
 								<th >MRP</th>
 								<th >Purchase Price</th>
 								<th >Tax %</th>
@@ -134,6 +154,22 @@ const VerifyFinanceApprovedOrderScreen = () => {
 										<td>Manufacturer Name</td>
 										<td>{item.name}</td>
 										<td>{item.qty}</td>
+										<td>
+											<Form.Group controlId='vendor' className="mb-3">
+													<Form.Control className='order-dropdown' as='select' 
+														value={item.vendor} 
+														onChange={(e) => changeVendor(e.target.value, item._id)}
+														required
+														>
+														<option value=''>Select Vendor</option>
+														{
+															suppliers.map(supplier => (
+																	<option key={supplier._id} value={supplier.supplierName}>{supplier.supplierName}</option>
+																))
+														}
+													</Form.Control>
+											</Form.Group>
+										</td>
 										<td>{item.product.mrp}</td>
 										<td>{item.product.purchasePrice}</td>
 										<td>{item.product.tax}</td>										

@@ -52,7 +52,7 @@ export const logout = () => (dispatch) => {
 	dispatch ({ type: USER_LOGOUT })
   dispatch ({ type: USER_DETAILS_RESET })
 	
-	document.location.href = '/login-page'
+	document.location.href = '/'
 }
 
 export const listUsers = () => async (dispatch, getState) => {
