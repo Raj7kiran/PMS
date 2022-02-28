@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import {Link, useParams, useNavigate} from 'react-router-dom'
-import { Nav,Table, Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Card,ListGroup } from 'react-bootstrap'
+import { Table,Button, Form, FloatingLabel,ListGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -128,7 +128,7 @@ const CollectorScreen = () => {
 						</tbody>						
 				</Table>
 				{
-					(sale.isSubmitted === true && sale.isCollected === false || sale.isSubmitted === false) && (
+					((sale.isSubmitted === true && sale.isCollected === false) || sale.isSubmitted === false) && (
 						<div className='fixedBottomButton'>
 								<Button variant='outline-dark' className='btn mx-1'
 									onClick={backHandler} 

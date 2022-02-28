@@ -8,6 +8,7 @@ import Loader from '../components/Loader'
 import { createUser, listPackages } from '../actions/adminActions'
 import { CLIENT_CREATE_RESET } from '../constants/adminConstants'
 import { getStatesName, getCity } from '../actions/dropActions'
+import '../FormStyle.css'
 
 
 const AddClientScreen = () => {
@@ -222,16 +223,22 @@ const AddClientScreen = () => {
 	return (
 		<>
 		<Link to='/admin/clientlist' className='btn btn-dark my-3'>Go Back</Link>
-		<FormContainer>
-			<h1>Add User</h1>
+		<div class="form-body">
+	        <div class="row">
+	            <div class="form-holder">
+	                <div class="form-content">
+	                	 <div className='headForm py-3'>Add User</div>
+	                    <div class="form-items">
+	                       
+			
 				{loading && <Loader />}
 				{error && <Message variant='danger'>{error}</Message>}
 					<Form onSubmit={submitHandler} validated={validated} noValidate>
 						<Row>
-							<Col>
+							<Col md={7}>
 								<Form.Group className="mb-3" controlId='firstName'>
 									<FloatingLabel controlId="floatingInput" label="First Name" >
-										<Form.Control 	type="name"  placeholder="firstName"
+										<Form.Control className='effect-8'	type="text"  placeholder="firstName"
 														// className={`${fnErr.length>1 ? 'inCorrect' : null}`}
 														value={firstName}
 														onChange = {(e)=> FN1(e.target.value)}
@@ -240,10 +247,14 @@ const AddClientScreen = () => {
 														isInvalid={!!fnErr} 
 													/>
 									</FloatingLabel>
+									{/*<input class="effect-8" type="text" placeholder="Placeholder Text">
+							            <span class="focus-border">
+							            	<i></i>
+							            </span>*/}
 									{fnErr.length>1 ? (<div className='errMsg'>{fnErr}</div>): null}
 								</Form.Group>
 							</Col>
-							<Col>
+							<Col md={5}>
 								<Form.Group className="mb-3" controlId='lastName' className="mb-3">
 									<FloatingLabel controlId="floatingInput" label="Last Name" >
 										<Form.Control 	type="name"  placeholder="lastName"
@@ -251,7 +262,8 @@ const AddClientScreen = () => {
 														value={lastName}
 														onChange = {(e)=> LN1(e.target.value)}
 														onBlur = {(e) => LN(e.target.value)}
-														required 
+														required
+														isInvalid={!!lnErr}  
 													/>
 									</FloatingLabel>
 									{lnErr.length>1 ? (<div className='errMsg'>{lnErr}</div>): null}
@@ -268,6 +280,7 @@ const AddClientScreen = () => {
 														onChange = {(e)=> {setEmail(e.target.value)}} 
 														onBlur = {(e) => valEmail(e.target.value)}
 														required
+														isInvalid={!!emailErr} 
 													/>
 									</FloatingLabel>
 									{emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
@@ -278,7 +291,7 @@ const AddClientScreen = () => {
 							{ userInfo.isAdmin && (
 									<>
 									<Row>
-										<Col>
+										<Col md={6}>
 											<Form.Group className="mb-3" controlId='company'>
 												<FloatingLabel controlId="floatingInput" label="Company Name" >
 													<Form.Control 	type="company"  placeholder="Company Name"
@@ -286,13 +299,14 @@ const AddClientScreen = () => {
 																	value={company}
 																	onChange = {(e)=> {CP1(e.target.value)}} 
 																	onBlur = {(e) => CP(e.target.value)}
-																	required 
+																	required
+																	isInvalid={!!compErr}  
 																/>
 												</FloatingLabel>
 												{compErr.length>1 ? (<div className='errMsg'>{compErr}</div>): null}
 											</Form.Group>
 										</Col>
-										<Col>
+										<Col md={6}>
 											<Form.Group controlId='package' className="mb-3">
 												<FloatingLabel controlId="floatingSelect" label="Package">
 													<Form.Control as='select' value={pack}
@@ -300,6 +314,7 @@ const AddClientScreen = () => {
 																  onChange={(e) => setPack(e.target.value)}
 																  onBlur = {(e) => PK(e.target.value)}
 																  required
+																  isInvalid={!!packErr} 
 																  >
 														<option value=''>Select Package</option>
 														{packages.map(pack => (
@@ -329,7 +344,7 @@ const AddClientScreen = () => {
 											    				aria-label="Checkbox for following text input"
 													    		checked={isAdmin}
 														    	onChange = { (e) => setIsAdmin(e.target.checked)}
-														    	
+														    	 
 													/>
 											 </Form.Group>
 										</Col>
@@ -378,7 +393,7 @@ const AddClientScreen = () => {
 											</InputGroup>
 										</Form.Group>*/}
 										<Row>
-											<Col>
+											<Col md={6}>
 												<Form.Group controlId='role' className="mb-3">
 													<FloatingLabel controlId="floatingSelect" label="Role">
 														<Form.Control as='select' value={role} 
@@ -386,6 +401,7 @@ const AddClientScreen = () => {
 															onChange={(e) => setRole(e.target.value)}
 															onBlur = {(e) => RL(e.target.value)}
 															required
+															isInvalid={!!roleErr} 
 															>
 															<option value=''>Select Role</option>
 															<option value='Role 1'>Role 1</option>
@@ -407,12 +423,12 @@ const AddClientScreen = () => {
 													{roleErr.length>1 ? (<div className='errMsg'>{roleErr}</div>): null}
 											</Form.Group>
 											</Col>
-											<Col>
+											<Col md={6}>
 												<Form.Group controlId='gender' className="mb-3">
 														<FloatingLabel controlId="floatingSelect" label="Role">
 															<Form.Control as='select' value={gender} 
 																onChange={(e) => setGender(e.target.value)}
-																required>
+																required >
 																<option value=''>Select Gender</option>
 																<option value='Male'>Male</option>
 																<option value='Female'>Female</option>
@@ -424,7 +440,7 @@ const AddClientScreen = () => {
 										</Row>									
 
 										<Row>
-											<Col>
+											<Col md={6}>
 												<Form.Group controlId='state'>
 													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={stateName} className="mb-3"
@@ -442,7 +458,7 @@ const AddClientScreen = () => {
 														</FloatingLabel>
 												</Form.Group>
 											</Col>
-											<Col>
+											<Col md={6}>
 												<Form.Group controlId='city'>
 													<FloatingLabel controlId="floatingSelect" label="State">
 														<Form.Control as='select' value={city} className="mb-3"
@@ -459,7 +475,7 @@ const AddClientScreen = () => {
 											</Col>
 										</Row>
 										<Row>
-											<Col>
+											<Col md={4}>
 												<Form.Group className="mb-3" controlId='phone'>
 													<FloatingLabel controlId="floatingInput" label="Phone" >
 														<Form.Control 	type="number"  placeholder="9911223344"
@@ -467,13 +483,14 @@ const AddClientScreen = () => {
 																		value={phone}
 																		onChange = {(e)=> PH(e.target.value)}
 																		onBlur = {(e) => valPhone(e.target.value)}
-																		required 
+																		required
+																		isInvalid={!!phoneErr}  
 																	/>
 													</FloatingLabel>
 													{phoneErr.length>1 ? (<div className='errMsg'>{phoneErr}</div>): null}
 												</Form.Group>
 											</Col>
-											<Col>
+											<Col md={4}>
 												<Form.Group className="mb-3" controlId='zipcode'>
 													<FloatingLabel controlId="floatingInput" label="Zipcode" >
 														<Form.Control 	type="zipcode"  placeholder="012345"
@@ -481,19 +498,20 @@ const AddClientScreen = () => {
 																		value={zipcode}
 																		onChange = {(e)=> ZP(e.target.value)}
 																		onBlur = {(e) => valZip(e.target.value)}
-																		required 
+																		required
+																		isInvalid={!!zipErr}  
 																	/>
 													</FloatingLabel>
 													{zipErr.length>1 ? (<div className='errMsg'>{zipErr}</div>): null}
 												</Form.Group>
 											</Col>
-											<Col>
+											<Col md={4}>
 												<Form.Group className="mb-3" controlId='dob'>
 													<FloatingLabel controlId="floatingInput" label="DOB" >
 														<Form.Control 	type="date"  placeholder="dob"
 																		value={dob}
 																		onChange = {(e)=> setDob(e.target.value)}
-																		required 
+																		required
 																	/>
 													</FloatingLabel>
 												</Form.Group>
@@ -524,7 +542,12 @@ const AddClientScreen = () => {
 								Add
 							</Button>
 					</Form>
-			</FormContainer>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+			
 		</>
 		)
 }

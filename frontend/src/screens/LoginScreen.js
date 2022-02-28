@@ -90,41 +90,52 @@ const LoginScreen = ({ location, history }) => {
       {userInfo ? ('') 
         : (
           <FormContainer>
-            <h1>Login</h1>
-            <Form onSubmit ={submitHandler} validated={validated} noValidate className="mb-3 validated-form" >
-              <Form.Group className="mb-3" controlId='email'>
-                <FloatingLabel controlId="floatingInput" label="Email address" >
-                  <Form.Control   type="email"  placeholder="name@example.com"
-                          // className={`${emailErr.length>1 ? 'inCorrect' : null}`}                          
-                          value={email}
-                          onChange = {(e)=> {
-                            setEmail(e.target.value)
-                          }} 
-                          onBlur = {(e) => valEmail(e.target.value)}
-                          required
-                          isInvalid={!!emailErr}
-                        />
-                </FloatingLabel>
-                {emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
-              </Form.Group>
-              <Form.Group className="mb-3" controlId='password'>
-                  <FloatingLabel controlId="floatingPassword" label="Password">
-                    <Form.Control   type="password" placeholder="Password"
-                          // className={`${blank.length>1 ? 'inCorrect' : null}`}
-                          value={password}
-                          onChange = {(e)=> {setPassword(e.target.value)}}
-                          onBlur = {(e) => isRequired(e.target.value)}
-                          required
-                          isInvalid={!!blank}
-                     />
-                  </FloatingLabel>
-                {blank.length>1 ? (<div className='errMsg'>{blank}</div>): null}
-              </Form.Group>
-              
-              <Button type='submit' variant='secondary' className={`${emailErr || blank ? 'disabled' : ''}`} >
-                Login
-              </Button>
-            </Form>
+          <div className='container'>
+                <div className="bodyLog d-md-flex align-items-center justify-content-between">
+                      <div className="box-1 mt-md-0 mt-5"><p>Healthicore</p></div>
+                      <div className=" box-2 d-flex flex-column h-100">
+                            <div className="mt-5">
+                                <p className='h-1'>Login</p>
+                                <Form onSubmit ={submitHandler} validated={validated} noValidate className="mb-3 validated-form" >
+                                  <Form.Group className="mb-3" controlId='email'>
+                                    <FloatingLabel controlId="floatingInput" label="Email address" >
+                                      <Form.Control   type="email"  placeholder="name@example.com"
+                                              // className={`${emailErr.length>1 ? 'inCorrect' : null}`}                          
+                                              value={email}
+                                              onChange = {(e)=> {
+                                                setEmail(e.target.value)
+                                              }} 
+                                              onBlur = {(e) => valEmail(e.target.value)}
+                                              required
+                                              isInvalid={!!emailErr}
+                                            />
+                                    </FloatingLabel>
+                                    {emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
+                                  </Form.Group>
+                                  <Form.Group className="mb-3" controlId='password'>
+                                      <FloatingLabel controlId="floatingPassword" label="Password">
+                                        <Form.Control   type="password" placeholder="Password"
+                                              // className={`${blank.length>1 ? 'inCorrect' : null}`}
+                                              value={password}
+                                              onChange = {(e)=> {setPassword(e.target.value)}}
+                                              onBlur = {(e) => isRequired(e.target.value)}
+                                              required
+                                              isInvalid={!!blank}
+                                         />
+                                      </FloatingLabel>
+                                    {blank.length>1 ? (<div className='errMsg'>{blank}</div>): null}
+                                  </Form.Group>
+                                  
+                                  <Button style={{width:'100%', background:'rgb(210,39,48)', boxshadow: '0 6px 6px -4px gray'}} type='submit' variant='secondary' className={`${emailErr || blank ? 'disabled' : ''} loginBut`} >
+                                    Submit
+                                  </Button>
+                                </Form>
+                              
+                            </div>
+                      </div>
+                </div>
+
+          </div>
           </FormContainer>
           )}  
       </> 

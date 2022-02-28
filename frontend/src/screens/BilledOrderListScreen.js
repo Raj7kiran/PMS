@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Table, Button, Form, FloatingLabel, Modal } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Table, Button } from 'react-bootstrap'
 import{ LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -15,8 +15,8 @@ const BilledOrderListScreen = () => {
 	const dispatch = useDispatch()
 	let navigate = useNavigate()
 
-	const userDetails = useSelector((state) => state.userDetails)
-	const { user } = userDetails
+	// const userDetails = useSelector((state) => state.userDetails)
+	// const { user } = userDetails
 
 	const userLogin = useSelector((state) => state.userLogin)
 	const { userInfo } = userLogin

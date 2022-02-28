@@ -82,7 +82,7 @@ const UserListScreen = () => {
 					<Link className='btn btn-dark mt-4  mx-4' to='/addUsers'>Add User</Link>
 				</div>
 				
-				<h1>Users List</h1>
+				
 				<div className='d-flex'>
 					<div className='p-2'>
 						<div className='searchTable'>
@@ -108,7 +108,9 @@ const UserListScreen = () => {
 					
 				{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
 					: (
-						<Table striped bordered hover responsive className='table-sm' id='table-to-xls'>
+						<div className='table-design'>
+						<div className="header">User List</div>
+						<Table striped bordered hover responsive className='table-sm' id='table-to-xls'>							
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -127,11 +129,11 @@ const UserListScreen = () => {
 										<td>{user.address}</td>
 										<td>
 											<LinkContainer to={`/user/${user._id}/edit`}>
-												<Button variant='light' className='btn-sm'>
+												<Button variant='light' className='btn-sm mx-1'>
 													<i className='fas fa-edit'></i>
 												</Button>
 											</LinkContainer>
-											<Button variant='danger' className='btn-sm' 
+											<Button variant='danger' className='btn-sm mx-1' 
 													onClick={()=> deleteHandler(user._id)}>
 												<i className='fas fa-trash'></i>
 											</Button>
@@ -140,6 +142,7 @@ const UserListScreen = () => {
 								))}
 							</tbody>
 						</Table>
+						</div>
 					)}
 			</>
 		)

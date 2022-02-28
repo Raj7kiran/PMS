@@ -54,16 +54,26 @@ const InboundScreen = () => {
 	const inboundCreate = useSelector(state => state.inboundCreate)
 	const { loading: createLoading, error: createError, success:createSuccess } = inboundCreate
 
+	const [tableData, setTableData] = useState([])
+
+	useEffect(() => {
+		setTableData(order)
+	},[order])
+
 	useEffect(() => {
 		if(!userInfo){
 			navigate('/')
 		}
 
+		setTableData('')
+
 		if(createSuccess){
-			dispatch({type: INBOUND_CREATE_RESET})			
+			dispatch({type: INBOUND_CREATE_RESET})
+			setVendor('')
+			setPurchaseOrder('')
+			setTableData('')						
 			navigate('/inbound/status')
 		}
-
 
 		dispatch(listOrders())
 		dispatch(listSupplier())
@@ -75,13 +85,77 @@ const InboundScreen = () => {
 		dispatch(getOrderDetails(orderId))
 	}
 
+	const changeBatchNo = (batch, itemid) => {
+		// console.log(batch, itemid)
+		const newArr = tableData.orderItems.map(item => {
+			if(item._id == itemid){
+				item.batchNo = batch
+				console.log('inside')
+			}
+			return item
+		})
+		console.log(tableData)
+	}
+
+	const changeExpDate = (expDate, itemid) => {
+		// console.log(batch, itemid)
+		const newArr = tableData.orderItems.map(item => {
+			if(item._id == itemid){
+				item.expDate = expDate
+				console.log('inside')
+			}
+			return item
+		})
+		console.log(tableData)
+	}
+
+	const changeRecQty = (recQty, itemid) => {
+		// console.log(batch, itemid)
+		const newArr = tableData.orderItems.map(item => {
+			if(item._id == itemid){
+				item.recQty = recQty
+				console.log('inside')
+			}
+			return item
+		})
+		console.log(newArr)
+	}
+
+	const changeFreeQty = (freeQty, itemid) => {
+		// console.log(batch, itemid)
+		const newArr = tableData.orderItems.map(item => {
+			if(item._id == itemid){
+				item.freeQty = freeQty
+				console.log('inside')
+			}
+			return item
+		})
+		console.log(newArr)
+	}
+
+	const changeTaxPer = (taxPer, itemid) => {
+		// console.log(batch, itemid)
+		const newArr = tableData.orderItems.map(item => {
+			if(item._id == itemid){
+				item.taxPer = Number(taxPer)
+				item.inboundTotal = Number(item.totalPrice + item.totalPrice*(taxPer/100))
+			}
+			return item
+
+		})
+		
+		// setTableData(newArr)
+		console.log(newArr)
+	}
+
 	const submitHandler = () => {
+		const items = tableData.orderItems.map(item => {
+			const { batchNo, expDate, recQty, freeQty, taxPer, inboundTotal } = item
+		})
+
 		console.log(order, batchNo, expiry, remarks, vendor, purchaseOrder, recQty, freeQty, taxPer, inboundTotal, gst)
 		dispatch(createInbound({order, batchNo, expiry, remarks, vendor, purchaseOrder, recQty, freeQty, taxPer, inboundTotal, gst}))
 	}
-
-
-
 
 	return (
 		<>
@@ -101,7 +175,7 @@ const InboundScreen = () => {
 									<option value=''>Select Vendor</option>
 									{
 										suppliers.map(supplier => (
-											<option value={supplier._id}>{supplier.supplierName}</option>
+											<option key={supplier._id} value={supplier._id}>{supplier.supplierName}</option>
 											))
 									}
 								</Form.Control>
@@ -144,7 +218,7 @@ const InboundScreen = () => {
 			
 
 			{
-				order._id && (
+				tableData._id && (
 					<>
 					<Row>
 					<Col>
@@ -189,7 +263,7 @@ const InboundScreen = () => {
 							</thead>
 							<tbody>
 									{
-										order.orderItems.map(item => (
+										tableData.orderItems.map(item => (
 											<tr key={item._id}>
 												<td>{count++}</td>
 												<td>{item.name}</td>
@@ -203,15 +277,15 @@ const InboundScreen = () => {
 													<InputGroup size="sm" className="mb-3">
 													    <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm"
 													    	type='number' 
-													    	value={batchNo}
-													    	onChange = {(e) => setBatchNo(e.target.value)}
+													    	value={item.batchNo}
+													    	onChange = {(e) => changeBatchNo(e.target.value, item._id)}
 													    />
 													 </InputGroup>
 												</td>
 												<td>
 													<input 	type="date"  placeholder="dob"
-															value={expiry}
-															onChange = {(e)=> setExpiry(e.target.value)}
+															// value={expiry}
+															onChange = {(e) => changeExpDate(e.target.value, item._id)}
 															required 
 														/>
 												</td>
@@ -219,8 +293,8 @@ const InboundScreen = () => {
 													<InputGroup size="sm" className="mb-3">
 													    <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm"
 													    	type='number' 
-													    	value={recQty}
-													    	onChange = {(e) => setRecQty(e.target.value)}
+													    	// value={recQty}
+													    	onChange = {(e) => changeRecQty(e.target.value, item._id)}
 													    />
 													 </InputGroup>
 												</td>
@@ -228,8 +302,8 @@ const InboundScreen = () => {
 													<InputGroup size="sm" className="mb-3">
 													    <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm"
 													    	type='number'
-													    	value={freeQty}
-													    	onChange = {(e) => setFreeQty(e.target.value)}
+													    	// value={freeQty}
+													    	onChange = {(e) => changeFreeQty(e.target.value, item._id)}
 													    />
 													 </InputGroup>
 												</td>
@@ -237,12 +311,12 @@ const InboundScreen = () => {
 													<InputGroup size="sm" className="mb-3">
 													    <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm"
 													    	type='number' 
-													    	value={taxPer}
-													    	onChange = {(e) => setTaxPer(e.target.value)}
+													    	// value={taxPer}
+													    	onChange = {(e) => changeTaxPer(e.target.value, item._id)}
 													    />
 													 </InputGroup>
 												</td>
-												<td></td>
+												<td>{item.inboundTotal}</td>
 											</tr>
 										))
 									}
@@ -265,7 +339,7 @@ const InboundScreen = () => {
 										</tr>
 									</thead>
 									<tbody>
-										{order.orderItems.map(item => (
+										{tableData.orderItems.map(item => (
 												<tr key={item._id} >
 													<td>{count++}</td>
 													<td>10</td>
@@ -411,7 +485,7 @@ const InboundScreen = () => {
 									) :
 								order.map(app => (
 									<>
-										<FloatingLabel controlId="floatingTextarea2" label="Remarks/Notes" className='my-3'>
+										<FloatingLabel key={order._id} controlId="floatingTextarea2" label="Remarks/Notes" className='my-3'>
 										    <Form.Control
 										      as="textarea"
 										      placeholder="Leave a comment here"
