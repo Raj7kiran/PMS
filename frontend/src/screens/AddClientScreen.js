@@ -536,7 +536,7 @@ const AddClientScreen = () => {
 
 							<Button type='submit'
 									className={`${fnErr || lnErr || emailErr || compErr || packErr || roleErr || phoneErr || zipErr
-												? 'disabled' : null } buttonlink btn btn-info`}
+												? 'disabled' : null } buttonlink`}
 								>
 								Add
 							</Button>
