@@ -77,40 +77,38 @@ const UserListScreen = () => {
 
 	return(
 			<>	
-				<div>
-					<Link to='/' className='btn btn-dark mt-4'>Go Back</Link>
-					<Link className='btn btn-dark mt-4  mx-4' to='/addUsers'>Add User</Link>
+				<div className='button-wrapper'>
+					<Link to='/' className='btn btn-dark buttonlink mt-4'>Go Back</Link>
+					<Link className='btn btn-info buttonlink mainb mt-4  mx-4' to='/addUsers'><span style={{color:'white'}} >Add User</span></Link>
 				</div>
 				
-				
-				<div className='d-flex'>
-					<div className='p-2'>
-						<div className='searchTable'>
-							<InputGroup className="me-2 my-2">
-							    <InputGroup.Text>Search</InputGroup.Text>
-							    <FormControl aria-label="Search"					    			
-							    			 value={q} onChange={(e) =>  setQ(e.target.value)}
-							    />
-							</InputGroup>
-						</div>
-					</div>
-					<div className='ml-auto p-2'>
-						<ReactHTMLTableToExcel
-			                    id="test-table-xls-button"
-			                    className="download-table-xls-button btn btn-success me-2 my-2"
-			                    table="table-to-xls"
-			                    filename="tablexls"
-			                    sheet="tablexls"
-			                    buttonText="Export"
-			              />
-					</div>
-				</div>
-					
 				{loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
 					: (
-						<div className='table-design'>
-						<div className="header">User List</div>
-						<Table striped bordered hover responsive className='table-sm' id='table-to-xls'>							
+						<div className="table-wrapper">
+						<div className="headTable">User List</div>
+						<div className='d-flex justify-content-end'>
+							<div className='p-2'>
+								<div className='searchTable'>
+									<InputGroup className="me-2 my-2">
+									    <InputGroup.Text style={{background:'rgb(210,39,48,0.7)', color:'white'}}>Search</InputGroup.Text>
+									    <FormControl aria-label="Search"					    			
+									    			 value={q} onChange={(e) =>  setQ(e.target.value)}
+									    />
+									</InputGroup>
+								</div>
+							</div>
+							<div className='p-2'>
+								<ReactHTMLTableToExcel
+					                    id="test-table-xls-button"
+					                    className=" button-33 me-2 my-2"
+					                    table="table-to-xls"
+					                    filename="tablexls"
+					                    sheet="tablexls"
+					                    buttonText="Export"
+					              />
+							</div>
+						</div>
+						<Table className='fl-table'>							
 							<thead>
 								<tr>
 									<th>Name</th>

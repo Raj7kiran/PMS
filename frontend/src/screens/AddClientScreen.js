@@ -222,18 +222,17 @@ const AddClientScreen = () => {
 
 	return (
 		<>
-		<Link to='/admin/clientlist' className='btn btn-dark my-3'>Go Back</Link>
-		<div class="form-body">
-	        <div class="row">
-	            <div class="form-holder">
-	                <div class="form-content">
-	                	 <div className='headForm py-3'>Add User</div>
-	                    <div class="form-items">
-	                       
+		<div className='button-wrapper'>
+			<Link to='/userlist' className='btn btn-dark mt-3'>Go Back</Link>
+		</div>
+		
+	    <div class="form-holder">
+	            <div className='headForm py-3'>Add User</div>
+	            <div class="form-items">                       
 			
 				{loading && <Loader />}
 				{error && <Message variant='danger'>{error}</Message>}
-					<Form onSubmit={submitHandler} validated={validated} noValidate>
+					<Form className='mt-2' onSubmit={submitHandler} validated={validated} noValidate>
 						<Row>
 							<Col md={7}>
 								<Form.Group className="mb-3" controlId='firstName'>
@@ -535,17 +534,15 @@ const AddClientScreen = () => {
 											
 
 
-							<Button type='submit' variant='primary'
+							<Button type='submit'
 									className={`${fnErr || lnErr || emailErr || compErr || packErr || roleErr || phoneErr || zipErr
-												? 'disabled' : null }`}
+												? 'disabled' : null } buttonlink btn btn-info`}
 								>
 								Add
 							</Button>
 					</Form>
-					</div>
-                </div>
+				
             </div>
-        </div>
     </div>
 			
 		</>

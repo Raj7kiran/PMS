@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormContainer from '../components/FormContainer'
-import { Form, Button, FloatingLabel } from 'react-bootstrap'
+import { Form, Button, FloatingLabel, Row,Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -90,13 +90,15 @@ const LoginScreen = ({ location, history }) => {
       {userInfo ? ('') 
         : (
           <FormContainer>
-          <div className='container'>
-                <div className="bodyLog d-md-flex align-items-center justify-content-between">
-                      <div className="box-1 mt-md-0 mt-5"><p>Healthicore</p></div>
-                      <div className=" box-2 d-flex flex-column h-100">
-                            <div className="mt-5">
-                                <p className='h-1'>Login</p>
-                                <Form onSubmit ={submitHandler} validated={validated} noValidate className="mb-3 validated-form" >
+          {/*<div className='parentdiv'>*/}
+          <Row className='align-items-center'>
+              <Col className='childdiv1' lg={6}>
+                  <div className="box-1"><p>Healthicore</p></div>
+              </Col>
+              <Col className='childdiv2' md={12} lg={6}>
+                  <p className='h-1'>Login</p>
+                  <div>
+                        <Form onSubmit ={submitHandler} validated={validated} noValidate className="mb-3 validated-form" >
                                   <Form.Group className="mb-3" controlId='email'>
                                     <FloatingLabel controlId="floatingInput" label="Email address" >
                                       <Form.Control   type="email"  placeholder="name@example.com"
@@ -112,7 +114,7 @@ const LoginScreen = ({ location, history }) => {
                                     </FloatingLabel>
                                     {emailErr.length>1 ? (<div className='errMsg'>{emailErr}</div>): null}
                                   </Form.Group>
-                                  <Form.Group className="mb-3" controlId='password'>
+                                  <Form.Group className="mb-4" controlId='password'>
                                       <FloatingLabel controlId="floatingPassword" label="Password">
                                         <Form.Control   type="password" placeholder="Password"
                                               // className={`${blank.length>1 ? 'inCorrect' : null}`}
@@ -126,16 +128,15 @@ const LoginScreen = ({ location, history }) => {
                                     {blank.length>1 ? (<div className='errMsg'>{blank}</div>): null}
                                   </Form.Group>
                                   
-                                  <Button style={{width:'100%', background:'rgb(210,39,48)', boxshadow: '0 6px 6px -4px gray'}} type='submit' variant='secondary' className={`${emailErr || blank ? 'disabled' : ''} loginBut`} >
+                                  <Button style={{background: 'rgb(210,39,48)'}} type='submit' variant='secondary' className={`${emailErr || blank ? 'disabled' : ''} loginBut`} >
                                     Submit
                                   </Button>
                                 </Form>
-                              
-                            </div>
-                      </div>
-                </div>
-
-          </div>
+                  </div>
+                                
+              </Col>
+          </Row>
+          {/*</div>*/}
           </FormContainer>
           )}  
       </> 
