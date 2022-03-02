@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, InputGroup, FormControl, Button } from 'react-bootstrap'
+import { Table, InputGroup, FormControl, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -86,28 +86,30 @@ const UserListScreen = () => {
 					: (
 						<div className="table-wrapper">
 						<div className="headTable">User List</div>
-						<div className='d-flex justify-content-end'>
-							<div className='p-2'>
+						<Row className='justify-content-md-end'>
+							<Col md={5}>
+							</Col>
+							<Col md={5}>
 								<div className='searchTable'>
-									<InputGroup className="me-2 my-2">
+									<InputGroup className='m-2'>
 									    <InputGroup.Text style={{background:'rgb(210,39,48,0.7)', color:'white'}}>Search</InputGroup.Text>
 									    <FormControl aria-label="Search"					    			
 									    			 value={q} onChange={(e) =>  setQ(e.target.value)}
 									    />
 									</InputGroup>
 								</div>
-							</div>
-							<div className='p-2'>
+							</Col>
+							<Col md={2}>
 								<ReactHTMLTableToExcel
 					                    id="test-table-xls-button"
-					                    className=" button-33 me-2 my-2"
+					                    className=" button-33 m-2"
 					                    table="table-to-xls"
 					                    filename="tablexls"
 					                    sheet="tablexls"
 					                    buttonText="Export"
 					              />
-							</div>
-						</div>
+							</Col>
+						</Row>
 						<Table className='fl-table'>							
 							<thead>
 								<tr>
