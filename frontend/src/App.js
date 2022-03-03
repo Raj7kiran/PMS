@@ -51,6 +51,7 @@ import IntentOrderListScreen from './screens/IntentOrderListScreen'
 // import LoginSuccessful from "./components/LoginSuccessful";
 // import LoginPage from "./components/LoginPage";
 import Header from './components/Header';
+import NewHeader from './components/NewHeader';
 import Footer from './components/Footer';
 import { Container } from 'react-bootstrap'
 
@@ -58,7 +59,7 @@ import { Container } from 'react-bootstrap'
 const App = () => {
   return (
     <Router>
-      <Header />
+      <NewHeader />
         <main className='py-3>'>
         <Container>
           <Routes>
