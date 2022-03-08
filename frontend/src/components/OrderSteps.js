@@ -11,7 +11,7 @@ const OrderSteps = () => {
 
 
 	return(
-		<Nav className='my-3' variant="tabs" >
+		<Nav style={{margin:'90px 0 20px 0'}}  variant="tabs" >
 			{
 				(userInfo.role === '1' || userInfo.role === '3') && (
 						<>

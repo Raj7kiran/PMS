@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { loginUser } from '../actions/userActions'
+import '../Buttoncss.scss'
 
 
 const LoginScreen = ({ location, history }) => {
@@ -94,6 +95,9 @@ const LoginScreen = ({ location, history }) => {
           <Row className='align-items-center'>
               <Col className='childdiv1' lg={6}>
                   <div className="box-1"><p>Healthicore</p></div>
+                  {/*<div id="container">
+                    <button class="learn-more">Learn More</button>
+                  </div>*/}
               </Col>
               <Col className='childdiv2' md={12} lg={6}>
                   <p className='h-1'>Login</p>
@@ -128,7 +132,7 @@ const LoginScreen = ({ location, history }) => {
                                     {blank.length>1 ? (<div className='errMsg'>{blank}</div>): null}
                                   </Form.Group>
                                   
-                                  <Button style={{background: 'rgb(210,39,48)'}} type='submit' variant='secondary' className={`${emailErr || blank ? 'disabled' : ''} loginBut`} >
+                                  <Button style={{background: 'rgb(210,39,48)'}} type='submit'  className={`${emailErr || blank ? 'disabled' : ''} learn-more btn`} >
                                     Submit
                                   </Button>
                                 </Form>

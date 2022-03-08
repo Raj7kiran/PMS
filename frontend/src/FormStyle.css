@@ -1,3 +1,7 @@
 form input, select, textarea {
     box-shadow: 0 6px 6px -4px rgb(150,39,48,0.7);
 }
+
+table input {
+     box-shadow: 0 6px 6px -4px rgb(150,39,48,0.7);
+}

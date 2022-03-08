@@ -3,3 +3,13 @@ table
 https://codepen.io/florantara/pen/dROvdb
 https://codepen.io/alexerlandsson/pen/mPWgpO
 https://codepen.io/lukepeters/pen/JjoVWd
+
+navbar
+https://bbbootstrap.com/snippets/bootstrap-5-sidebar-menu-toggle-button-34132202
+
+medi app
+http://medic-app-html.type-code.pro/dist/form-layout.html
+
+
+example app
+https://preview.themeforest.net/item/xray-medical-and-hospital-admin-template/full_screen_preview/25794797?_ga=2.89717272.2091474313.1646466964-2118698738.1646466964

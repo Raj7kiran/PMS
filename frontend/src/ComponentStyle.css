@@ -1,4 +1,110 @@
+/*--------------body color ---------------*/
 
+.bodydivs {
+    background-color: white;
+    padding: 0 20px 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
+}
+
+
+
+/*---------------checkbox-------------------*/
+
+
+/*-------------cards------------------------*/
+
+.profileimagecard {
+    border-radius: 50%;
+}
+
+.profiletitle {
+    text-align: center;
+    color: black;
+}
+
+.profilecardtext {
+    color: rgb(180 ,39 ,48);
+}
+
+.profcard {
+    box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+}
+
+.label-card {
+  flex: 0 50%;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+    0 5px 15px 0 rgba(37, 44, 97, 0.15);
+  border-radius: 15px;
+  /*margin: 8px;*/
+  /*padding: 10px 15px;*/
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  /*min-height: 265px;*/
+  transition: 0.5s;
+  background: rgb(180 39 48 / 10%);
+}
+
+.label-card:hover{
+    transform: scale(1.1);
+    z-index: 9;
+    background: rgb(180 ,39 ,48);
+    color: white;
+}
+
+.label-card-body {
+    background: rgb(180,39,48);
+    background: linear-gradient(45deg, rgba(180,39,48,0.3) 0%, rgba(130,39,48,0.1) 20%);
+}
+
+
+
+/*-------------nav tabs-----------------*/
+
+/*.navtab {
+    color: green;
+}
+*/
+/*.navtabmain {
+    background-color: rgb(180,39,48, 0.8);;
+}
+*/
+/*--------------Misc--------------*/
+
+.headborder{
+    border-bottom: 1px solid rgb(180, 39, 48);
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.splitDiv {
+    box-shadow: 0 6px 5px -6px black;
+    padding-bottom: 20px;
+    padding-left: 2px;
+    margin-top: 80px;
+}
+
+.splitDivForm {
+    box-shadow: 0 6px 5px -6px black;
+    padding-bottom: 20px;
+    padding-left: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.pageTitle {  font-family: 'Open Sans Condensed', sans-serif; font-size: 48px; font-weight: 700; line-height: 48px; padding: 0 30px; text-align: center; text-transform: uppercase;}
+
+.secondaryTitle {
+    /*background: rgb(180,39,48);*/
+    font-size: 25px;
+    color: white;
+    padding-left: 5px;
+    margin-bottom: 25px;
+    background: rgb(180,39,48);
+    background: linear-gradient(90deg, rgba(180,39,48,1) 0%, rgba(130,39,48,1) 35%, rgba(180,39,48,0) 100%);
+}
 
 /*-----------------Nav--------------*/
 
@@ -12,15 +118,33 @@
 }
 
 
-/*---------login button--------------*/
+/*---------button--------------*/
 
-.loginBut {
+.btn {
+  letter-spacing: 1px;
+  line-height: 15px;
+  border-radius: 40px;
+  transition: all 0.3s ease 0s;
+}
+
+/*.loginBut {
     width:100%;
 }
+*/
+.editbutton {
+    width: 100%;
+    border-radius: 50%;
+}
 
-.buttonlink:hover {    
+.deletebutton {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.forallbut:hover {    
     box-shadow: 0 6px 6px -4px gray;
 }
+
 /*----------------------------*/
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
@@ -39,8 +163,8 @@
     margin-top: 90px;
     background-color: rgb(210,39,48);
     text-align: center; 
-    border-top-left-radius: 10px;   
-    border-bottom-left-radius: 10px;   
+    border-top-left-radius: 20px;   
+    border-bottom-left-radius: 20px;   
 }
 
 .childdiv2 {
@@ -51,8 +175,8 @@
     display: flex;
     flex-direction: column;
     border: 1px solid rgb(210,39,48);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .h-1 {
@@ -69,7 +193,7 @@
 
 /*.parentdiv{
     border: 1px solid rgb(210,39,48);
-    border-radius: 10px;
+    border-radius: 20px;
 }*/
 
 /*.bodyLog {
@@ -111,7 +235,7 @@
 
 .button-wrapper {
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .headTable {
@@ -121,26 +245,28 @@
    padding: 1rem;
    text-align: center;
    text-transform: uppercase;
-   border-top-right-radius: 10px;
-   border-top-left-radius: 10px;
+   border-top-right-radius: 20px;
+   border-top-left-radius: 20px;
 }
 
 .table-wrapper{
     margin-top: 10px;
     margin-bottom: 70px;
-    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+    /*box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );*/
 }
 
 .fl-table {
     border-radius: 5px;
     font-size: 12px;
     font-weight: normal;
-    border: none;
-    border-collapse: collapse;
+    /*border: none;*/
+    /*border-collapse: collapse;*/
     width: 100%;
     max-width: 100%;
     white-space: nowrap;
     background-color: white;
+    transition: 0.7s;
+    box-shadow: 5px 6px 5px -6px black;
 }
 
 .fl-table td, .fl-table th {
@@ -149,7 +275,7 @@
 }
 
 .fl-table td {
-    border-right: 1px solid black;
+    /*border-right: 1px solid black;*/
     font-size: 12px;
 }
 
@@ -165,7 +291,13 @@
 }
 
 .fl-table tr:nth-child(even) {
-    background: #F8F8F8;
+    background: rgb(180,39,48, 0.2);
+}
+
+.table-row-hover tr:hover {
+    transform: scale(1.01);
+    z-index: 7;
+    background: rgb(180,39,48, 0.05);
 }
 
 /* Responsive */
@@ -260,7 +392,7 @@
    margin: 1em auto;
    overflow: hidden;
    width: 800px;
-   border-radius: 10px;   
+   border-radius: 20px;   
 }*/
 
 /*thead {
@@ -273,7 +405,7 @@
 
 .button-33 {
   background-color: #c2fbd7;
-  border-radius: 100px;
+  border-radius: 200px;
   box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
   color: green;
   cursor: pointer;
@@ -307,7 +439,7 @@
     /*margin: 10px 70px 70px;*/
     border: 2px solid rgb(210,39,48);
     box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
 }
 
@@ -337,8 +469,17 @@
     } 
 
     .childdiv2 {
-        border-radius: 10px;
+        border-radius: 20px;
     }
     
 
+}
+
+@media (max-width: 510px) {
+    
+
+    .secondaryTitle {
+        background: rgb(180,39,48);
+        background: linear-gradient(90deg, rgba(180,39,48,1) 0%, rgba(130,39,48,1) 35%, rgba(120,39,48,1) 20%);
+    }
 }

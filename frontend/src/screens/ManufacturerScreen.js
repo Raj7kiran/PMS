@@ -199,17 +199,20 @@ const ManufacturerScreen = ({ history }) => {
 
 	return(
 		<>
-		<Link to='/' className='btn btn-dark my-3'>Go Back</Link>
-		<h1>Add Manufacturers</h1>
+		{/*<Link to='/' className='btn btn-dark my-3'>Go Back</Link>*/}
+		<div className='bodydivs' style={{margin:'90px 0 0'}}>
+		<h2 className='mb-2 mt-3'>Add Manufacturers</h2>
+		<hr />
 		{createLoading && <Loader />}
 		{createError && <Message variant='danger'>{createError}</Message>}
 		{loadingDelete && <Loader />}
 		{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 
+		
 		<Form onSubmit={submitHandler}  validated={validated} noValidate>
 		<Row className='my-3' >
 			
-			<Col md={6}>
+			<Col md={4}>
 				<Form.Group className="mb-3" controlId='name'>
 					<FloatingLabel controlId="floatingInput" label="Manufacturer Name" >
 						<Form.Control 	type="name"  placeholder="name"
@@ -223,7 +226,7 @@ const ManufacturerScreen = ({ history }) => {
 					{nameErr.length>1 ? (<div className='errMsg'>{nameErr}</div>): null}
 				</Form.Group>
 			</Col>
-			<Col>
+			<Col md={3}>
 				<Form.Group className="mb-3" controlId='shortName'>
 					<FloatingLabel controlId="floatingInput" label="Short Name" >
 						<Form.Control 	type="name"  placeholder="shortName"
@@ -237,10 +240,10 @@ const ManufacturerScreen = ({ history }) => {
 					{shortNameErr.length>1 ? (<div className='errMsg'>{shortNameErr}</div>): null}
 				</Form.Group>
 			</Col>
-			<Col>
-				<Form.Group controlId='country'>
+			<Col md={3}>
+				<Form.Group className="mb-3" controlId='country'>
 					<FloatingLabel controlId="floatingSelect" label="Country">
-						<Form.Control as='select' value={country} className="mb-3"
+						<Form.Control as='select' value={country} 
 								onChange={(e) => setCountry(e.target.value)}
 								className={`${countryErr.length>1 ? 'inCorrect' : null}`}
 								onBlur = {(e) => CN(e.target.value)}
@@ -255,30 +258,34 @@ const ManufacturerScreen = ({ history }) => {
 						{countryErr.length>1 ? (<div className='errMsg'>{countryErr}</div>): null}
 				</Form.Group>
 			</Col>
+			<Col style={{paddingleft:'0px'}} className='mt-3' md={2}>
+				<Button type='submit' variant='primary' className='buttonlink mainb'
+						className={`${nameErr || countryErr || shortNameErr ? 'disabled' : null }`}
+					>
+					<span style={{color:'white'}} >Add</span>
+				</Button>
+			</Col>
 			
-		</Row>
-		<Button type='submit' variant='primary'
-			className={`${nameErr || countryErr || shortNameErr ? 'disabled' : null }`}
-		>
-				Save
-			</Button>
-		</Form>
-		
-			
-		<h2 className='mt-4'>Manufacturer List</h2>
-		<Row>
+		</Row>		
+		</Form>		
+		</div>
+		<div className='bodydivs'>
+		<Row className='mt-5'>
+			<Col className='mt-3' md={7}>
+				<h2>Manufacturer List</h2>
+			</Col>
 			<Col md={4}>
-				<InputGroup className="me-2 my-2">
-					<InputGroup.Text>Search</InputGroup.Text>
+				<InputGroup className="mt-4">
+					<InputGroup.Text style={{background:'rgb(210,39,48)', color:'white'}}>Search</InputGroup.Text>
 					<FormControl aria-label="Search"					    			
 						 value={q} onChange={(e) =>  setQ(e.target.value)}
 					/>
 				</InputGroup>
 			</Col>
-			<Col>
+			<Col md={1}>
 				<ReactHTMLTableToExcel
 	                    id="test-table-xls-button"
-	                    className="download-table-xls-button btn btn-success mb-3 me-2 my-2"
+	                    className="download-table-xls-button btn btn-success mb-3 mt-4"
 	                    table="table-to-xls"
 	                    filename="tablexls"
 	                    sheet="tablexls"
@@ -286,13 +293,14 @@ const ManufacturerScreen = ({ history }) => {
 	              />
 			</Col>
 		</Row>
+		<hr />
 		
 
 		{ loading ? <Loader />
 			: error ? <Message variant='danger'>{error}</Message>
 			: (		
 				<div>
-					<Table striped bordered hover responsive='md' className='table-sm' id="table-to-xls">
+					<Table style={{background:'white'}} striped bordered hover responsive='md' className='table-sm' id="table-to-xls">
 						<thead>
 							<tr>
 								<th ><span className='btn'>Sl</span></th>
@@ -331,6 +339,7 @@ const ManufacturerScreen = ({ history }) => {
 				</div>
 			 ) 
 		 }
+		 </div>
 			{/*<nav className='d-flex justify-content-center'>
 				<ul className='pagination'>
 					{pages.map((page) => (

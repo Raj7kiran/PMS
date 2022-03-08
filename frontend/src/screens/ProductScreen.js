@@ -353,7 +353,12 @@ const ProductScreen = ({history}) => {
 			{createLoading && <Loader />}
 			{createError && <Message variant='danger'>{createError}</Message>}
 			{createSuccess && <Message variant='info'>Product Created</Message>}
+			<div className='pageTitle'><h1>Add Product</h1></div>
+			
+			
 			<Form onSubmit={submitHandler} validated={validated} noValidate>
+			<div className='splitDivForm'>
+			<h3>Product Details</h3>
 			<Row>
 				<Col md={3}>
 					<Form.Group className="mb-3" controlId='medName'>
@@ -537,6 +542,8 @@ const ProductScreen = ({history}) => {
 					</Form.Group>
 				</Col>
 			</Row>
+			</div>
+			<div className='splitDivForm'>
 			<h3>Prescription</h3>
 			<Row>
 				<Col md={3}>
@@ -615,6 +622,8 @@ const ProductScreen = ({history}) => {
 					</Form.Group>
 				</Col>
 			</Row>
+		</div>
+		<div className='splitDivForm'>
 		<h3>Classification</h3>
 		<Row>
 				<Col md={3}>
@@ -694,7 +703,8 @@ const ProductScreen = ({history}) => {
 					</Form.Group>
 				</Col>
 			</Row>
-
+			</div>
+			<div className='splitDivForm'>
 			<h3>Storage</h3>
 			<Row>
 				<Col md={3}>
@@ -728,7 +738,7 @@ const ProductScreen = ({history}) => {
 					</Form.Group>
 				</Col>
 			</Row>
-
+			</div>
 
 			<Button type='submit' variant='primary' 
 			className={`mt-3 btn-sm ${medNameErr || genNameErr || categoryErr || typeErr || marketedByErr || scheduledCategoryErr || hsnCodeErr || mrpErr || purchasePriceErr || storageTempErr || binLocationErr ? 'disabled' : null} `}>

@@ -11,7 +11,7 @@ const InboundSteps = () => {
 
 
 	return(
-		<Nav className='my-3' variant="tabs" >
+		<Nav style={{margin:'90px 0 20px 0'}}  variant="tabs" >
 		{/*{
 			userInfo.isClientAdmin && (*/}
 					<LinkContainer to='/inbound' >

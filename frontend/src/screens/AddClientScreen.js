@@ -8,7 +8,7 @@ import Loader from '../components/Loader'
 import { createUser, listPackages } from '../actions/adminActions'
 import { CLIENT_CREATE_RESET } from '../constants/adminConstants'
 import { getStatesName, getCity } from '../actions/dropActions'
-import '../FormStyle.css'
+// import '../FormStyle.css'
 
 
 const AddClientScreen = () => {
@@ -222,13 +222,27 @@ const AddClientScreen = () => {
 
 	return (
 		<>
-		<div className='button-wrapper'>
+		{/*<div className='button-wrapper'>
 			<Link to='/userlist' className='btn btn-dark mt-3'>Go Back</Link>
-		</div>
+		</div>*/}
 		
-	    <div class="form-holder">
-	            <div className='headForm py-3'>Add User</div>
-	            <div class="form-items">                       
+	    <div style={{margin:'90px 0 0'}} className='bodydivs'>
+	    		<Row>
+	    			<Col md={11}>
+	    				<div className='pt-2'><h2>Add User</h2></div>
+	    			</Col>
+	    			<Col md={1}>
+	    				<Button type='submit'
+								className={`${fnErr || lnErr || emailErr || compErr || packErr || roleErr || phoneErr || zipErr
+											? 'disabled' : null } buttonlink mt-3`}
+							>
+							Submit
+						</Button>
+	    			</Col>
+	    		</Row>
+	            
+	            <hr />
+	            <div >                       
 			
 				{loading && <Loader />}
 				{error && <Message variant='danger'>{error}</Message>}
@@ -534,12 +548,7 @@ const AddClientScreen = () => {
 											
 
 
-							<Button type='submit'
-									className={`${fnErr || lnErr || emailErr || compErr || packErr || roleErr || phoneErr || zipErr
-												? 'disabled' : null } buttonlink`}
-								>
-								Add
-							</Button>
+							
 					</Form>
 				
             </div>

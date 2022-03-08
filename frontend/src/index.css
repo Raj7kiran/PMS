@@ -27,6 +27,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 .errMsg{
   color: red;
   text-align: right;

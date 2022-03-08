@@ -2,17 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store'
+
 import './index.css';
 import './ComponentStyle.css'
-// import './bootstrap.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './FormStyle.css'
+import './bootstrap.min.css';
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
 // import "./globals.css"
 // import "./styleguide.css"
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={store} >
     <App />
   </Provider>,
   document.getElementById('root')
