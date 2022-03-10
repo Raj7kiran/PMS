@@ -162,9 +162,9 @@ const InboundScreen = () => {
 			<InboundSteps />
 			<div div className='bodydivs'>
 			<div style={{margin:'0 0 20px 0'}} className='splitDiv'>
-			<div><h1>Inbound Screen</h1></div>
+			
 			<div><h2>Inbound Screen</h2></div>
-			<div><h3>Inbound Screen</h3></div>
+			
 			<h2 className='secondaryTitle'>Select Purchase Order</h2>
 			<Row >
 			{
